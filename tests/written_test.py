@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import auth
+from jschecks import loading_gone
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765/").rstrip("/") + "/"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -59,8 +60,7 @@ def load(path, wait=1.2):
     d.get_log("browser"); d.get(BASE + path); time.sleep(wait)
     ok(not errs(), "%s console errors" % path)
     ok(len(d.find_elements(By.CSS_SELECTOR, ".katex-error")) == 0, "%s KaTeX errors" % path)
-    stale = [e for e in d.find_elements(By.XPATH, "//*[normalize-space(text())='Loading…']") if e.is_displayed()]
-    ok(not stale, "%s still shows a 'Loading…' placeholder after loading" % path)
+    ok(loading_gone(d), "%s still shows a 'Loading…' placeholder after loading" % path)
 
 for course in ("Calculus-1", "Linear-Algebra"):
     print("==", course)

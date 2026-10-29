@@ -1,4 +1,16 @@
-"""JavaScript probes shared by the browser tests."""
+"""JavaScript probes and waits shared by the browser tests."""
+import time
+from selenium.webdriver.common.by import By
+
+def loading_gone(d, secs=8):
+    """True once no visible 'Loading…' placeholder is left. A placeholder that never goes away is a bug; a slow network is not."""
+    end = time.time() + secs
+    while True:
+        if not [e for e in d.find_elements(By.XPATH, "//*[normalize-space(text())='Loading…']") if e.is_displayed()]:
+            return True
+        if time.time() > end:
+            return False
+        time.sleep(0.25)
 
 # relative luminance / contrast helper executed in the page: walks visible text nodes and returns the worst offenders
 CONTRAST_JS = """

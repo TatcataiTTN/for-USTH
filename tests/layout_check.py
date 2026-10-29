@@ -21,7 +21,7 @@ for course, mod in (("Calculus-1", "m01"), ("Linear-Algebra", "m1")):
                           "exam/run.html?exam=midterm-A", "exam/run.html?exam=sprint-A", "bank/index.html", "written/index.html", "written/paper.html?p=%s" % papers[0]["id"],
                           "written/paper.html?p=%s&mode=exam" % papers[0]["id"], "lab/index.html", "sources/index.html"]
 
-from jschecks import CONTRAST_JS, THEME_JS
+from jschecks import CONTRAST_JS, THEME_JS, loading_gone
 
 fails = []; checks = 0
 def ok(c, m):
@@ -52,7 +52,7 @@ for theme in ("light", "dark"):
                 errs = [e["message"][:120] for e in d.get_log("browser") if e["level"] == "SEVERE" and "favicon" not in e["message"]]
                 ok(not errs, "%s console errors %s" % (tag, errs[:1]))
                 ok(len(d.find_elements(By.CSS_SELECTOR, ".katex-error")) == 0, "%s KaTeX errors" % tag)
-                ok(not [e for e in d.find_elements(By.XPATH, "//*[normalize-space(text())='Loading…']") if e.is_displayed()], "%s stale Loading placeholder" % tag)
+                ok(loading_gone(d), "%s stale Loading placeholder" % tag)
                 sw, iw = d.execute_script("return [document.documentElement.scrollWidth, window.innerWidth]")
                 ok(iw == w or label == "desktop", "%s viewport is %d px, expected %d" % (tag, iw, w))
                 ok(sw <= iw + 1, "%s horizontal page overflow: scrollWidth %d > viewport %d" % (tag, sw, iw))
