@@ -4,12 +4,14 @@ import sys, glob, os, time, json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import auth
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 BASE = (args[0] if args else "http://127.0.0.1:8765/").rstrip("/") + "/"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 o = Options()
 for a in ("--headless=new", "--no-sandbox", "--disable-gpu", "--window-size=1320,900"): o.add_argument(a)
 d = webdriver.Chrome(options=o)
+auth.prime(d, BASE)
 JS = """
 var slides=[].slice.call(document.querySelectorAll('.mdeck-slide')), out=[];
 var wrap=document.querySelector('.mdeck-canvas-wrap');

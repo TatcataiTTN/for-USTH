@@ -4,11 +4,13 @@ import sys, time, io
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import auth
 from PIL import Image, ImageDraw
 BASE = "http://127.0.0.1:8765/"
 o = Options()
 for a in ("--headless=new", "--no-sandbox", "--disable-gpu", "--window-size=1500,1200"): o.add_argument(a)
 d = webdriver.Chrome(options=o)
+auth.prime(d, BASE)
 shots = []
 for spec in sys.argv[2:]:
     path, nums = spec.split(":")

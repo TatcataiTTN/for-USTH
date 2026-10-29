@@ -13,6 +13,12 @@ Each course site has: chapter quizzes (3 sets per chapter), 3 mock midterms (20 
 * `build/` — Python generators: question banks (`gen_cal*.py`, `gen_la*.py`, sympy-verified), quiz sets and papers (`build_data.py`), module slides, page templates (`build_site.py`)
 * `tests/` — KaTeX check of every formula, exact Linear Algebra library cross-check, Selenium end-to-end suites, slide layout check, screenshot helpers
 
+## Sign-in screen
+
+Every page first shows a sign-in screen in a new browser (`shared/gate.js`). After signing in it is remembered on that browser, and *Display → Sign out* brings it back.
+It is a convenience gate, not real protection: the sites are static, so the check runs in the browser and the pages and data files stay reachable by their URLs.
+Only a salted PBKDF2 hash is stored in the repository, never the password. Change the credentials with `python3 build/set_password.py`.
+
 ## Rebuild and test
 
 ```
@@ -20,7 +26,11 @@ cd build && python3 build_data.py && python3 build_site.py        # needs sympy,
 node tests/katex_check.js && node tests/la_cross_check.js        # syntax of all math; exact LA library vs sympy
 python3 -m http.server 8765 &                                     # then, with Chrome + selenium installed:
 python3 tests/site_test.py; python3 tests/lab_test.py; python3 tests/written_test.py; python3 tests/deck_check.py
+python3 tests/layout_check.py                                     # both courses x light/dark x phone (390 px)/desktop: overflow, contrast, menu
+USTM_PASS='<password>' python3 tests/gate_test.py                 # the real sign-in form (password only from the environment)
 ```
+
+The other Selenium suites sign in with the public hash stored in `shared/gate.js` (`tests/auth.py`), so they never need the password. Each script takes a base URL, so the same suites run against the deployed site.
 
 Every answer is computed by code and checked a second way (exact arithmetic, numerical quadrature or an explicit counterexample); the build stops when a check fails.
 

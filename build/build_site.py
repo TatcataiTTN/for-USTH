@@ -156,7 +156,7 @@ def sources_page(course):
     rows = ""
     for r in inv:
         if r["file"].startswith(prefix):
-            rows += "<tr><td>%s</td><td>%d</td><td>%s</td></tr>" % (esc(r["file"].split(" - ", 1)[1] if " - " in r["file"] else r["file"]), r["pages"], esc(role(r["file"])))
+            rows += "<tr><td>%s</td><td>%d</td><td>%s</td></tr>" % (esc(r["file"].split("/", 1)[1] if "/" in r["file"] else r["file"]), r["pages"], esc(role(r["file"])))
     cov = ""
     for ch in meta["chapters"]:
         k = cc[ch["id"]]
@@ -203,7 +203,7 @@ def written_paper(course):
 def root_index():
     nq = {c: sum(load_json(c + "/data/meta.json")["counts"].values()) for c in ("Calculus-1", "Linear-Algebra")}     # read from the generated data, never typed
     html_ = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USTH B1 — Maths self-study</title>
-<link rel="icon" type="image/png" href="shared/img/favicon.png"><link rel="apple-touch-icon" href="shared/img/apple-touch-icon.png"><link rel="stylesheet" href="shared/core.css"></head><body><header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="shared/img/usth_logo.png" alt="USTH"><span>USTH B1 · Maths self-study</span></a></div></header>
+<link rel="icon" type="image/png" href="shared/img/favicon.png"><link rel="apple-touch-icon" href="shared/img/apple-touch-icon.png"><link rel="stylesheet" href="shared/core.css"><script>(function(){try{var t=JSON.parse(localStorage.getItem('ustm:theme')||'null');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script><script src="shared/gate.js"></script></head><body><header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="shared/img/usth_logo.png" alt="USTH"><span>USTH B1 · Maths self-study</span></a></div></header>
 <main class="wrap"><div class="hero"><span class="chip big"><img src="shared/img/usth_logo.png" alt="USTH – University of Science and Technology of Hanoi"><img src="shared/img/usth_dses_logo.png" alt="DSES"></span><span class="muted">University of Science and Technology of Hanoi · Department of Mathematics &amp; ICT · B1 year</span></div>
 <h1>USTH B1 Mathematics: self-study and exam-training sites</h1>
 <p class="lead">Unofficial study systems built from the course documents: quizzes per chapter, mock midterms, a 30-questions-in-20-minutes speed exam, a verified practice bank and interactive tools.</p>

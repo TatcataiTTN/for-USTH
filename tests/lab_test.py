@@ -3,11 +3,13 @@ import sys, time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import auth
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765/").rstrip("/") + "/"
 o = Options()
 for a in ("--headless=new", "--no-sandbox", "--disable-gpu", "--window-size=1200,1000"): o.add_argument(a)
 o.set_capability("goog:loggingPrefs", {"browser": "ALL"})
 d = webdriver.Chrome(options=o)
+auth.prime(d, BASE)
 fails = []; n = 0
 def ok(c, m):
     global n; n += 1

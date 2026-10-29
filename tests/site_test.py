@@ -6,6 +6,7 @@ import json, sys, time, os, glob
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import auth
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765/").rstrip("/") + "/"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -54,7 +55,7 @@ for course in ("Calculus-1", "Linear-Algebra"):
     print("==", course)
     meta = json.load(open(os.path.join(ROOT, course, "data", "meta.json"), encoding="utf-8"))
     bank = json.load(open(os.path.join(ROOT, course, "data", "bank.json"), encoding="utf-8"))
-    d.get(BASE + "index.html"); d.execute_script("localStorage.clear()")
+    d.get(BASE + "index.html"); d.execute_script("localStorage.clear(); " + auth.SET_JS)
     # plain pages
     pages = ["index.html", "quiz/index.html", "exam/index.html", "bank/index.html", "sources/index.html"]
     for extra in ("modules/index.html", "written/index.html", "lab/index.html"):

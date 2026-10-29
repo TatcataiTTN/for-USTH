@@ -8,6 +8,7 @@ from urllib.parse import unquote
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import auth
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:8765/").rstrip("/") + "/"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -64,7 +65,7 @@ def load(path, wait=1.2):
 for course in ("Calculus-1", "Linear-Algebra"):
     print("==", course)
     papers = static_check(course)
-    d.get(BASE + "index.html"); d.execute_script("localStorage.clear()")
+    d.get(BASE + "index.html"); d.execute_script("localStorage.clear(); " + auth.SET_JS)
     load(course + "/written/index.html")
     cards = d.find_elements(By.CSS_SELECTOR, "#written-hub .panel")
     ok(len(cards) == len(papers), "%s hub shows %d cards, expected %d" % (course, len(cards), len(papers)))

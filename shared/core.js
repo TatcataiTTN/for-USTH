@@ -82,6 +82,15 @@ U.initTheme = function(){
   U.$$('[data-set-font]').forEach(function(b){
     b.onclick = function(){ var v = b.getAttribute('data-set-font'); document.documentElement.style.fontSize = v; U.store.set('ustm:font', v); };
   });
+  /* the popup is anchored to the right edge of its button; on a phone the button sits at the left, so shift the popup back into the viewport */
+  var det = document.querySelector('details.menu');
+  if(det) det.addEventListener('toggle', function(){
+    var pop = det.querySelector('.pop'); if(!pop) return;
+    pop.style.left = ''; pop.style.right = '';
+    if(!det.open) return;
+    var r = pop.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+    if(r.left < 8){ pop.style.right = 'auto'; pop.style.left = '0'; r = pop.getBoundingClientRect(); if(r.right > vw - 8) pop.style.left = (vw - 8 - r.right) + 'px'; }
+  });
 };
 
 /* ---- progress records (history + per-question statistics) ------------------------------- */
