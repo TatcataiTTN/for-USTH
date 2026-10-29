@@ -32,6 +32,8 @@ for course in [c for c in ("Calculus-1", "Linear-Algebra", "Physics-1", "Physics
     pages += ["bank/index.html"] + (["bank/index.html?ch=c1"] if figset else [])
     if papers: pages += ["written/index.html", "written/paper.html?p=%s" % papers[0]["id"], "written/paper.html?p=%s&mode=exam" % papers[0]["id"]]
     if os.path.exists(os.path.join(ROOT, course, "lab", "index.html")): pages.append("lab/index.html")
+    lecs = sorted(glob.glob(os.path.join(ROOT, course, "lectures", "L*.html")))
+    if lecs: pages += ["lectures/index.html"] + ["lectures/%s" % os.path.basename(p) for p in (lecs[0], lecs[-1])]
     pages.append("sources/index.html")
     PAGES[course + "/"] = pages
 

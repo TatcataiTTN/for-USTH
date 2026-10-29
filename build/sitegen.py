@@ -30,7 +30,7 @@ COURSES = {
 }
 
 def nav_items(c):
-    return [("Home", "index.html", "home"), ("Modules", "modules/index.html", "modules"), ("Chapter quizzes", "quiz/index.html", "quiz"), ("Exams", "exam/index.html", "exam"),
+    return [("Home", "index.html", "home"), ("Lectures", "lectures/index.html", "lectures"), ("Modules", "modules/index.html", "modules"), ("Chapter quizzes", "quiz/index.html", "quiz"), ("Exams", "exam/index.html", "exam"),
             ("Practice bank", "bank/index.html", "bank"), ("Written", "written/index.html", "written"), ("Labs", "lab/index.html", "lab"), ("Sources", "sources/index.html", "sources")]
 
 def head_scripts(r, scripts):

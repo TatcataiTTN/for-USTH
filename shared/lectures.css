@@ -1,0 +1,33 @@
+/* Lecture walkthrough pages: original slide + bilingual script cards. Language is chosen with <html data-lang="en|vi|both">. */
+html[data-lang="en"] .l-vi,html[data-lang="en"] .l-sep,html[data-lang="en"] .sc.vi{display:none}
+html[data-lang="vi"] .l-en,html[data-lang="vi"] .l-sep,html[data-lang="vi"] .sc.en{display:none}
+.lslide{background:var(--card);border:1px solid var(--border);border-radius:12px;margin:16px 0;padding:12px 14px;scroll-margin-top:84px}
+.lhead{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin-bottom:10px}
+.lhead .num{font-weight:800;color:var(--red);white-space:nowrap}
+.lhead h3{margin:0;font-size:1.08rem;flex:1 1 220px}
+.lvl{display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:1px 10px;border:1px solid var(--border);white-space:nowrap}
+.lvl.v3{background:var(--red);border-color:var(--red);color:#fff}.lvl.v2{background:var(--navy);border-color:var(--navy);color:#fff}.lvl.v1{background:var(--code);color:var(--muted)}
+.legend{margin:8px 0;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.9rem}
+.lgrid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px;align-items:start}
+.lpic{display:block;position:sticky;top:84px}
+.lpic img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:6px;background:#fff}
+.ltext{min-width:0}
+.sc{border-left:4px solid var(--navy);padding:1px 0 1px 12px;margin:8px 0;overflow-x:auto}
+.sc.vi{border-left-color:var(--red)}
+.sc .lab{display:block;font-size:.7rem;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.sc p{margin:.3em 0}.sc ul{margin:.3em 0 .3em 1.1em;padding:0}.sc li{margin:.15em 0}
+.why{background:var(--warnbg);border-radius:10px;padding:6px 12px 8px;margin:10px 0}
+.why .sc{margin:4px 0}
+.lex .exh,.lslide .ex .exh{font-weight:800}
+.lslide .ex{margin:10px 0}
+details.toc{margin:12px 0;border:1px solid var(--border);border-radius:10px;padding:6px 12px;background:var(--card)}
+details.toc summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.tocgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2px 14px;margin-top:8px}
+.tocgrid a{font-size:.9rem;text-decoration:none;padding:2px 6px;border-left:5px solid var(--border);border-radius:3px}
+.tocgrid a.v3{border-left-color:var(--red)}.tocgrid a.v2{border-left-color:var(--navy)}
+.tocgrid a:hover{background:var(--code)}
+.langfab{position:fixed;right:12px;bottom:12px;z-index:30;display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;max-width:calc(100vw - 24px);background:var(--card);border:1px solid var(--border);border-radius:12px;padding:5px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.langfab button{font:inherit;font-size:.85rem;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:8px;padding:3px 10px;cursor:pointer}
+.langfab button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+@media (max-width:860px){.lgrid{grid-template-columns:1fr}.lpic{position:static}.lslide{padding:10px;scroll-margin-top:12px}header.top{position:static}.langfab{right:8px;bottom:8px;gap:3px;padding:4px}.langfab button{font-size:.78rem;padding:3px 8px}}
+@media print{header.top,footer.foot,.langfab,details.toc{display:none}.lslide{break-inside:avoid;border-color:#999}.lpic{position:static}}

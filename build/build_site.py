@@ -348,10 +348,12 @@ def root_index():
     write("index.html", html_)
 
 def available_courses():
-    return [c for c in COURSES if os.path.exists(os.path.join(ROOT, c, "data", "meta.json"))]
+    """Courses with data; USTM_COURSES=Calculus-1,Linear-Algebra limits a build to some of them (a course not ready to publish stays out of the hub)."""
+    only = os.environ.get("USTM_COURSES")
+    return [c for c in COURSES if os.path.exists(os.path.join(ROOT, c, "data", "meta.json")) and (not only or c in only.split(","))]
 
 def main():
-    import build_modules, modules_cal, modules_la
+    import build_modules, modules_cal, modules_la, lecture_pages
     mods = {"Calculus-1": modules_cal.MODULES, "Linear-Algebra": modules_la.MODULES}
     for name, key in (("modules_ph1", "Physics-1"), ("modules_ph2", "Physics-2")):
         try:
@@ -362,6 +364,7 @@ def main():
     for course in courses:
         h = {"quiz", "exam", "bank", "sources"}
         if mods.get(course): h.add("modules")
+        if lecture_pages.any_lectures(course): h.add("lectures")
         if all(os.path.exists(os.path.join(ROOT, "shared", sc)) for sc in UI[course]["lab_scripts"]): h.add("lab")
         pp = os.path.join(ROOT, course, "data", "papers.json")
         if os.path.exists(pp) and json.load(open(pp, encoding="utf-8")): h.add("written")
@@ -377,6 +380,7 @@ def main():
         write(course + "/bank/index.html", bank_page(course))
         write(course + "/sources/index.html", sources_page(course))
         if "lab" in h: write(course + "/lab/index.html", lab_page(course))
+        if "lectures" in h: print(course, "lectures: %d built, %d exercises checked, %d conceptual" % lecture_pages.build(course, h))
         if "written" in h: write(course + "/written/index.html", written_hub(course)); write(course + "/written/paper.html", written_paper(course))
     root_index()
     print("pages written for", ", ".join(courses), "| sections:", {c: sorted(HAVE_BY_COURSE[c]) for c in courses if c in PHYSICS})
