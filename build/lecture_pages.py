@@ -73,12 +73,13 @@ def slide_card(course, lid, s):
     out.append('<div class="lgrid"><a class="lpic" href="%s" target="_blank" rel="noopener"><img loading="lazy" decoding="async" width="%d" height="%d" src="%s" alt="%s"></a><div class="ltext">%s' % (img, w, h, img, esc("Slide %d of %s: %s" % (n, lid, en)), scripts(s["en"], s["vi"])))
     if s["why"]:
         out.append('<div class="why"><b>%s:</b>%s</div>' % (bi("Why it matters", "Giá trị"), scripts(*s["why"])))
+    out.append("</div></div>")
     for k, e in enumerate(s["ex"], 1):
         ans = inline(e["a"])
         mark = '<span class="tag okt">%s</span>' % bi("✓ checked by computer algebra", "✓ đã kiểm tra bằng máy") if e["chk"] is not None else ""
         out.append('<div class="ex"><div class="exh">%s %d.%d %s</div>%s<details class="sol"><summary>%s</summary><p><b>%s:</b> %s</p>%s</details></div>' % (
             bi("Exercise", "Bài tập"), n, k, mark, scripts(e["q"], e["qv"]), bi("Answer and solution", "Đáp án và lời giải"), bi("Answer", "Đáp án"), ans, scripts(e["s"], e["sv"])))
-    out.append("</div></div></section>")
+    out.append("</section>")
     return "".join(out)
 
 def lecture_page(course, lid, mod, pdf, prev, nxt, have):

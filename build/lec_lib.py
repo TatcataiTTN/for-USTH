@@ -45,6 +45,7 @@ def _namespace():
     exec("from sympy import *\nfrom sympy.calculus.util import continuous_domain, function_range, periodicity\nfrom sympy.calculus.singularities import is_strictly_increasing, is_strictly_decreasing, is_increasing, is_decreasing, singularities", ns)
     exec("x, y, z, t, u, v, w, a, b, c, d, h, k, m, n, p, r, s = symbols('x y z t u v w a b c d h k m n p r s', real=True)\nj, i_ = symbols('j i_', integer=True)\neps, delta = symbols('eps delta', positive=True)", ns)
     exec("def close(p, q, tol=1e-6):\n    return abs(N(p) - N(q)) < tol\n"
+         "def same(p, q):\n    return simplify(p - q) == 0\n"
          "def nlim(f, a, side=0, eps=1e-7):\n    g = lambdify(x, f, 'mpmath')\n    return g(a + side * eps) if side else (g(a - eps) + g(a + eps)) / 2\n", ns)
     return ns
 

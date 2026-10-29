@@ -1,6 +1,6 @@
 """Lecture walkthrough pages: every slide image loads, the language switch and the solution buttons work, the slide list links resolve,
 the original PDFs are served, nothing overflows on a phone, and no KaTeX or console errors appear.
-Usage: python3 tests/lectures_test.py [BASE_URL] [--shots]   (ONLY=Calculus-1 limits the courses; --shots keeps screenshots in tests/screens/lectures/)"""
+Usage: python3 tests/lectures_test.py [BASE_URL] [--shots]   (ONLY=Calculus-1 limits the courses, LECTURES=L04,L05 the lecture pages; --shots keeps screenshots in tests/screens/lectures/)"""
 import glob, os, re, sys, time, urllib.request
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -90,6 +90,9 @@ def check_page(d, course, lid, mobile):
 
 for course in [c for c in ("Calculus-1", "Linear-Algebra") if not os.environ.get("ONLY") or c in os.environ["ONLY"].split(",")]:
     pages = sorted(os.path.basename(p)[:-5] for p in glob.glob(os.path.join(ROOT, course, "lectures", "L*.html")))
+    listed = list(pages)                                  # the index must list every lecture page even when LECTURES narrows the page checks
+    if os.environ.get("LECTURES"):
+        pages = [p for p in pages if p in os.environ["LECTURES"].split(",")]
     if not pages:
         continue
     print("==", course, "lectures:", ", ".join(pages))
@@ -98,7 +101,7 @@ for course in [c for c in ("Calculus-1", "Linear-Algebra") if not os.environ.get
         try:
             load(d, BASE + "%s/lectures/index.html" % course)
             links = d.execute_script("return [].map.call(document.querySelectorAll('.card[href]'),function(a){return a.getAttribute('href')})")
-            ok(sorted(l[:-5] for l in links) == pages, "%s index lists %s but the pages are %s" % (course, links, pages))
+            ok(sorted(l[:-5] for l in links) == listed, "%s index lists %s but the pages are %s" % (course, links, listed))
             ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), "%s index overflows" % course)
             ok(d.execute_script("return [].some.call(document.querySelectorAll('nav a'),function(a){return a.textContent==='Lectures'})"), "%s nav has no Lectures link" % course)
             for lid in pages:
