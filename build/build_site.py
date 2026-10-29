@@ -162,16 +162,19 @@ def home(course, nmod):
 
 def quiz_hub(course):
     meta = load_json(course + "/data/meta.json")
+    has_h = any(z["id"].endswith("-H") for sets in meta["sets"]["chapter"].values() for z in sets)
+    hn = [len(z["ids"]) for sets in meta["sets"]["chapter"].values() for z in sets if z["id"].endswith("-H")]
+    hard_note = ", plus a <b>Hard set</b> of Moodle-style level-4 questions where the chapter has enough of them (%d to %d questions)" % (min(hn), max(hn)) if has_h else ""
     rows = ""
     for ch in meta["chapters"]:
         sets = meta["sets"]["chapter"][ch["id"]]
-        links = " ".join('<a class="btn small" href="run.html?set=%s">Set %s</a>' % (s["id"], s["id"][-1]) for s in sets)
+        links = " ".join('<a class="btn %s" href="run.html?set=%s">%s</a>' % ("small alt" if s["id"].endswith("-H") else "small", s["id"], "Hard set" if s["id"].endswith("-H") else "Set %s" % s["id"][-1]) for s in sets)
         rows += "<tr><td><b>%s</b></td><td>%s<div class='muted'>%s</div></td><td>%d</td><td>%s <a class='btn small alt' href='../bank/index.html?ch=%s'>All questions</a></td></tr>" % (
             ch["id"].upper().replace("C", "Ch. "), esc(ch["title"]), esc(ch["src"]), meta["counts"][ch["id"]], links, ch["id"])
     body = """<h1>Chapter quizzes</h1>
-<p class="lead">Three different sets for every chapter (12 questions each, no repeated questions between the sets). Answer, get instant feedback with a worked explanation, retry, and save your score.</p>
+<p class="lead">Three different sets for every chapter (12 questions each, no repeated questions between the sets)%s. Answer, get instant feedback with a worked explanation, retry, and save your score.</p>
 <div class="panel"><table class="t"><tr><th>Chapter</th><th>Topic and where it comes from</th><th>Bank size</th><th>Quizzes</th></tr>%s</table></div>
-<p class="muted">Tip: do Set A cold, study the explanations, then Set B a day later and Set C a week later (spaced repetition).</p>""" % rows
+<p class="muted">Tip: do Set A cold, study the explanations, then Set B a day later and Set C a week later (spaced repetition).</p>""" % (hard_note, rows)
     return page(course, "Chapter quizzes", body, 1, "quiz", have=hv(course))
 
 def quiz_run(course):
@@ -179,7 +182,7 @@ def quiz_run(course):
     return page(course, "Quiz", body, 1, "quiz", scripts=["quiz.js"], have=hv(course))
 
 EXAM_NOTES = {
-    "Calculus-1": "Format of the Moodle mock: <b>20 random questions from chapters 1–3, 50 minutes, you cannot return to previous questions, first attempt graded.</b> (The advice sheet for the real midterm mentions 16 questions.)",
+    "Calculus-1": "Format of the Moodle mock: <b>20 random questions from chapters 1–3, 50 minutes, you cannot return to previous questions, first attempt graded.</b> (The advice sheet for the real midterm mentions 16 questions.) Mocks A–E are deliberately <b>tougher than the real thing</b>: they are built from the level-4 pool (traps, hidden orders in limits, tables, word problems), so a good score here leaves a safety margin.",
     "Linear-Algebra": "The advice sheet says the midterm is a written test or an MCQ test on Moodle depending on the tutorial lecturer. These mocks use the same style (20 questions, 50 minutes) on chapters 1–4 — <b>the covered chapters are our assumption</b>; adjust with the custom builder below.",
     "Physics-1": "The advice sheet says the midterm is an <b>MCQ test on Moodle with 20 questions</b>; the midterm tutoring slides cover Mechanics (chapters 1–4). <b>The time limit is not stated in the documents</b>: these mocks use 40 minutes (2 minutes per question, our assumption) and, like the Moodle mocks, do not let you go back.",
     "Physics-2": "The advice sheet says the midterm is an <b>MCQ test on Moodle</b>; the 2025–26 midterm tutoring slides cover chapters 1–6 (Coulomb's law up to the magnetic fields of currents). <b>The number of questions and the time limit are not stated</b>: these mocks use 20 questions in 40 minutes (our assumption) and do not let you go back.",
@@ -197,19 +200,26 @@ def exam_hub(course):
     chk = "".join('<label><input type="checkbox" value="%s" checked> %s</label><br>' % (c["id"], esc(c["id"].upper().replace("C", "Ch. ") + " " + c["title"])) for c in meta["chapters"])
     qc = meta["midterm_quota"]
     mix = lambda q: ", ".join("%d from %s" % (v, k.upper().replace("C", "Ch. ")) for k, v in q.items())
+    tough = (" Difficulty mix: about %d%% expert (level 4) and %d%% hard (level 3) questions." % tuple(round(100 * f) for _, f in meta["mid_share"][:2])) if meta.get("mid_share") else ""
     finpanel = ""
+    rep = meta["sets"].get("replica")
+    if rep:
+        rlinks = " ".join('<a class="btn" href="run.html?exam=%s">Replica %s</a>' % (z["id"], z["id"][-1]) for z in rep)
+        finpanel += ('<div class="panel"><h2 style="margin-top:0">🎯 Moodle-style replica mocks — 20 questions, 50 minutes, no going back</h2>'
+                     '<p>Each replica copies the <b>blueprint of the real Moodle mock, slot by slot</b>: a tangent slope, a composite limit with a hidden-order trap, a theorem-hypotheses question, a linearization trap, a chain rule from a table, a modelling question, monotonic intervals, a one-sided limit, a limit with two conjugates, a product derivative at a point, a “function on its domain” trap, a physical-law related rate, an IVT word problem, a continuity parameter, a quotient derivative, a two-moving-objects related rate, a limits-and-inequalities statement, a parity count, an IVT sign-change interval and critical points with fractional powers. '
+                     'Numbers and functions are new; every answer is computed and re-derived by a second route.</p><p>%s</p></div>' % rlinks)
     if fin:
         flinks = " ".join('<a class="btn" href="run.html?exam=%s">Final %s</a>' % (s["id"], s["id"][-1]) for s in fin) + ' <a class="btn alt" href="run.html?exam=final-random">🎲 New random final</a>'
         finpanel = """<div class="panel"><h2 style="margin-top:0">🎓 Final mock — %d questions, %d minutes</h2><p>%s Question mix: %s.</p><p>%s</p></div>""" % (len(fin[0]["ids"]), fin[0]["minutes"], FINAL_NOTES[course], mix(meta["final_quota"]), flinks)
     body = """<h1>Mock exams</h1>
-<div class="panel"><h2 style="margin-top:0">📝 Midterm mock — %(mt)s</h2><p>%(note)s Question mix: %(mix)s.</p><p>%(ml)s</p></div>
+<div class="panel"><h2 style="margin-top:0">📝 Midterm mock — %(mt)s</h2><p>%(note)s Question mix: %(mix)s.%(tough)s</p><p>%(ml)s</p></div>
 %(finpanel)s<div class="panel"><h2 style="margin-top:0">⚡ Speed exam — 30 questions in 20 minutes (40 s per question)</h2><p>Questions drawn from every chapter (about equal numbers). You may jump around; the palette shows what you have answered. Use it to train speed and accuracy: skip fast, come back later.</p><p>%(sl)s</p></div>
 <div class="panel"><h2 style="margin-top:0">🛠 Build your own exam</h2>
 <form id="custom"><div class="row"><div>%(chk)s</div><div><label>Questions <input type="number" id="n" value="15" min="5" max="60" style="width:5em"></label><br>
 <label>Minutes <input type="number" id="min" value="10" min="1" max="120" style="width:5em"></label><br><label><input type="checkbox" id="fwd"> forward only (no going back)</label><br>
 <button class="btn" type="submit" style="margin-top:8px">Start</button></div></div></form></div>
 <p class="muted">Results (score, time, chapter breakdown, review of every question) are saved in this browser and feed the progress panel on the home page.</p>""" % dict(
-        mt=esc(meta["midterm_title"].split(" (")[0]), note=EXAM_NOTES[course], mix=mix(qc), ml=mlinks, sl=slinks, chk=chk, finpanel=finpanel)
+        mt=esc(meta["midterm_title"].split(" (")[0]), note=EXAM_NOTES[course], mix=mix(qc), tough=tough, ml=mlinks, sl=slinks, chk=chk, finpanel=finpanel)
     inline = """<script>document.getElementById('custom').addEventListener('submit',function(e){e.preventDefault();var ch=[].slice.call(document.querySelectorAll('#custom input[type=checkbox][value]:checked')).map(function(x){return x.value}).join(',');if(!ch){alert('Select at least one chapter');return}
 location.href='run.html?exam=custom&ch='+ch+'&n='+document.getElementById('n').value+'&min='+document.getElementById('min').value+'&fwd='+(document.getElementById('fwd').checked?1:0)});</script>"""
     return page(course, "Mock exams", body + inline, 1, "exam", have=hv(course))
@@ -268,9 +278,10 @@ def sources_page(course):
         if r["file"].startswith(prefix) and "error" not in r:
             rows += "<tr><td>%s</td><td>%d</td><td>%s</td></tr>" % (esc(r["file"].split("/", 1)[1] if "/" in r["file"] else r["file"]), r["pages"], esc(doc_role(course, r["file"])))
     cov = ""
+    has_hard = any(q["origin"] == "hard" for q in bank["items"])
     for ch in meta["chapters"]:
         k = cc[ch["id"]]
-        cov += "<tr><td><b>%s</b> %s</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td></tr>" % (ch["id"].upper().replace("C", "Ch. "), esc(ch["title"]), sum(k.values()), k["src"], k["gen"], k["concept"], esc(TEXTBOOKS[course][ch["id"]]))
+        cov += "<tr><td><b>%s</b> %s</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>%s<td>%s</td></tr>" % (ch["id"].upper().replace("C", "Ch. "), esc(ch["title"]), sum(k.values()), k["src"], k["gen"], k["concept"], ("<td>%d</td>" % k["hard"]) if has_hard else "", esc(TEXTBOOKS[course][ch["id"]]))
     notes = load_json(course + "/data/notes.json") if os.path.exists(os.path.join(ROOT, course, "data", "notes.json")) else []
     nhtml = "".join("<li><b>%s</b>: %s</li>" % (esc(n["src"]), esc(n["note"]).replace("$", "$")) for n in notes) or "<li>None found.</li>"
     if course in PHYSICS:
@@ -282,6 +293,8 @@ def sources_page(course):
         how = """<h2>How answers were verified</h2><div class="panel"><ul><li>All answers are produced by code (sympy exact arithmetic, never typed by hand) and, for source problems, compared with the printed answer key; the build stops if they disagree.</li>
 <li>Distractors are realistic mistakes (sign errors, missing chain-rule factor, transposed matrices, wrong-order composition…), and every distractor is checked to be different from the correct answer.</li>
 <li>Option positions are shuffled with a fixed seed and balanced (A/B/C/D each 25%); the correct option is not systematically the longest.</li></ul></div>"""
+    if has_hard:
+        how = how.replace("</ul></div>", "<li><b>Moodle-style hard pool (level 4).</b> Built from the 20 blueprint slots of the real Moodle mock midterm (traps, composite limits, tables, modelling, IVT word problems, related rates) with new numbers; each answer is re-derived by a second route (60-digit numerical limits, cubic Hermite interpolation of the tables, finite differences of explicit functions, numerical quadrature or partial sums).</li></ul></div>", 1)
     extra_scan = ("PDFs with a text layer were converted with pdftotext; scanned PDFs were OCR'd with tesseract and the formulas were checked against the page images. Where a problem statement mixed text and a figure, only the text-complete parts became questions."
                   if course in MATHS else
                   "PDFs with a text layer were converted with pdftotext, Word and PowerPoint files with python-docx / python-pptx; scanned slides and handwritten notes were OCR'd with tesseract and read against the page images. The textbooks are listed for reference only and are not part of the site.")
@@ -289,9 +302,9 @@ def sources_page(course):
 <p class="lead">What was read, how each document was used, how many questions come from each chapter, and the errors we found in the course materials.</p>
 <h2>Documents read</h2><div class="panel"><table class="t"><tr><th>Document</th><th>Pages</th><th>How it is used</th></tr>%s</table>
 <p class="muted">%s</p></div>
-<h2>Question coverage per chapter</h2><div class="panel" style="overflow-x:auto"><table class="t"><tr><th>Chapter</th><th>Total</th><th>From course documents</th><th>Generated (same style)</th><th>Concept checks</th><th>Textbook sections</th></tr>%s</table></div>
+<h2>Question coverage per chapter</h2><div class="panel" style="overflow-x:auto"><table class="t"><tr><th>Chapter</th><th>Total</th><th>From course documents</th><th>Generated (same style)</th><th>Concept checks</th>%s<th>Textbook sections</th></tr>%s</table></div>
 <h2>Errors and oddities found in the course documents</h2><div class="panel"><p>Each item below was found by checking our computed answer against the printed one (or when an exercise turned out to be impossible as printed). The quiz uses the computed result.</p><ul>%s</ul></div>
-%s""" % (rows, extra_scan, cov, nhtml, how)
+%s""" % (rows, extra_scan, "<th>Moodle-style hard (level 4)</th>" if has_hard else "", cov, nhtml, how)
     return page(course, "Sources", body, 1, "sources", have=hv(course))
 
 LAB_INTRO = {

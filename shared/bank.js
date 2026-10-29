@@ -28,8 +28,9 @@ function init(bank, meta){
   }
   var selCh = sel('Chapter', [['all', 'All chapters (' + items.length + ')']].concat(chapters.map(function(c){ return [c.id, c.id.toUpperCase().replace('C', 'Ch. ') + ' · ' + c.title + ' (' + items.filter(function(i){ return i.ch === c.id; }).length + ')']; })), 'ch');
   var selTopic = sel('Topic', [['all', 'All topics']], 'topic');
-  sel('Level', [['all', 'All'], ['1', 'Basic (1)'], ['2', 'Medium (2)'], ['3', 'Hard (3)']], 'level');
-  sel('Source', [['all', 'All'], ['src', 'From the course documents (' + items.filter(function(i){ return i.origin === 'src'; }).length + ')'], ['gen', 'Generated, same style (' + items.filter(function(i){ return i.origin === 'gen'; }).length + ')'], ['concept', 'Concept checks (' + items.filter(function(i){ return i.origin === 'concept'; }).length + ')']], 'origin');
+  var nHard = items.filter(function(i){ return i.level === 4; }).length;
+  sel('Level', [['all', 'All'], ['1', 'Basic (1)'], ['2', 'Medium (2)'], ['3', 'Hard (3)']].concat(nHard ? [['4', 'Expert (4): Moodle-style traps and multi-step (' + nHard + ')']] : []), 'level');
+  sel('Source', [['all', 'All'], ['src', 'From the course documents (' + items.filter(function(i){ return i.origin === 'src'; }).length + ')'], ['gen', 'Generated, same style (' + items.filter(function(i){ return i.origin === 'gen'; }).length + ')'], ['concept', 'Concept checks (' + items.filter(function(i){ return i.origin === 'concept'; }).length + ')']].concat(nHard ? [['hard', 'Moodle-style hard pool (' + items.filter(function(i){ return i.origin === 'hard'; }).length + ')']] : []), 'origin');
   panel.appendChild(row);
   var row2 = U.el('div', 'row');
   var search = U.el('input'); search.type = 'search'; search.placeholder = 'Search text, topic or source…'; search.oninput = function(){ S.q = search.value.toLowerCase(); S.page = 0; render(); };

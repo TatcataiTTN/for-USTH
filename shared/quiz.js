@@ -26,11 +26,17 @@ Promise.all([U.json(base + 'bank.json'), U.json(base + 'meta.json')]).then(funct
 
 /* ------------------------------------------------------------------ configuration */
 function findSet(list, id){ return list.filter(function(s){ return s.id === id; })[0]; }
-function drawQuota(bank, quota, rnd){
+function drawQuota(bank, quota, rnd, share){
+  /* share = [[level, fraction], ...]: that fraction of each chapter's quota is drawn from that level first (tougher random exams) */
   var out = [];
   Object.keys(quota).forEach(function(ch){
     var pool = U.shuffle(bank.items.filter(function(q){ return q.ch === ch && (q.tags || []).indexOf('extension') < 0; }), rnd);
-    out = out.concat(pool.slice(0, quota[ch]));
+    var take = [];
+    (share || []).forEach(function(s){
+      pool.filter(function(q){ return q.level === s[0] && take.indexOf(q) < 0; }).slice(0, Math.round(quota[ch] * s[1])).forEach(function(q){ take.push(q); });
+    });
+    pool.filter(function(q){ return take.indexOf(q) < 0; }).slice(0, quota[ch] - take.length).forEach(function(q){ take.push(q); });
+    out = out.concat(take.slice(0, quota[ch]));
   });
   return U.shuffle(out, rnd);
 }
@@ -46,15 +52,15 @@ function resolve(p, meta, bank, byId){
   }
   var ex = p.get('exam');
   if(!ex) throw new Error('No quiz or exam was selected.');
-  var all = meta.sets.midterm.concat(meta.sets.sprint, meta.sets.final || []);
+  var all = meta.sets.midterm.concat(meta.sets.sprint, meta.sets.final || [], meta.sets.replica || []);
   var s2 = findSet(all, ex);
   if(s2) return {mode: 'exam', title: s2.title, key: ex, items: mk(s2.ids), minutes: s2.minutes, forward: !!s2.forward_only};
   if(ex === 'sprint-random')
-    return {mode: 'exam', title: 'Speed exam · random 30 questions in 20 minutes', key: ex, items: drawQuota(bank, meta.sprint_quota, rnd), minutes: 20, forward: false};
+    return {mode: 'exam', title: 'Speed exam · random 30 questions in 20 minutes', key: ex, items: drawQuota(bank, meta.sprint_quota, rnd, meta.sprint_share), minutes: 20, forward: false};
   if(ex === 'final-random' && meta.final_quota)
     return {mode: 'exam', title: meta.final_title + ' · random', key: ex, items: drawQuota(bank, meta.final_quota, rnd), minutes: meta.final_minutes, forward: false};
   if(ex === 'midterm-random')
-    return {mode: 'exam', title: meta.midterm_title + ' · random', key: ex, items: drawQuota(bank, meta.midterm_quota, rnd), minutes: meta.midterm_minutes, forward: true};
+    return {mode: 'exam', title: meta.midterm_title + ' · random', key: ex, items: drawQuota(bank, meta.midterm_quota, rnd, meta.mid_share), minutes: meta.midterm_minutes, forward: true};
   if(ex === 'custom'){
     var chs = (p.get('ch') || '').split(',').filter(Boolean), n = Math.max(1, Math.min(60, parseInt(p.get('n') || '15', 10)));
     var pool = U.shuffle(bank.items.filter(function(q){ return (!chs.length || chs.indexOf(q.ch) >= 0) && (q.tags || []).indexOf('extension') < 0; }), rnd).slice(0, n);

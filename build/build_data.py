@@ -53,6 +53,9 @@ LA_CHAPTERS = [
     ("c7", "Eigenvalues and eigenvectors", "Lecture 7 · Exercise Sheet 7 · Elementary Linear Algebra ch. 7"),
 ]
 
+CAL_HARD = dict(mid_share=((4, 0.4), (3, 0.3)), sprint_share=((4, 0.3), (3, 0.3)), n_mid=5, n_replica=5, replica_slots=list(range(1, 21)),
+                replica_title="Moodle-style mock midterm (20 questions, 50 min, no going back)")
+
 def stratified_sets(items, n_sets, size, rng, avoid=()):
     """Disjoint sets, interleaving topics so each set is diverse; mixes levels."""
     pool = [i for i in items if i["id"] not in avoid]
@@ -78,11 +81,19 @@ def stratified_sets(items, n_sets, size, rng, avoid=()):
         s.append(it)
     return [[q["id"] for q in s] for s in sets]
 
-def pick_balanced(by_ch, quotas, rng, used, size):
+def pick_balanced(by_ch, quotas, rng, used, size, share=None):
+    """Draw each chapter's quota at random; share = ((level, fraction), ...) asks for that fraction of the quota at that level first (tougher mocks)."""
     chosen = []
     for ch, q in quotas.items():
         pool = [i for i in by_ch[ch] if i["id"] not in used]
         rng.shuffle(pool)
+        if share:
+            take = []
+            for lvl, frac in share:
+                take += [i for i in pool if i["level"] == lvl and i not in take][:round(q * frac)]
+            take += [i for i in pool if i not in take][:q - len(take)]
+            chosen += take[:q]
+            continue
         # prefer a mix of levels 1,2,3
         pool.sort(key=lambda z: z["level"] if rng.random() < .0 else rng.random())
         chosen += pool[:q]
@@ -90,7 +101,19 @@ def pick_balanced(by_ch, quotas, rng, used, size):
     rng.shuffle(ids)
     return ids[:size]
 
-def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None):
+def slot_sets(items, n_sets, slots, rng):
+    """Moodle-style replica mocks: set k takes the k-th question of every blueprint slot (tag moodle-sNN), in slot order, so each replica mirrors the real mock's 20 positions."""
+    by_slot = defaultdict(list)
+    for it in items:
+        for tg in it.get("tags", []):
+            if tg.startswith("moodle-s"):
+                by_slot[int(tg[8:])].append(it)
+    for lst in by_slot.values():
+        rng.shuffle(lst)
+    return [[by_slot[sl][k]["id"] for sl in slots] for k in range(n_sets)]
+
+def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None, hard=None):
+    """hard (Calculus only) = dict(mid_share, sprint_share, n_mid, replica_slots, replica_title): the level-4 pool makes the midterm and speed mocks tougher and adds replica mocks."""
     rng = random.Random(seed)
     items = [i for i in B.items if "extension" not in i.get("tags", [])]
     by_ch = defaultdict(list)
@@ -99,19 +122,28 @@ def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=
     sets = {"chapter": {}, "midterm": [], "sprint": []}
     used_chapter = set()
     for ch, title, _ in chapters:
-        trio = stratified_sets(by_ch[ch], 3, 12, rng)
+        trio = stratified_sets([i for i in by_ch[ch] if i["origin"] != "hard"], 3, 12, rng)          # the standard chapter quizzes stay as they were
         sets["chapter"][ch] = [dict(id=f"{ch}-{'ABC'[i]}", title=f"{title} · Set {'ABC'[i]}", ids=ids) for i, ids in enumerate(trio)]
+    n_mid = hard["n_mid"] if hard else 3
     used = set()
-    for i in range(3):
-        ids = pick_balanced(by_ch, midterm_quota, rng, used, sum(midterm_quota.values()))
+    for i in range(n_mid):
+        ids = pick_balanced(by_ch, midterm_quota, rng, used, sum(midterm_quota.values()), hard["mid_share"] if hard else None)
         used.update(ids)
-        sets["midterm"].append(dict(id=f"midterm-{'ABC'[i]}", title=f"{midterm_title} · Mock {'ABC'[i]}", ids=ids, minutes=mid_min, forward_only=True))
+        sets["midterm"].append(dict(id=f"midterm-{'ABCDEFGH'[i]}", title=f"{midterm_title} · Mock {'ABCDEFGH'[i]}", ids=ids, minutes=mid_min, forward_only=True))
     spq = sprint_quota
     used = set()
     for i in range(3):
-        ids = pick_balanced(by_ch, spq, rng, used, sum(spq.values()))
+        ids = pick_balanced(by_ch, spq, rng, used, sum(spq.values()), hard["sprint_share"] if hard else None)
         used.update(ids)
         sets["sprint"].append(dict(id=f"sprint-{'ABC'[i]}", title=f"Speed exam · 30 questions in 20 minutes · Mock {'ABC'[i]}", ids=ids, minutes=20, forward_only=False))
+    if hard:
+        for ch, title, _ in chapters:                                   # one extra quiz per chapter made only of level-4 questions
+            hs = [i["id"] for i in by_ch[ch] if i["origin"] == "hard"]
+            rng.shuffle(hs)
+            if len(hs) >= 8:
+                sets["chapter"][ch].append(dict(id=f"{ch}-H", title=f"{title} · Hard set (Moodle-style)", ids=hs[:12]))
+        reps = slot_sets(items, hard["n_replica"], hard["replica_slots"], rng)
+        sets["replica"] = [dict(id=f"moodle-{k + 1}", title=f"{hard['replica_title']} · Replica {k + 1}", ids=ids, minutes=mid_min, forward_only=True) for k, ids in enumerate(reps)]
     if final_quota:                      # courses whose final is an MCQ test too (Physics): three disjoint final mocks, drawn after the others so the Maths data are unchanged
         sets["final"] = []
         used = set()
@@ -133,22 +165,25 @@ def write_course(slug, B, extra, chapters, sets, meta_extra):
     return n
 
 def main():
-    import gen_cal, gen_la
+    import gen_cal, gen_cal_hard, gen_la
     from la_papers import build_papers
     qlib.NOTES.clear()
     BC = gen_cal.build(); rc = BC.finalize()
+    rh = gen_cal_hard.merge(BC, gen_cal_hard.build())            # level-4 pool in the style of the Moodle mock: its own bank, so the ids and options above do not move
     BL = gen_la.build(); rl = BL.finalize()
-    print("CAL", rc); print("LA ", rl)
-    # Calculus: midterm = chapters 1-3 (20 questions / 50 min, forward only); sprint = 30 questions across 6 chapters
+    print("CAL", rc); print("HARD", rh); print("LA ", rl)
+    qlib.note("Mock Test Midterm (Moodle)", "Question 5 (table of f, g, f' and g'): by the chain rule d/dx f(x+g(x)) at x=0 equals f'(0+g(0))·(1+g'(0)) = f'(1)·(1+g'(0)) = (1/2)(3/2) = 3/4, which is not among the options; the key printed by Moodle (2) does not match the table as shown. We keep the rule and use our own tables.")
+    # Calculus: midterm = chapters 1-3 (20 questions / 50 min, forward only); sprint = 30 questions across 6 chapters; the level-4 pool makes both tougher and gives five Moodle-style replica mocks
     sc = build_course("Calculus-1", BC, CAL_CHAPTERS, {"c1": 7, "c2": 7, "c3": 6}, "Calculus I Midterm (Ch. 1–3, 20 questions, 50 min, no going back)", 11,
-                      sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5})
+                      sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5}, hard=CAL_HARD)
     # Linear Algebra: midterm assumed to cover chapters 1-4 (the course page does not state it)
     sl = build_course("Linear-Algebra", BL, LA_CHAPTERS, {"c1": 5, "c2": 5, "c3": 5, "c4": 5}, "Linear Algebra Midterm (Ch. 1–4, 20 questions, 50 min)", 12,
                       sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5})
     # Calculus notes (document errors found) and LA notes are shared in qlib.NOTES (filled while generating)
     notes_all = [dict(src=a, note=b) for a, b in qlib.NOTES]
     cal_extra = dict(midterm_quota={"c1": 7, "c2": 7, "c3": 6}, midterm_minutes=50, midterm_title="Calculus I Midterm (Ch. 1–3, 20 questions, 50 min, no going back)",
-                     sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5})
+                     sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5},
+                     mid_share=[list(x) for x in CAL_HARD["mid_share"]], sprint_share=[list(x) for x in CAL_HARD["sprint_share"]])
     la_extra = dict(midterm_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5}, midterm_minutes=50, midterm_title="Linear Algebra Midterm (Ch. 1–4, 20 questions, 50 min)",
                     sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5})
     from cal_papers import build_papers as cal_build_papers

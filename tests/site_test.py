@@ -77,15 +77,16 @@ for course in TEST_COURSES:
             want_figs = sum(1 for i in s["ids"] if "fig" in byid[i])
             ok(len(d.find_elements(By.CSS_SELECTOR, ".qfig svg")) == want_figs, "%s should show %d figures" % (s["id"], want_figs))
             n = click_all_questions()
-            ok(n == 12, "%s should show 12 questions, shows %d" % (s["id"], n))
+            ok(n == len(s["ids"]), "%s should show %d questions, shows %d" % (s["id"], len(s["ids"]), n))
+            ok(len(s["ids"]) == 12 or s["id"].endswith("-H"), "%s: only a Hard set may be shorter than 12 (has %d)" % (s["id"], len(s["ids"])))
             shown = len(d.find_elements(By.CSS_SELECTOR, ".explain.show"))
-            ok(shown == 12, "%s explanations visible: %d" % (s["id"], shown))
+            ok(shown == len(s["ids"]), "%s explanations visible: %d of %d" % (s["id"], shown, len(s["ids"])))
             btn = [b for b in d.find_elements(By.CSS_SELECTOR, "button.btn") if "Finish" in b.text]
             ok(len(btn) == 1, "%s finish button" % s["id"])
             if btn:
                 d.execute_script("arguments[0].click()", btn[0]); time.sleep(0.2)
     # midterm mock A: forward-only, 20 questions
-    exams = ["midterm-A", "midterm-B", "midterm-C", "sprint-A", "sprint-B", "sprint-C", "midterm-random", "sprint-random"]
+    exams = [z["id"] for z in meta["sets"]["midterm"] + meta["sets"]["sprint"] + meta["sets"].get("replica", [])] + ["midterm-random", "sprint-random"]
     if meta["sets"].get("final"):
         exams += ["final-A", "final-B", "final-C", "final-random"]
     for ex in exams:
@@ -94,8 +95,8 @@ for course in TEST_COURSES:
         ok(len(start) == 1, "%s start button" % ex)
         d.execute_script("arguments[0].click()", start[0]); time.sleep(0.3)
         prevs = [b for b in d.find_elements(By.CSS_SELECTOR, "button") if b.text.strip().startswith("◀")]
-        total = 20 if ex.startswith("midterm") else 40 if ex.startswith("final") else 30
-        if ex.startswith("midterm"):
+        total = 20 if ex.startswith(("midterm", "moodle")) else 40 if ex.startswith("final") else 30
+        if ex.startswith(("midterm", "moodle")):
             ok(len(prevs) == 0, "%s must not have a Previous button (forward-only)" % ex)
         else:
             ok(len(prevs) == 1, "%s should have a Previous button" % ex)

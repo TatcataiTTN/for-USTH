@@ -15,6 +15,11 @@ Each course site has: chapter quizzes (3 sets per chapter), 3 mock midterms (20 
 * `build/` — Python generators: question banks (`gen_cal*.py`, `gen_la*.py` sympy-verified; `gen_ph1_*.py`, `gen_ph2_*.py` verified by a second physical route, with generated SVG figures from `figs.py`), quiz sets and papers (`build_data.py`, `build_data_phys.py`), module slides, page templates (`build_site.py`)
 * `tests/` — KaTeX check of every formula, exact Linear Algebra library cross-check, Selenium end-to-end suites, slide layout check, screenshot helpers
 
+## Calculus I extras
+
+* **Lecture walkthrough** (`Calculus-1/lectures/`): the lecturers' own slides one by one (images + original PDF), each with an English and Vietnamese teaching script, a value level (core / important / context), a "why it matters" note and exercises whose answers are checked by sympy. Sources are `build/lectures/cal_L*.py`, pages are written by `build/lecture_pages.py`; `tests/lectures_test.py` checks them in a browser (images, language switch, solutions, phone width). Printable PDFs of each script are produced into a local `SCRIPTS/` folder next to the repository by `tools/script_pdf.py`.
+* **Moodle-style hard pool** (level 4, `origin: "hard"`): `build/gen_cal_hard*.py` follow the 20-slot blueprint of the Moodle mock midterm (traps, composite limits with hidden orders, tables, linearization of composites, IVT word problems, related rates, parity counts, critical points with fractional powers ...) with new numbers, plus extras for chapters 2–6. Every answer is computed with sympy and re-derived by a second route. The pool is its own bank (ids `CAL-cN-hNNN`), so the ids and options of the original questions never move. It feeds the tougher midterm mocks A–E, five **Moodle-style replica mocks** (one question per blueprint slot), the speed exams and one *Hard set* per chapter.
+
 ## Sign-in screen
 
 Every page first shows a sign-in screen in a new browser (`shared/gate.js`). After signing in it is remembered on that browser, and *Display → Sign out* brings it back.
@@ -37,4 +42,4 @@ The other Selenium suites sign in with the public hash stored in `shared/gate.js
 
 Every answer is computed by code and checked a second way (exact arithmetic, numerical quadrature or an explicit counterexample); the build stops when a check fails.
 
-Unofficial study material. Textbooks and lecture slides are not included; problem statements are paraphrased and cited.
+Unofficial study material. Textbooks are not included; problem statements are paraphrased and cited. The slides on the Calculus *Lectures* pages are the lecturers' own (all rights remain with their authors), shown for study next to our scripts.
