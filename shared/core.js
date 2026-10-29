@@ -18,8 +18,28 @@ U.math = function(root){
         delimiters: [{left:'$$', right:'$$', display:true}, {left:'$', right:'$', display:false}],
         throwOnError: false, errorColor: '#b00020'
       });
+      U.glue(root || document.body);
     }catch(e){ console.error('KaTeX render error', e); }
   }
+};
+/* A line must not start with the comma/period that follows a formula, nor end with the bracket that precedes one:
+   keep them together in a no-wrap <span class="nw"> (a word joiner is ignored by browsers next to inline-blocks). */
+U.glue = function(root){
+  [].forEach.call(root.querySelectorAll('.katex:not([data-glued])'), function(k){
+    k.setAttribute('data-glued', '1');
+    var par = k.parentNode;
+    if(!par || par.className === 'katex-display') return;                      /* display math sits on its own line */
+    var el = (!par.className && par.childNodes.length === 1) ? par : k;        /* auto-render wraps inline math in a plain <span> */
+    var n = el.nextSibling, p = el.previousSibling, after = '', before = '';
+    if(n && n.nodeType === 3){ var m = /^[,.;:!?)\]]+/.exec(n.nodeValue); if(m){ after = m[0]; n.nodeValue = n.nodeValue.slice(after.length); } }
+    if(p && p.nodeType === 3){ var q = /[(\[]+$/.exec(p.nodeValue); if(q){ before = q[0]; p.nodeValue = p.nodeValue.slice(0, p.nodeValue.length - before.length); } }
+    if(!after && !before) return;
+    var w = document.createElement('span'); w.className = 'nw';
+    el.parentNode.insertBefore(w, el);
+    if(before) w.appendChild(document.createTextNode(before));
+    w.appendChild(el);
+    if(after) w.appendChild(document.createTextNode(after));
+  });
 };
 
 /* localStorage that never throws (private windows, blocked storage) */

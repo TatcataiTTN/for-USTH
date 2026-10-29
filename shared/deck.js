@@ -12,5 +12,20 @@
  deck.querySelector('.mdeck-fs').onclick=function(){if(document.fullscreenElement){document.exitFullscreen()}else{deck.requestFullscreen&&deck.requestFullscreen()}};
  document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){go(i+1);e.preventDefault()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1)}else if(e.key==='Home'){go(0)}else if(e.key==='End'){go(sl.length-1)}});
  window.addEventListener('resize',fit);document.addEventListener('fullscreenchange',fit);
+ function bottomOf(s){var sr=s.getBoundingClientRect(),sc=sr.width/1280||1,m=0;[].forEach.call(s.children,function(e){if(e.tagName==='H2'||e.classList.contains('logo-chip'))return;var r=e.getBoundingClientRect();var b=(r.bottom-sr.top)/sc;if(b>m)m=b;});return m;}
+ function autoSize(){ /* fill each content slide: largest font (21..44 px) whose content still fits above y=690 on the 1280x720 canvas */
+  var keep=sl.findIndex(function(s){return s.classList.contains('active');});
+  sl.forEach(function(s){ if(/\b(cover|endcard|divider)\b/.test(s.className)) return;
+   sl.forEach(function(t){t.classList.remove('active')}); s.classList.add('active'); var best=21;
+   best=21; for(var fs=44;fs>=21;fs--){ s.style.setProperty('--fs',fs+'px'); if(bottomOf(s)<=690){best=fs;break;} }
+   s.style.setProperty('--fs',best+'px'); });
+  sl.forEach(function(t,n){t.classList.toggle('active',n===Math.max(keep,0))});
+ }
  var h=parseInt((location.hash||'').slice(1),10);fit();go(isNaN(h)?0:h-1);
+ function start(){ fit(); autoSize(); go(isNaN(h)?0:h-1);
+  /* fonts (KaTeX) load late and change line wrapping: measure again once they are ready */
+  var again=function(){ autoSize(); go(i); };
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(again);
+  window.addEventListener('load',function(){ setTimeout(again,60); }); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
 })();

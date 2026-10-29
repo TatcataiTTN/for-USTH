@@ -4,7 +4,7 @@ import json, os, re, sys
 from collections import Counter, defaultdict
 from sitegen import *
 
-HAVE = {"quiz", "exam", "bank", "sources", "lab"}      # pages built so far (nav shows only these)
+HAVE = {"quiz", "exam", "bank", "sources", "lab", "modules"}      # pages built so far (nav shows only these)
 
 TEXTBOOKS = {
     "Calculus-1": {
@@ -59,16 +59,18 @@ def home(course):
 <h1>%(name)s <span class="muted">(%(code)s)</span> — self-study and exam-training system</h1>
 <p class="lead">%(tag)s Built from the course lectures, tutorial sheets, extra problems, mock tests and past finals. <b>%(nq)d</b> questions with computed answers and worked explanations.</p>
 <div class="cards">
+ <a class="card" href="modules/index.html"><b>📖 Modules (slides)</b><span>%(nmod)d modules with USTH-style slide decks, worked examples and a textbook map.</span></a>
  <a class="card" href="quiz/index.html"><b>📘 Chapter quizzes</b><span>3 sets per chapter, 12 questions each, instant feedback and explanations.</span></a>
  <a class="card" href="exam/index.html"><b>⏱ Mock exams</b><span>%(midtitle)s · Speed exam: 30 questions in 20 minutes · custom exams.</span></a>
  <a class="card" href="bank/index.html"><b>🗂 Practice bank</b><span>All %(nq)d questions: filter by chapter, topic, level and source; written mode.</span></a>
+ <a class="card" href="lab/index.html"><b>🧮 Lab</b><span>%(labdesc)s</span></a>
  <a class="card" href="sources/index.html"><b>📚 Sources and coverage</b><span>Every document used, textbook map, errors found in the course materials.</span></a>
 </div>
 <h2>Your progress</h2>
 <div class="panel" id="progress" data-base="data/" data-course="%(slug)s"><span class="muted">Loading…</span></div>
 <h2>How to train with this site</h2>
 <ol>
- <li><b>Learn a chapter</b> with your lecture slides and the textbook sections listed on the <a href="sources/index.html">Sources</a> page.</li>
+ <li><b>Learn a module</b> with its <a href="modules/index.html">slides</a>, your lecture slides and the textbook sections listed on each module page.</li>
  <li><b>Quiz it:</b> do the three sets of that chapter. Read every explanation, also for the questions you got right. Use "Redo only the mistakes".</li>
  <li><b>Go deeper</b> in the <a href="bank/index.html">practice bank</a>: tick <i>written mode</i> to hide the options, solve on paper, then compare with the model answer.</li>
  <li><b>Simulate the exams:</b> the mock midterm (no going back), then the 30-question / 20-minute speed exam. Aim for 40 seconds per question and review every explanation afterwards.</li>
@@ -77,7 +79,7 @@ def home(course):
 <h2>About the course (%(who)s)</h2>
 <div class="panel"><table class="t"><tr><th>Component</th><th>Weight</th><th>Details</th></tr>%(rows)s</table><ul>%(notes)s</ul>
 <p class="muted">Information of academic year 2025–26 only; check the official GED announcements for your year.</p></div>
-""" % dict(name=c["name"], code=c["code"], tag=esc(c["tagline"]), nq=nq, slug=course, who=esc(f["who"]), rows=rows, notes=notes, midtitle=esc(mid["title"].split(" · ")[0]))
+""" % dict(nmod=13 if course == "Calculus-1" else 7, labdesc=("Exact multi-method solvers: Gauss, Gauss–Jordan, Cramer, inverse, LU, Jacobi, eigen tools, Jacobian." if course == "Linear-Algebra" else "Plots, limits, Newton, Riemann/Simpson, series, Taylor, antiderivative checker."), name=c["name"], code=c["code"], tag=esc(c["tagline"]), nq=nq, slug=course, who=esc(f["who"]), rows=rows, notes=notes, midtitle=esc(mid["title"].split(" · ")[0]))
     return page(course, "Home", body, 0, "home", scripts=["home.js"], have=HAVE)
 
 def quiz_hub(course):
@@ -183,8 +185,9 @@ There is also a scanner for systems with a parameter <i>k</i> (like question 1(b
 # ------------------------------------------------------------------------------------------ root landing page
 def root_index():
     html_ = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USTH B1 — Maths self-study</title>
-<link rel="stylesheet" href="shared/core.css"></head><body><header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="shared/img/usth_logo.png" alt="USTH"><span>USTH B1 · Maths self-study</span></a></div></header>
-<main class="wrap"><h1>USTH B1 Mathematics: self-study and exam-training sites</h1>
+<link rel="icon" type="image/png" href="shared/img/favicon.png"><link rel="apple-touch-icon" href="shared/img/apple-touch-icon.png"><link rel="stylesheet" href="shared/core.css"></head><body><header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="shared/img/usth_logo.png" alt="USTH"><span>USTH B1 · Maths self-study</span></a></div></header>
+<main class="wrap"><div class="hero"><span class="chip big"><img src="shared/img/usth_logo.png" alt="USTH – University of Science and Technology of Hanoi"><img src="shared/img/usth_dses_logo.png" alt="DSES"></span><span class="muted">University of Science and Technology of Hanoi · Department of Mathematics &amp; ICT · B1 year</span></div>
+<h1>USTH B1 Mathematics: self-study and exam-training sites</h1>
 <p class="lead">Unofficial study systems built from the course documents: quizzes per chapter, mock midterms, a 30-questions-in-20-minutes speed exam, a verified practice bank and interactive tools.</p>
 <div class="cards"><a class="card" href="Calculus-1/index.html"><b>Calculus I · MAT1.001</b><span>Limits, derivatives, integrals, sequences and series. 6 chapters, 386 questions.</span></a>
 <a class="card" href="Linear-Algebra/index.html"><b>Linear Algebra · MAT1.002</b><span>Systems, matrices, determinants, vector spaces, inner products, linear maps, eigenvalues. 7 chapters, 398 questions.</span></a></div>
@@ -192,6 +195,9 @@ def root_index():
     write("index.html", html_)
 
 def main():
+    import build_modules, modules_cal, modules_la
+    for course, mods in (("Calculus-1", modules_cal.MODULES), ("Linear-Algebra", modules_la.MODULES)):
+        build_modules.build(course, mods, TEXTBOOKS[course], None, HAVE)
     for course in COURSES:
         write(course + "/index.html", home(course))
         write(course + "/quiz/index.html", quiz_hub(course)); write(course + "/quiz/run.html", quiz_run(course))
