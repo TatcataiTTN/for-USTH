@@ -2,7 +2,7 @@
 """Lecture walkthrough: constructors for the script files (S slide, E exercise), text formatting and the exercise checker.
 Each lecture file lists, for every slide of the lecturers' original deck, a bilingual (English / Vietnamese) teaching script,
 a value level, an optional "why it matters" note and exercises whose answers are checked by sympy when the pages are built."""
-import html, re
+import hashlib, html, json, os, re
 
 LEVELS = {3: ("Core", "Cốt lõi"), 2: ("Important", "Quan trọng"), 1: ("Context", "Bổ trợ")}
 
@@ -50,18 +50,36 @@ def _namespace():
     return ns
 
 _NS = None
+_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".lecture_check_cache.json")     # passed checks, by hash of the expression (git-ignored; USTM_RECHECK=1 ignores it)
+_PASSED = None
+
+def _passed():
+    global _PASSED
+    if _PASSED is None:
+        try:
+            _PASSED = set() if os.environ.get("USTM_RECHECK") else set(json.load(open(_CACHE_FILE)))
+        except (OSError, ValueError):
+            _PASSED = set()
+    return _PASSED
 
 def run_check(e, where):
     """Evaluate the exercise's check expressions; any falsy result stops the build (the answer printed must be the computed one)."""
     global _NS
     if e["chk"] is None:
         return False
-    _NS = _NS or _namespace()
+    passed = _passed(); new = False
     for expr in ([e["chk"]] if isinstance(e["chk"], str) else e["chk"]):
+        key = hashlib.sha1(expr.encode("utf-8")).hexdigest()
+        if key in passed:
+            continue
+        _NS = _NS or _namespace()
         try:
             ok = bool(eval(expr, _NS))
         except Exception as err:
             raise AssertionError("%s: check raised %r in %s\n  exercise: %s" % (where, err, expr, e["q"][:90]))
         if not ok:
             raise AssertionError("%s: check FAILED: %s\n  exercise: %s" % (where, expr, e["q"][:90]))
+        passed.add(key); new = True
+    if new:
+        json.dump(sorted(passed), open(_CACHE_FILE, "w"))
     return True

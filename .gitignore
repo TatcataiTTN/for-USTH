@@ -3,3 +3,4 @@ build/review/
 tests/screens/
 __pycache__/
 .DS_Store
+build/.lecture_check_cache.json

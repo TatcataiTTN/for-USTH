@@ -382,6 +382,11 @@ def main():
         pp = os.path.join(ROOT, course, "data", "papers.json")
         if os.path.exists(pp) and json.load(open(pp, encoding="utf-8")): h.add("written")
         HAVE_BY_COURSE[course] = h
+    if os.environ.get("USTM_ONLY") == "lectures":                # quick loop while authoring lecture scripts: rebuild only the lecture pages
+        for course in courses:
+            if "lectures" in hv(course):
+                print(course, "lectures: %d built, %d exercises checked, %d conceptual" % lecture_pages.build(course, hv(course)))
+        return
     for course in courses:
         if mods.get(course):
             build_modules.build(course, mods[course], TEXTBOOKS[course], None, hv(course))
