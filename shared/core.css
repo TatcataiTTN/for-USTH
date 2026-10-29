@@ -89,3 +89,23 @@ ol.stp{margin:.3em 0;padding-left:1.4em}ol.stp li{margin:.45em 0}
 .explain .steps{margin:6px 0}
 .panel h2{margin-top:0}
 textarea{font:inherit;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);padding:6px 8px}
+
+/* generated figures (physics): follow the light / dark theme through the CSS variables */
+.qfig{margin:6px 0 10px;overflow-x:auto}
+.qfig svg{display:block;max-width:100%;height:auto;color:var(--fg);background:var(--card);border:1px solid var(--border);border-radius:8px}
+.qfig .ax{stroke:currentColor;stroke-width:1.5;fill:none}
+.qfig .gr{stroke:var(--border);stroke-width:1;fill:none}
+.qfig .gd{stroke:var(--muted);stroke-width:1.3;fill:none}
+.qfig .ln{stroke:var(--accent);stroke-width:2.6;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.qfig .ln2{stroke:var(--red);stroke-width:2.6;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.qfig .ln3{stroke:var(--ok);stroke-width:2.6;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.qfig .ar{stroke:var(--red);stroke-width:2.5;fill:none}.qfig .arh{fill:var(--red);stroke:none}
+.qfig .ar2{stroke:var(--accent);stroke-width:2.5;fill:none}.qfig .ar2h{fill:var(--accent);stroke:none}
+.qfig .ar3{stroke:var(--ok);stroke-width:2.5;fill:none}.qfig .ar3h{fill:var(--ok);stroke:none}
+.qfig .dot{fill:var(--red);stroke:none}.qfig .dot2{fill:var(--accent);stroke:none}.qfig .dotn{fill:var(--accent);stroke:none}
+.qfig .bx{fill:var(--code);stroke:currentColor;stroke-width:1.6}
+.qfig .fl{fill:var(--code);stroke:none}
+.qfig .pos{fill:var(--red);stroke:currentColor;stroke-width:1.4}.qfig .neg{fill:var(--accent);stroke:currentColor;stroke-width:1.4}
+.qfig .tx{fill:currentColor;font:600 14px -apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.qfig .tk{fill:var(--muted);font:13px -apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.qfig .hl{fill:var(--okbg);stroke:none}

@@ -14,12 +14,26 @@ SHOTS = "--shots" in sys.argv
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "tests", "screens", "layout"); os.makedirs(OUT, exist_ok=True)
 
+import glob
 PAGES = {"": ["index.html"]}
-for course, mod in (("Calculus-1", "m01"), ("Linear-Algebra", "m1")):
+for course in [c for c in ("Calculus-1", "Linear-Algebra", "Physics-1", "Physics-2") if not os.environ.get("ONLY") or c in os.environ["ONLY"].split(",")]:
+    if not os.path.exists(os.path.join(ROOT, course, "data", "meta.json")):
+        continue
+    meta = json.load(open(os.path.join(ROOT, course, "data", "meta.json"), encoding="utf-8"))
+    bank = json.load(open(os.path.join(ROOT, course, "data", "bank.json"), encoding="utf-8"))
     papers = json.load(open(os.path.join(ROOT, course, "data", "papers.json"), encoding="utf-8"))
-    PAGES[course + "/"] = ["index.html", "modules/index.html", "modules/%s.html" % mod, "quiz/index.html", "quiz/run.html?set=c1-A", "exam/index.html",
-                          "exam/run.html?exam=midterm-A", "exam/run.html?exam=sprint-A", "bank/index.html", "written/index.html", "written/paper.html?p=%s" % papers[0]["id"],
-                          "written/paper.html?p=%s&mode=exam" % papers[0]["id"], "lab/index.html", "sources/index.html"]
+    mods = sorted(glob.glob(os.path.join(ROOT, course, "modules", "m*.html")))
+    figs = {q["id"] for q in bank["items"] if "fig" in q}
+    figset = next((st["id"] for ch in meta["sets"]["chapter"].values() for st in ch if figs & set(st["ids"])), None)
+    pages = ["index.html"]
+    if mods: pages += ["modules/index.html", "modules/%s" % os.path.basename(mods[0])]
+    pages += ["quiz/index.html", "quiz/run.html?set=c1-A"] + (["quiz/run.html?set=%s" % figset] if figset else [])
+    pages += ["exam/index.html", "exam/run.html?exam=midterm-A", "exam/run.html?exam=sprint-A"] + (["exam/run.html?exam=final-A"] if meta["sets"].get("final") else [])
+    pages += ["bank/index.html"] + (["bank/index.html?ch=c1"] if figset else [])
+    if papers: pages += ["written/index.html", "written/paper.html?p=%s" % papers[0]["id"], "written/paper.html?p=%s&mode=exam" % papers[0]["id"]]
+    if os.path.exists(os.path.join(ROOT, course, "lab", "index.html")): pages.append("lab/index.html")
+    pages.append("sources/index.html")
+    PAGES[course + "/"] = pages
 
 from jschecks import CONTRAST_JS, THEME_JS, loading_gone
 

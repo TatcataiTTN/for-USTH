@@ -122,8 +122,9 @@ class Bank:
         self._count[k] = self._count.get(k, 0) + 1
         return f"{self.course}-{ch}-{kind}{self._count[k]:03d}"
 
-    def mcq(self, ch, topic, level, stem, correct, wrongs, explain, src, origin="src", tags=()):
-        """Add one multiple-choice question. Returns True if added (False if duplicate / not enough distractors)."""
+    def mcq(self, ch, topic, level, stem, correct, wrongs, explain, src, origin="src", tags=(), fig=None):
+        """Add one multiple-choice question. Returns True if added (False if duplicate / not enough distractors).
+        fig = optional inline SVG (our own generated drawing, shown between the statement and the options)."""
         correct = str(correct)
         norm = lambda s: re.sub(r"\s+", "", str(s))
         seen = {norm(correct)}
@@ -142,9 +143,12 @@ class Bank:
         opts = [correct] + wr
         order = list(range(4)); self.rng.shuffle(order)
         opts = [opts[i] for i in order]
-        self.items.append(dict(
+        item = dict(
             id=self._id("q", ch), ch=ch, topic=topic, level=level, q=stem, opts=opts,
-            correct=opts.index(correct), explain=explain, src=src, origin=origin, tags=list(tags)))
+            correct=opts.index(correct), explain=explain, src=src, origin=origin, tags=list(tags))
+        if fig:
+            item["fig"] = fig
+        self.items.append(item)
         return True
 
     def tf(self, ch, topic, level, stem, truth, explain, src, origin="concept"):

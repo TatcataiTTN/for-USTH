@@ -46,11 +46,13 @@ function resolve(p, meta, bank, byId){
   }
   var ex = p.get('exam');
   if(!ex) throw new Error('No quiz or exam was selected.');
-  var all = meta.sets.midterm.concat(meta.sets.sprint);
+  var all = meta.sets.midterm.concat(meta.sets.sprint, meta.sets.final || []);
   var s2 = findSet(all, ex);
   if(s2) return {mode: 'exam', title: s2.title, key: ex, items: mk(s2.ids), minutes: s2.minutes, forward: !!s2.forward_only};
   if(ex === 'sprint-random')
     return {mode: 'exam', title: 'Speed exam · random 30 questions in 20 minutes', key: ex, items: drawQuota(bank, meta.sprint_quota, rnd), minutes: 20, forward: false};
+  if(ex === 'final-random' && meta.final_quota)
+    return {mode: 'exam', title: meta.final_title + ' · random', key: ex, items: drawQuota(bank, meta.final_quota, rnd), minutes: meta.final_minutes, forward: false};
   if(ex === 'midterm-random')
     return {mode: 'exam', title: meta.midterm_title + ' · random', key: ex, items: drawQuota(bank, meta.midterm_quota, rnd), minutes: meta.midterm_minutes, forward: true};
   if(ex === 'custom'){
@@ -70,8 +72,10 @@ function questionCard(q, idx, total){
   head.appendChild(U.el('span', 'tag lv' + q.level, 'level ' + q.level));
   box.appendChild(head);
   box.appendChild(U.el('div', 'qtxt', q.q));
+  if(q.fig) box.appendChild(figure(q));
   return box;
 }
+function figure(q){ var f = U.el('div', 'qfig'); f.innerHTML = q.fig; return f; }      /* our own generated SVG drawing */
 function optButtons(q, box, onPick){
   var btns = q.opts.map(function(o, i){
     var b = U.el('button', 'opt'); b.type = 'button';
@@ -147,7 +151,7 @@ function runExam(cfg, meta){
   var ul = U.el('ul');
   [n + ' multiple-choice questions · ' + cfg.minutes + ' minutes (about ' + Math.round(cfg.minutes * 60 / n) + ' s per question)',
    cfg.forward ? 'You cannot return to previous questions (like the Moodle mock): choose carefully, then press Next.' : 'You may move freely between questions and change answers before you submit.',
-   'No feedback is shown until you finish; unanswered questions score 0. Calculators are not needed for these questions.'].forEach(function(t){ ul.appendChild(U.el('li', null, t)); });
+   'No feedback is shown until you finish; unanswered questions score 0. ' + (meta.calc_note || 'Calculators are not needed for these questions.')].forEach(function(t){ ul.appendChild(U.el('li', null, t)); });
   intro.appendChild(ul);
   var go = U.el('button', 'btn', '▶ Start the exam'); intro.appendChild(go); root.appendChild(intro);
   go.onclick = function(){ begin(); };
@@ -231,6 +235,7 @@ function runExam(cfg, meta){
       var c = U.el('div', 'qitem'); var ok = st.ans[k] === q.correct;
       c.appendChild(U.el('div', 'qhead')).appendChild(U.el('span', 'tag ' + (ok ? 'okt' : 'badt'), (ok ? '✅ ' : st.ans[k] === null ? '⚪ ' : '❌ ') + 'Q' + (k + 1) + ' · ' + q.topic));
       c.appendChild(U.el('div', 'qtxt', q.q));
+      if(q.fig) c.appendChild(figure(q));
       q.opts.forEach(function(o, i){ var b = U.el('div', 'opt static' + (i === q.correct ? ' correct' : (i === st.ans[k] ? ' wrong' : ''))); b.appendChild(U.el('span', 'optl', LETTERS[i] + '.')); b.appendChild(U.el('span', 'optt', o)); c.appendChild(b); });
       var ex = U.el('div', 'explain show'); ex.appendChild(U.el('b', null, (ok ? 'Correct. ' : st.ans[k] === null ? 'Not answered. The answer is ' + LETTERS[q.correct] + '. ' : 'Your answer ' + LETTERS[st.ans[k]] + '; the correct answer is ' + LETTERS[q.correct] + '. '))); ex.appendChild(document.createTextNode(q.explain));
       c.appendChild(ex); c.appendChild(sourceLine(q)); root.appendChild(c);

@@ -21,7 +21,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "tests", "screens"); os.makedirs(OUT, exist_ok=True)
 paper = json.load(open(os.path.join(ROOT, "Linear-Algebra", "data", "papers.json"), encoding="utf-8"))[0]["id"]
 ENTRY = ["index.html", "Calculus-1/index.html", "Linear-Algebra/quiz/index.html", "Calculus-1/modules/m01.html", "Calculus-1/bank/index.html",
-         "Linear-Algebra/written/paper.html?p=%s" % paper, "Calculus-1/exam/run.html?exam=midterm-A", "Linear-Algebra/lab/index.html"]
+         "Linear-Algebra/written/paper.html?p=%s" % paper, "Calculus-1/exam/run.html?exam=midterm-A", "Linear-Algebra/lab/index.html", "Physics-1/quiz/run.html?set=c1-A", "Physics-1/bank/index.html"]
 
 fails = []; checks = 0
 def ok(c, m):

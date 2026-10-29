@@ -21,10 +21,11 @@ function check(where, s){
     catch(e){ bad++; console.log('BAD', where, e.message.slice(0, 100), '|', seg.tex.slice(0, 70)); }
   });
 }
-for(const course of ['Calculus-1', 'Linear-Algebra']){
+for(const course of ['Calculus-1', 'Linear-Algebra', 'Physics-1', 'Physics-2'].filter(c => fs.existsSync(path.join(__dirname, '..', c, 'data', 'bank.json')))){
   const b = JSON.parse(fs.readFileSync(path.join(__dirname, '..', course, 'data', 'bank.json'), 'utf8'));
   b.items.forEach(q => { check(q.id + ' stem', q.q); q.opts.forEach((o, i) => check(q.id + ' opt' + i, o)); check(q.id + ' explain', q.explain);
     if(new Set(q.opts).size !== 4) { bad++; console.log('BAD duplicate options', q.id); }
+    if(q.fig !== undefined && !(/^<svg[^>]*>[\s\S]*<\/svg>$/.test(q.fig) && !/<script|onload|onclick|javascript:/i.test(q.fig))) { bad++; console.log('BAD figure markup', q.id); }
     if(!(q.correct >= 0 && q.correct < 4)) { bad++; console.log('BAD correct index', q.id); } });
   const pp = path.join(__dirname, '..', course, 'data', 'papers.json');
   if(fs.existsSync(pp)){

@@ -78,6 +78,7 @@ function init(bank, meta){
     var box = U.el('div', 'qitem');
     var head = U.el('div', 'qhead'); head.appendChild(U.el('span', 'tag', q.id)); head.appendChild(U.el('span', 'tag', q.topic)); head.appendChild(U.el('span', 'tag lv' + q.level, 'level ' + q.level)); box.appendChild(head);
     box.appendChild(U.el('div', 'qtxt', q.q));
+    if(q.fig){ var fg = U.el('div', 'qfig'); fg.innerHTML = q.fig; box.appendChild(fg); }
     var ex = U.el('div', 'explain');
     function reveal(pick){
       ex.innerHTML = '';

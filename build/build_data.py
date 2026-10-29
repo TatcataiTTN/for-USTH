@@ -90,7 +90,7 @@ def pick_balanced(by_ch, quotas, rng, used, size):
     rng.shuffle(ids)
     return ids[:size]
 
-def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None):
+def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None):
     rng = random.Random(seed)
     items = [i for i in B.items if "extension" not in i.get("tags", [])]
     by_ch = defaultdict(list)
@@ -112,6 +112,13 @@ def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=
         ids = pick_balanced(by_ch, spq, rng, used, sum(spq.values()))
         used.update(ids)
         sets["sprint"].append(dict(id=f"sprint-{'ABC'[i]}", title=f"Speed exam · 30 questions in 20 minutes · Mock {'ABC'[i]}", ids=ids, minutes=20, forward_only=False))
+    if final_quota:                      # courses whose final is an MCQ test too (Physics): three disjoint final mocks, drawn after the others so the Maths data are unchanged
+        sets["final"] = []
+        used = set()
+        for i in range(3):
+            ids = pick_balanced(by_ch, final_quota, rng, used, sum(final_quota.values()))
+            used.update(ids)
+            sets["final"].append(dict(id=f"final-{'ABC'[i]}", title=f"{final_title} · Mock {'ABC'[i]}", ids=ids, minutes=final_min, forward_only=False))
     return sets
 
 def write_course(slug, B, extra, chapters, sets, meta_extra):

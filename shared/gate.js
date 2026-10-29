@@ -62,7 +62,7 @@ function build(){
     '<form id="ustm-gate-form" novalidate>' +
       '<span class="g-chip"><img src="' + BASE + 'img/usth_logo.png" alt="USTH"><img src="' + BASE + 'img/usth_dses_logo.png" alt="DSES"></span>' +
       '<h1 id="ustm-gate-title">Sign in</h1>' +
-      '<p>USTH B1 · Maths self-study. Sign in once to open the sites on this browser.</p>' +
+      '<p>USTH B1 · Maths and Physics self-study. Sign in once to open the sites on this browser.</p>' +
       '<label>Username<input id="ustm-user" name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></label>' +
       '<label>Password<input id="ustm-pass" name="password" type="password" autocomplete="current-password"></label>' +
       '<label class="g-show"><input id="ustm-show" type="checkbox"> Show password</label>' +

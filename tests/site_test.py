@@ -51,7 +51,9 @@ def click_all_questions():
             d.execute_script("arguments[0].click()", btns[0])
     return len(qs)
 
-for course in ("Calculus-1", "Linear-Algebra"):
+ALL = [c for c in ("Calculus-1", "Linear-Algebra", "Physics-1", "Physics-2") if os.path.exists(os.path.join(ROOT, c, "data", "meta.json"))]
+TEST_COURSES = [a for a in sys.argv[2:] if a in ALL] or ALL
+for course in TEST_COURSES:
     print("==", course)
     meta = json.load(open(os.path.join(ROOT, course, "data", "meta.json"), encoding="utf-8"))
     bank = json.load(open(os.path.join(ROOT, course, "data", "bank.json"), encoding="utf-8"))
@@ -67,10 +69,13 @@ for course in ("Calculus-1", "Linear-Algebra"):
     for f in sorted(glob.glob(os.path.join(ROOT, course, "modules", "m*.html"))):
         load(course + "/modules/" + os.path.basename(f), 1.2)
         ok(len(d.find_elements(By.CSS_SELECTOR, ".mdeck-slide")) >= 6, "module %s has slides" % os.path.basename(f))
-    # every chapter quiz set: 12 questions, clickable, explanation appears
+    byid = {q["id"]: q for q in bank["items"]}
+    # every chapter quiz set: 12 questions, clickable, explanation appears, every drawing present
     for ch, sets in meta["sets"]["chapter"].items():
         for s in sets:
             load(course + "/quiz/run.html?set=" + s["id"], 1.0)
+            want_figs = sum(1 for i in s["ids"] if "fig" in byid[i])
+            ok(len(d.find_elements(By.CSS_SELECTOR, ".qfig svg")) == want_figs, "%s should show %d figures" % (s["id"], want_figs))
             n = click_all_questions()
             ok(n == 12, "%s should show 12 questions, shows %d" % (s["id"], n))
             shown = len(d.find_elements(By.CSS_SELECTOR, ".explain.show"))
@@ -80,13 +85,16 @@ for course in ("Calculus-1", "Linear-Algebra"):
             if btn:
                 d.execute_script("arguments[0].click()", btn[0]); time.sleep(0.2)
     # midterm mock A: forward-only, 20 questions
-    for ex in ("midterm-A", "midterm-B", "midterm-C", "sprint-A", "sprint-B", "sprint-C", "midterm-random", "sprint-random"):
+    exams = ["midterm-A", "midterm-B", "midterm-C", "sprint-A", "sprint-B", "sprint-C", "midterm-random", "sprint-random"]
+    if meta["sets"].get("final"):
+        exams += ["final-A", "final-B", "final-C", "final-random"]
+    for ex in exams:
         load(course + "/exam/run.html?exam=" + ex, 0.8)
         start = [b for b in d.find_elements(By.CSS_SELECTOR, "button.btn") if "Start" in b.text]
         ok(len(start) == 1, "%s start button" % ex)
         d.execute_script("arguments[0].click()", start[0]); time.sleep(0.3)
         prevs = [b for b in d.find_elements(By.CSS_SELECTOR, "button") if b.text.strip().startswith("◀")]
-        total = 20 if ex.startswith("midterm") else 30
+        total = 20 if ex.startswith("midterm") else 40 if ex.startswith("final") else 30
         if ex.startswith("midterm"):
             ok(len(prevs) == 0, "%s must not have a Previous button (forward-only)" % ex)
         else:
