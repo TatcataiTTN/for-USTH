@@ -4,7 +4,7 @@ import json, os, re, sys
 from collections import Counter, defaultdict
 from sitegen import *
 
-HAVE = {"quiz", "exam", "bank", "sources"}      # pages built so far (nav shows only these)
+HAVE = {"quiz", "exam", "bank", "sources", "lab"}      # pages built so far (nav shows only these)
 
 TEXTBOOKS = {
     "Calculus-1": {
@@ -168,6 +168,18 @@ def sources_page(course):
 <li>Option positions are shuffled with a fixed seed and balanced (A/B/C/D each 25%%); the correct option is not systematically the longest.</li></ul></div>""" % (rows, cov, nhtml)
     return page(course, "Sources", body, 1, "sources", have=HAVE)
 
+def lab_page(course):
+    if course == "Linear-Algebra":
+        intro = """<h1>Linear Algebra lab</h1><p class="lead">Exact arithmetic (fractions, no rounding) with every step shown. Each tool solves the same problem by <b>several methods</b> — Gauss and Gauss–Jordan elimination, Cramer's rule, the inverse matrix, LU factorisation, Jacobi and Gauss–Seidel iteration; row reduction, cofactor expansion and Sarrus for determinants; Gauss–Jordan and adjugate for inverses — and checks that they agree.
+There is also a scanner for systems with a parameter <i>k</i> (like question 1(b) and 2(a) of the finals), eigen-tools, orthogonal tools, matrices relative to bases and a Jacobian-matrix tool (an extension beyond MAT1.002: the Jacobian is the matrix of the linear map that best approximates a function near a point).</p>
+<p class="muted">Enter matrices with one row per line and entries separated by spaces (fractions like 3/4 are fine). The lab is a checking aid: in the exam there is no calculator, so always practise the hand computation first.</p><div id="lab" class="lab"></div>"""
+        scripts = ["vendor/mathjs/math.min.js", "la.js", "la-lab.js"]
+    else:
+        intro = """<h1>Calculus lab</h1><p class="lead">Numerical and graphical tools to check your hand work: plot a function with its derivative and tangent line, explore limits, run Newton's method and bisection, compare Riemann sums with the trapezoid and Simpson rules, watch partial sums of a series, build Taylor polynomials with the error bound, test an antiderivative by differentiating it, and get the critical points and inflection points of a curve.</p>
+<p class="muted">Write functions like in a calculator: <code>x^3 - 3*x</code>, <code>sin(x)/x</code>, <code>exp(-x^2)</code>, <code>sqrt(x)</code>, <code>log(x)</code> (natural log), <code>pi</code>. Numerical output is evidence, not proof: the exam asks for exact answers and justification.</p><div id="lab" class="lab"></div>"""
+        scripts = ["vendor/mathjs/math.min.js", "calc-lab.js"]
+    return page(course, "Labs", intro, 1, "lab", scripts=scripts, have=HAVE)
+
 # ------------------------------------------------------------------------------------------ root landing page
 def root_index():
     html_ = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USTH B1 — Maths self-study</title>
@@ -186,6 +198,7 @@ def main():
         write(course + "/exam/index.html", exam_hub(course)); write(course + "/exam/run.html", exam_run(course))
         write(course + "/bank/index.html", bank_page(course))
         write(course + "/sources/index.html", sources_page(course))
+        write(course + "/lab/index.html", lab_page(course))
     root_index()
     print("pages written")
 
