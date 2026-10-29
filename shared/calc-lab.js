@@ -145,18 +145,20 @@ function build(){
   root.innerHTML = '';
   var tabs = U.el('div', 'tabs'); root.appendChild(tabs);
   var box = U.el('div', 'panel'); root.appendChild(box);
-  function open(id){
+  function open(id, preset){
     var t = TOOLS.filter(function(x){ return x.id === id; })[0] || TOOLS[0];
     U.$$('button', tabs).forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-id') === t.id); });
     box.innerHTML = ''; box.appendChild(U.el('h3', null, t.title));
-    var inputs = {}; t.fields.forEach(function(fd){ var lab = U.el('label', null, fd[1]); lab.style.display = 'block'; lab.style.marginTop = '6px'; var el = U.el('input'); el.type = 'text'; el.value = fd[3]; inputs[fd[0]] = el; box.appendChild(lab); box.appendChild(el); });
+    var inputs = {}; t.fields.forEach(function(fd){ var lab = U.el('label', null, fd[1]); lab.style.display = 'block'; lab.style.marginTop = '6px'; var el = U.el('input'); el.type = 'text'; el.value = (preset && preset[fd[0]] !== undefined) ? String(preset[fd[0]]) : fd[3]; inputs[fd[0]] = el; box.appendChild(lab); box.appendChild(el); });
     var go = U.el('button', 'btn', '▶ Compute'), out = U.el('div', 'out lab-out'); box.appendChild(go); box.appendChild(out);
     function run(){ var vals = {}; Object.keys(inputs).forEach(function(k){ vals[k] = inputs[k].value; }); try{ t.run(vals, out); }catch(e){ out.innerHTML = '<p class="err">⚠ ' + String(e.message || e).replace(/</g, '&lt;') + '</p>'; } U.math(out); }
     go.onclick = run; Object.keys(inputs).forEach(function(k){ inputs[k].onkeydown = function(e){ if(e.key === 'Enter') run(); }; }); run();
     try{ history.replaceState(null, '', '#tool=' + t.id); }catch(e){}
   }
   TOOLS.forEach(function(t){ var b = U.el('button', null, t.title.split(':')[0].split(' (')[0]); b.setAttribute('data-id', t.id); b.onclick = function(){ open(t.id); }; tabs.appendChild(b); });
-  var m = /tool=([a-z]+)/.exec(location.hash); open(m ? m[1] : 'plot');
+  var pr = {}, id = 'plot';
+  location.hash.slice(1).split('&').forEach(function(kv){ var i = kv.indexOf('='); if(i > 0){ var k = kv.slice(0, i), v = decodeURIComponent(kv.slice(i + 1)); if(k === 'tool') id = v; else pr[k] = v; } });
+  open(id, Object.keys(pr).length ? pr : undefined);
 }
 build();
 })();

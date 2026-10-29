@@ -1,11 +1,24 @@
 # -*- coding: utf-8 -*-
 """Build the JSON data of both courses: question banks, quiz sets (3 per chapter), midterm sets (3 per course),
 sprint sets (30 questions / 20 minutes), past papers and source notes."""
-import json, os, random, sys
+import json, os, random, re, sys
 from collections import Counter, defaultdict
 import qlib
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+MATH_RE = re.compile(r"(\$\$.*?\$\$|\$.*?\$)", re.S)
+
+def html_safe_math(h):
+    """HTML fields are inserted with innerHTML: a raw < or > inside a formula (e.g. $0<x<7$) would be parsed as a tag."""
+    return MATH_RE.sub(lambda m: m.group(0).replace("<", "&lt;").replace(">", "&gt;"), h)
+
+def sanitize_papers(papers):
+    for p in papers:
+        for q in p["problems"]:
+            for pt in q:
+                pt["answer"] = html_safe_math(pt["answer"]); pt["solution"] = html_safe_math(pt["solution"])
+    return papers
 
 def jsonable(o):
     """Plain-JSON version of nested data (sympy integers -> int, rationals -> 'p/q' strings the JS lab can parse)."""
@@ -131,10 +144,12 @@ def main():
                      sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5})
     la_extra = dict(midterm_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5}, midterm_minutes=50, midterm_title="Linear Algebra Midterm (Ch. 1–4, 20 questions, 50 min)",
                     sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5})
-    n1 = write_course("Calculus-1", BC, {"notes.json": [n for n in notes_all if n["src"].startswith(("Tutorial", "Computation", "Mock Test"))]}, CAL_CHAPTERS, sc, cal_extra)
-    papers = build_papers()
-    n2 = write_course("Linear-Algebra", BL, {"papers.json": papers, "notes.json": [n for n in notes_all if n["src"].startswith(("Exercise", "Final"))]}, LA_CHAPTERS, sl, la_extra)
-    print("written", n1, "Calculus questions;", n2, "Linear Algebra questions;", len(papers), "past papers;", len(notes_all), "document notes")
+    from cal_papers import build_papers as cal_build_papers
+    cal_papers = sanitize_papers(cal_build_papers())
+    n1 = write_course("Calculus-1", BC, {"papers.json": cal_papers, "notes.json": [n for n in notes_all if n["src"].startswith(("Tutorial", "Computation", "Mock Test"))]}, CAL_CHAPTERS, sc, cal_extra)
+    papers = sanitize_papers(build_papers())
+    n2 = write_course("Linear-Algebra", BL, {"papers.json": papers, "notes.json": [n for n in notes_all if n["src"].startswith(("Exercise", "Final", "Linear Algebra Summary"))]}, LA_CHAPTERS, sl, la_extra)
+    print("written", n1, "Calculus questions;", n2, "Linear Algebra questions;", len(papers), "LA past papers;", len(cal_papers), "Calculus papers;", len(notes_all), "document notes")
     for slug, sets in (("Calculus-1", sc), ("Linear-Algebra", sl)):
         print(slug, "chapter sets:", sum(len(v) for v in sets["chapter"].values()), "midterm:", [len(s["ids"]) for s in sets["midterm"]], "sprint:", [len(s["ids"]) for s in sets["sprint"]])
 

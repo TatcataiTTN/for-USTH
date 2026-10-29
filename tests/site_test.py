@@ -37,6 +37,8 @@ def load(path, wait=1.0):
     errs = console_errors()
     ok(not errs, "%s console errors: %s" % (path, errs[:2]))
     ok(len(d.find_elements(By.CSS_SELECTOR, ".katex-error")) == 0, "%s has KaTeX errors" % path)
+    stale = [e for e in d.find_elements(By.XPATH, "//*[normalize-space(text())='Loading…']") if e.is_displayed()]
+    ok(not stale, "%s still shows a 'Loading…' placeholder after loading" % path)
     imgs = d.execute_script("return [].slice.call(document.images).filter(function(i){return !i.complete||i.naturalWidth===0}).map(function(i){return i.src})")
     ok(not imgs, "%s broken images %s" % (path, imgs))
 

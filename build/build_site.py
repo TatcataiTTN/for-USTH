@@ -4,7 +4,7 @@ import json, os, re, sys
 from collections import Counter, defaultdict
 from sitegen import *
 
-HAVE = {"quiz", "exam", "bank", "sources", "lab", "modules"}      # pages built so far (nav shows only these)
+HAVE = {"quiz", "exam", "bank", "sources", "lab", "modules", "written"}      # pages built so far (nav shows only these)
 
 TEXTBOOKS = {
     "Calculus-1": {
@@ -62,6 +62,7 @@ def home(course):
  <a class="card" href="modules/index.html"><b>📖 Modules (slides)</b><span>%(nmod)d modules with USTH-style slide decks, worked examples and a textbook map.</span></a>
  <a class="card" href="quiz/index.html"><b>📘 Chapter quizzes</b><span>3 sets per chapter, 12 questions each, instant feedback and explanations.</span></a>
  <a class="card" href="exam/index.html"><b>⏱ Mock exams</b><span>%(midtitle)s · Speed exam: 30 questions in 20 minutes · custom exams.</span></a>
+ <a class="card" href="written/index.html"><b>✍️ Written practice</b><span>%(wdesc)s</span></a>
  <a class="card" href="bank/index.html"><b>🗂 Practice bank</b><span>All %(nq)d questions: filter by chapter, topic, level and source; written mode.</span></a>
  <a class="card" href="lab/index.html"><b>🧮 Lab</b><span>%(labdesc)s</span></a>
  <a class="card" href="sources/index.html"><b>📚 Sources and coverage</b><span>Every document used, textbook map, errors found in the course materials.</span></a>
@@ -79,7 +80,7 @@ def home(course):
 <h2>About the course (%(who)s)</h2>
 <div class="panel"><table class="t"><tr><th>Component</th><th>Weight</th><th>Details</th></tr>%(rows)s</table><ul>%(notes)s</ul>
 <p class="muted">Information of academic year 2025–26 only; check the official GED announcements for your year.</p></div>
-""" % dict(nmod=13 if course == "Calculus-1" else 7, labdesc=("Exact multi-method solvers: Gauss, Gauss–Jordan, Cramer, inverse, LU, Jacobi, eigen tools, Jacobian." if course == "Linear-Algebra" else "Plots, limits, Newton, Riemann/Simpson, series, Taylor, antiderivative checker."), name=c["name"], code=c["code"], tag=esc(c["tagline"]), nq=nq, slug=course, who=esc(f["who"]), rows=rows, notes=notes, midtitle=esc(mid["title"].split(" · ")[0]))
+""" % dict(wdesc=("Eight real past finals (2018–2025) with full worked solutions, exam mode with timer and self-marking." if course == "Linear-Algebra" else "The real Mock Test 1 plus two final-style mocks, full solutions, 120-minute exam mode with self-marking."), nmod=13 if course == "Calculus-1" else 7, labdesc=("Exact multi-method solvers: Gauss, Gauss–Jordan, Cramer, inverse, LU, Jacobi, eigen tools, Jacobian." if course == "Linear-Algebra" else "Plots, limits, Newton, Riemann/Simpson, series, Taylor, antiderivative checker."), name=c["name"], code=c["code"], tag=esc(c["tagline"]), nq=nq, slug=course, who=esc(f["who"]), rows=rows, notes=notes, midtitle=esc(mid["title"].split(" · ")[0]))
     return page(course, "Home", body, 0, "home", scripts=["home.js"], have=HAVE)
 
 def quiz_hub(course):
@@ -146,7 +147,10 @@ def sources_page(course):
         if "sample tests" in p: return "Past final exam: problems solved in full on the Written page"
         if "mocktest" in p: return "Mock test source"
         if "textbooks" in p: return "Reference reading (chapter map below)"
-        if "final tutorial" in p or "tutor for final" in p: return "Final-exam tutoring slides (scanned, OCR read)"
+        if "linear algebra summary" in p: return "Theory summary with worked exercises: its exercises became questions labelled 'Linear Algebra Summary (Gen 16)'; the slips found in it are listed below"
+        if "final tutorial" in p or "tutor for final" in p:
+            return ("Final-exam tutoring slides (scanned, OCR read): the worked examples became questions labelled 'Final tutorial (session 1/2)'" if course == "Calculus-1"
+                    else "Final-exam tutoring slides (scanned, OCR read): theory recap and exam-style problems, covered by the bank and the Written papers")
         if "sharing" in p: return "Sharing-session slides (scanned, OCR read)"
         return "Reference"
     rows = ""
@@ -182,16 +186,30 @@ There is also a scanner for systems with a parameter <i>k</i> (like question 1(b
         scripts = ["vendor/mathjs/math.min.js", "calc-lab.js"]
     return page(course, "Labs", intro, 1, "lab", scripts=scripts, have=HAVE)
 
+def written_hub(course):
+    papers = load_json(course + "/data/papers.json")
+    if course == "Linear-Algebra":
+        intro = """<h1>Written practice: eight past finals with full solutions</h1><p class="lead">The final is a <b>written test of 5 questions, each with 2–3 parts, 120 minutes</b>, usually without a calculator. These are the real papers of 2018–2025 (both groups of 2018–19 and both shifts of 2023–24 and 2024–25). Every part has the answer and a complete worked solution, computed in exact arithmetic with every row operation shown; some parts link to the lab where you can check the same data by several methods.</p>"""
+    else:
+        intro = """<h1>Written practice: the real mock test and two final-style mocks</h1><p class="lead">The final is a <b>written test of 5 questions worth 4 points each</b>. <b>Mock Test 1</b> is the real mock paper of 2025–26 from the course materials; <b>mock B</b> and <b>mock C</b> follow the same format and were written for this site from the problem types of the tutorials. Every part has the answer and a full worked solution (final answers are verified by computer algebra); some parts link to the lab.</p>"""
+    body = intro + """<div class="callout"><b>Workflow.</b> 1) Take a paper as an <i>exam</i> (timer, statements only). 2) Mark yourself part by part against the model solutions. 3) Redo the parts you lost marks on in <i>study</i> mode, then drill the topic in the quizzes. Results are saved in this browser.</div><div id="written-hub" data-base="../data/" data-course="%s" data-lab="../lab/index.html"><p class="muted">Loading…</p></div>""" % course
+    return page(course, "Written practice", body, 1, "written", scripts=["written.js"], have=HAVE)
+
+def written_paper(course):
+    body = '<div id="written" data-base="../data/" data-course="%s" data-lab="../lab/index.html"><p class="muted">Loading…</p></div>' % course
+    return page(course, "Written paper", body, 1, "written", scripts=["written.js"], have=HAVE)
+
 # ------------------------------------------------------------------------------------------ root landing page
 def root_index():
+    nq = {c: sum(load_json(c + "/data/meta.json")["counts"].values()) for c in ("Calculus-1", "Linear-Algebra")}     # read from the generated data, never typed
     html_ = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USTH B1 — Maths self-study</title>
 <link rel="icon" type="image/png" href="shared/img/favicon.png"><link rel="apple-touch-icon" href="shared/img/apple-touch-icon.png"><link rel="stylesheet" href="shared/core.css"></head><body><header class="top"><div class="wrap"><a class="brand" href="index.html"><img src="shared/img/usth_logo.png" alt="USTH"><span>USTH B1 · Maths self-study</span></a></div></header>
 <main class="wrap"><div class="hero"><span class="chip big"><img src="shared/img/usth_logo.png" alt="USTH – University of Science and Technology of Hanoi"><img src="shared/img/usth_dses_logo.png" alt="DSES"></span><span class="muted">University of Science and Technology of Hanoi · Department of Mathematics &amp; ICT · B1 year</span></div>
 <h1>USTH B1 Mathematics: self-study and exam-training sites</h1>
 <p class="lead">Unofficial study systems built from the course documents: quizzes per chapter, mock midterms, a 30-questions-in-20-minutes speed exam, a verified practice bank and interactive tools.</p>
-<div class="cards"><a class="card" href="Calculus-1/index.html"><b>Calculus I · MAT1.001</b><span>Limits, derivatives, integrals, sequences and series. 6 chapters, 386 questions.</span></a>
-<a class="card" href="Linear-Algebra/index.html"><b>Linear Algebra · MAT1.002</b><span>Systems, matrices, determinants, vector spaces, inner products, linear maps, eigenvalues. 7 chapters, 398 questions.</span></a></div>
-<p class="muted">The Vietnamese versions will be added as separate sites. Everything runs in your browser; progress stays on your device.</p></main></body></html>"""
+<div class="cards"><a class="card" href="Calculus-1/index.html"><b>Calculus I · MAT1.001</b><span>Limits, derivatives, integrals, sequences and series. 6 chapters, %(cal)d questions.</span></a>
+<a class="card" href="Linear-Algebra/index.html"><b>Linear Algebra · MAT1.002</b><span>Systems, matrices, determinants, vector spaces, inner products, linear maps, eigenvalues. 7 chapters, %(la)d questions.</span></a></div>
+<p class="muted">The Vietnamese versions will be added as separate sites. Everything runs in your browser; progress stays on your device.</p></main></body></html>""" % dict(cal=nq["Calculus-1"], la=nq["Linear-Algebra"])
     write("index.html", html_)
 
 def main():
@@ -205,6 +223,7 @@ def main():
         write(course + "/bank/index.html", bank_page(course))
         write(course + "/sources/index.html", sources_page(course))
         write(course + "/lab/index.html", lab_page(course))
+        write(course + "/written/index.html", written_hub(course)); write(course + "/written/paper.html", written_paper(course))
     root_index()
     print("pages written")
 

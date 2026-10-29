@@ -13,6 +13,7 @@ Promise.all([U.json(base + 'bank.json'), U.json(base + 'meta.json')]).then(funct
   .catch(function(e){ root.textContent = 'Could not load the bank: ' + e.message; });
 
 function init(bank, meta){
+  root.innerHTML = '';
   var items = bank.items;
   S.order = items.map(function(_, i){ return i; });
   var chapters = meta.chapters;

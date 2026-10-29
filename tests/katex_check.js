@@ -10,6 +10,8 @@ function segments(s){
   }
   return out;
 }
+// answer / solution are inserted with innerHTML, so the browser decodes these entities before KaTeX sees the text
+const dec = s => String(s).replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 let bad = 0, total = 0;
 function check(where, s){
   segments(String(s)).forEach(seg => {
@@ -26,7 +28,7 @@ for(const course of ['Calculus-1', 'Linear-Algebra']){
     if(!(q.correct >= 0 && q.correct < 4)) { bad++; console.log('BAD correct index', q.id); } });
   const pp = path.join(__dirname, '..', course, 'data', 'papers.json');
   if(fs.existsSync(pp)){
-    JSON.parse(fs.readFileSync(pp, 'utf8')).forEach(p => p.problems.forEach((q, qi) => q.forEach((pt, pi) => { const w = p.id + ' Q' + (qi + 1) + '.' + (pi + 1); check(w + ' text', pt.text); check(w + ' answer', pt.answer); check(w + ' solution', pt.solution); })));
+    JSON.parse(fs.readFileSync(pp, 'utf8')).forEach(p => p.problems.forEach((q, qi) => q.forEach((pt, pi) => { const w = p.id + ' Q' + (qi + 1) + '.' + (pi + 1); check(w + ' text', pt.text); check(w + ' answer', dec(pt.answer)); check(w + ' solution', dec(pt.solution)); })));
   }
   const nn = path.join(__dirname, '..', course, 'data', 'notes.json');
   if(fs.existsSync(nn)) JSON.parse(fs.readFileSync(nn, 'utf8')).forEach(n => check('note ' + n.src, n.note));

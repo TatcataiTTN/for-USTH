@@ -6,7 +6,8 @@ import gen_cal1
 def build():
     B = Bank("CAL", seed=20261030)
     gen_cal1.ch1(B)
-    for modname, fn in (("gen_cal1", "ch2"), ("gen_cal2", "ch3"), ("gen_cal2", "ch4"), ("gen_cal3", "ch5"), ("gen_cal3", "ch6")):
+    for modname, fn in (("gen_cal1", "ch2"), ("gen_cal2", "ch3"), ("gen_cal2", "ch4"), ("gen_cal3", "ch5"), ("gen_cal3", "ch6"),
+                        ("gen_cal4", "ch2"), ("gen_cal4", "ch3"), ("gen_cal4", "ch4"), ("gen_cal4", "ch5"), ("gen_cal4", "ch6")):   # gen_cal4 = tutoring-slide extras, appended last so existing ids stay stable
         try:
             mod = __import__(modname)
         except ImportError:

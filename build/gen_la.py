@@ -15,6 +15,9 @@ def build():
         gen_la3 = None
     if gen_la3:
         gen_la3.ch6(B); gen_la3.ch7(B)
+    import gen_la4                                   # extras from the Summary (Gen 16) exercises; appended last so existing ids stay stable
+    for fn in (gen_la4.ch1, gen_la4.ch2, gen_la4.ch3, gen_la4.ch4, gen_la4.ch5, gen_la4.ch6, gen_la4.ch7):
+        fn(B)
     return B
 
 if __name__ == "__main__":

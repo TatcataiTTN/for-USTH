@@ -82,3 +82,10 @@ footer.foot{border-top:1px solid var(--border);color:var(--muted);font-size:.85r
 .footlogos{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-bottom:8px}
 
 .nw{white-space:nowrap}
+
+.ptxt{white-space:pre-line;overflow-x:auto}
+.part .marks{display:inline-block;margin:2px 0 4px}
+ol.stp{margin:.3em 0;padding-left:1.4em}ol.stp li{margin:.45em 0}
+.explain .steps{margin:6px 0}
+.panel h2{margin-top:0}
+textarea{font:inherit;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--fg);padding:6px 8px}
