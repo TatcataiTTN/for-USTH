@@ -10,7 +10,7 @@ from lec_lib import fmt, run_check, LEVELS
 # course -> (file prefix, original PDF name on the site, [(lecture id, number of slides in the original deck)])
 CATALOGUE = {
     "Calculus-1": ("cal", "Calculus-I_Lecture-%s.pdf", [("L01", 47), ("L02", 51), ("L03", 46), ("L04", 44), ("L05", 54), ("L06", 44), ("L07", 46), ("L08", 67), ("L09", 46), ("L10a", 19), ("L10b", 17), ("L11", 30), ("L12", 46)]),
-    "Linear-Algebra": ("la", "Linear-Algebra_Lecture-%s.pdf", [("L1", 0), ("L2", 0), ("L3", 0), ("L4", 0), ("L5", 0), ("L6", 0), ("L7", 0)]),
+    "Linear-Algebra": ("la", "Linear-Algebra_Lecture-%s.pdf", [("L1", 36), ("L2", 36), ("L3", 68), ("L4", 102), ("L5", 78), ("L6", 77), ("L7", 56)]),
 }
 
 LANG_HEAD = ("<script>(function(){var d=document.documentElement;try{var l=JSON.parse(localStorage.getItem('ustm:lang')||'null');"

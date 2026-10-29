@@ -47,6 +47,11 @@ def _namespace():
     exec("def close(p, q, tol=1e-6):\n    return abs(N(p) - N(q)) < tol\n"
          "def same(p, q):\n    return simplify(p - q) == 0\n"
          "def nlim(f, a, side=0, eps=1e-7):\n    g = lambdify(x, f, 'mpmath')\n    return g(a + side * eps) if side else (g(a - eps) + g(a + eps)) / 2\n", ns)
+    exec("def nsol(aug):\n    A = aug[:, :-1]; r = A.rank()\n    return 0 if aug.rank() > r else (1 if r == A.shape[1] else oo)\n"          # number of solutions of [A|b]: 0, 1 or oo (rank test)
+         "def is_ref(M):\n    last = -1; zero = False\n    for i in range(M.rows):\n        nz = [j for j in range(M.cols) if M[i, j] != 0]\n"
+         "        if not nz:\n            zero = True; continue\n        if zero or M[i, nz[0]] != 1 or nz[0] <= last:\n            return False\n        last = nz[0]\n    return True\n"
+         "def is_rref(M):\n    if not is_ref(M):\n        return False\n    for i in range(M.rows):\n        nz = [j for j in range(M.cols) if M[i, j] != 0]\n"
+         "        if nz and any(M[k, nz[0]] != 0 for k in range(M.rows) if k != i):\n            return False\n    return True\n", ns)
     return ns
 
 _NS = None
