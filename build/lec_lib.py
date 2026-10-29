@@ -42,7 +42,7 @@ def fmt(text):
 # ---------------------------------------------------------------- exercise checks
 def _namespace():
     ns = {}
-    exec("from sympy import *\nfrom sympy.calculus.util import continuous_domain, function_range, periodicity\nfrom sympy.calculus.singularities import is_strictly_increasing, is_strictly_decreasing, is_increasing, is_decreasing, singularities", ns)
+    exec("from sympy import *\nfrom sympy.calculus.util import continuous_domain, function_range, periodicity, maximum, minimum\nfrom sympy.calculus.singularities import is_strictly_increasing, is_strictly_decreasing, is_increasing, is_decreasing, singularities", ns)
     exec("x, y, z, t, u, v, w, a, b, c, d, h, k, m, n, p, r, s = symbols('x y z t u v w a b c d h k m n p r s', real=True)\nj, i_ = symbols('j i_', integer=True)\neps, delta = symbols('eps delta', positive=True)", ns)
     exec("def close(p, q, tol=1e-6):\n    return abs(N(p) - N(q)) < tol\n"
          "def same(p, q):\n    return simplify(p - q) == 0\n"
