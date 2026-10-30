@@ -280,8 +280,8 @@ S(47, ("Example: the semicubical parabola, setup", "Ví dụ: parabol bán lập
   r"""Tìm độ dài của $y^2=x^3$ giữa $(1,1)$ và $(4,8)$. Cung nằm ở nửa trên ($y\ge0$) nên đường cong là $y=x^{3/2}$.""", 3),
 
 S(48, ("The semicubical parabola: the computation", "Parabol bán lập phương: tính toán"),
-  r"""$y'=\frac32\sqrt x$, so $L=\int_1^4\sqrt{1+\frac94x}\,dx=\frac8{27}\left[\left(1+\frac94x\right)^{3/2}\right]_1^4=\frac8{27}\left(10^{3/2}-\left(\frac{13}4\right)^{3/2}\right)=\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)\approx7.634$.""",
-  r"""$y'=\frac32\sqrt x$, nên $L=\int_1^4\sqrt{1+\frac94x}\,dx=\frac8{27}\left[\left(1+\frac94x\right)^{3/2}\right]_1^4=\frac8{27}\left(10^{3/2}-\left(\frac{13}4\right)^{3/2}\right)=\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)\approx7.634$.""", 3,
+  r"""$y'=\frac32\sqrt x$, so $$\begin{aligned}L&=\int_1^4\sqrt{1+\frac94x}\,dx=\frac8{27}\left[\left(1+\frac94x\right)^{3/2}\right]_1^4\\&=\frac8{27}\left(10^{3/2}-\left(\frac{13}4\right)^{3/2}\right)=\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)\approx7.634.\end{aligned}$$""",
+  r"""$y'=\frac32\sqrt x$, nên $$\begin{aligned}L&=\int_1^4\sqrt{1+\frac94x}\,dx=\frac8{27}\left[\left(1+\frac94x\right)^{3/2}\right]_1^4\\&=\frac8{27}\left(10^{3/2}-\left(\frac{13}4\right)^{3/2}\right)=\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)\approx7.634.\end{aligned}$$""", 3,
   ex=[E(r"""Check the slide numerically: the value of $\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)$ against the integral.""", r"""Kiểm tra bằng số: giá trị của $\frac1{27}\left(80\sqrt{10}-13\sqrt{13}\right)$ so với tích phân.""",
         r"""$\approx7.634$""",
         r"""$80\sqrt{10}\approx252.98$ and $13\sqrt{13}\approx46.87$; $(252.98-46.87)/27\approx7.634$, and numerical integration of $\sqrt{1+\frac94x}$ over $[1,4]$ gives the same.""",
@@ -339,8 +339,8 @@ S(58, ("The formula with $x$ and $y$ exchanged", "Công thức khi đổi vai tr
   r"""Viết $x=\sqrt y$, nên $x'=\frac1{2\sqrt y}$. Quanh trục $y$: $S=\int_c^d2\pi g(y)\sqrt{1+(x')^2}\,dy$ với $[c,d]$ là miền giá trị của $y$ và $g(y)=\sqrt y$ là bán kính của mỗi hình nón cụt.""", 3),
 
 S(59, ("The computation: $\\frac\\pi6(17\\sqrt{17}-5\\sqrt5)$", "Tính toán: $\\frac\\pi6(17\\sqrt{17}-5\\sqrt5)$"),
-  r"""$S=\int_1^42\pi\sqrt y\sqrt{1+\frac1{4y}}\,dy=\pi\int_1^4\sqrt{4y+1}\,dy=\pi\cdot\frac{(4y+1)^{3/2}}6\Big|_1^4=\frac\pi6\left(17\sqrt{17}-5\sqrt5\right)$. Simplify the root by writing $\sqrt y\sqrt{1+\frac1{4y}}=\sqrt{y+\frac14}=\frac12\sqrt{4y+1}$.""",
-  r"""$S=\int_1^42\pi\sqrt y\sqrt{1+\frac1{4y}}\,dy=\pi\int_1^4\sqrt{4y+1}\,dy=\pi\cdot\frac{(4y+1)^{3/2}}6\Big|_1^4=\frac\pi6\left(17\sqrt{17}-5\sqrt5\right)$. Rút gọn căn bằng cách viết $\sqrt y\sqrt{1+\frac1{4y}}=\sqrt{y+\frac14}=\frac12\sqrt{4y+1}$.""", 3,
+  r"""$$\begin{aligned}S&=\int_1^42\pi\sqrt y\sqrt{1+\frac1{4y}}\,dy=\pi\int_1^4\sqrt{4y+1}\,dy\\&=\pi\cdot\frac{(4y+1)^{3/2}}6\Big|_1^4=\frac\pi6\left(17\sqrt{17}-5\sqrt5\right).\end{aligned}$$ Simplify the root by writing $\sqrt y\sqrt{1+\frac1{4y}}=\sqrt{y+\frac14}=\frac12\sqrt{4y+1}$.""",
+  r"""$$\begin{aligned}S&=\int_1^42\pi\sqrt y\sqrt{1+\frac1{4y}}\,dy=\pi\int_1^4\sqrt{4y+1}\,dy\\&=\pi\cdot\frac{(4y+1)^{3/2}}6\Big|_1^4=\frac\pi6\left(17\sqrt{17}-5\sqrt5\right).\end{aligned}$$ Rút gọn căn bằng cách viết $\sqrt y\sqrt{1+\frac1{4y}}=\sqrt{y+\frac14}=\frac12\sqrt{4y+1}$.""", 3,
   ex=[E(r"""Find the surface area when $y=x^2$ for $0\le y\le2$ (i.e. $0\le x\le\sqrt2$) is rotated about the $y$-axis.""", r"""Tìm diện tích mặt khi quay $y=x^2$ với $0\le y\le2$ (tức $0\le x\le\sqrt2$) quanh trục $y$.""",
         r"""$\dfrac{13\pi}3$""",
         r"""Same simplification: $S=\pi\int_0^2\sqrt{4y+1}\,dy=\pi\cdot\frac{(4y+1)^{3/2}}6\Big|_0^2=\frac\pi6(27-1)=\frac{13\pi}3$.""",

@@ -61,9 +61,9 @@ Nếu cả hai đều lẻ thì Trường hợp 1 hay 2 đều được; dùng t
 
 S(6, ("Example: one integral for each case", "Ví dụ: mỗi trường hợp một tích phân"),
   r"""(1) $\int_0^{\pi/2}\sin^2x\cos^5x\,dx$: $n=5$ is odd, Case 1. (2) $\int_0^{\pi/2}\sin^5x\cos^2x\,dx$: $m=5$ is odd, Case 2. Both equal $\frac8{105}$; this is no accident, because $x\mapsto\frac\pi2-x$ swaps sine and cosine and maps $[0,\frac\pi2]$ onto itself. (3) $\int_0^{\pi/2}\sin^2x\cos^4x\,dx$: both powers even, Case 3. Replace $\sin^2x=\frac{1-\cos2x}2$ and $\cos^4x=\left(\frac{1+\cos2x}2\right)^2$; multiplying out,
-$$\sin^2x\cos^4x=\tfrac18(1-\cos2x)(1+\cos2x)^2=\tfrac18\left(1+\cos2x-\cos^22x-\cos^32x\right).$$""",
+$$\begin{aligned}\sin^2x\cos^4x&=\tfrac18(1-\cos2x)(1+\cos2x)^2\\&=\tfrac18\left(1+\cos2x-\cos^22x-\cos^32x\right).\end{aligned}$$""",
   r"""(1) $\int_0^{\pi/2}\sin^2x\cos^5x\,dx$: $n=5$ lẻ, Trường hợp 1. (2) $\int_0^{\pi/2}\sin^5x\cos^2x\,dx$: $m=5$ lẻ, Trường hợp 2. Cả hai đều bằng $\frac8{105}$; không phải ngẫu nhiên, vì phép $x\mapsto\frac\pi2-x$ đổi chỗ sin và cos và biến $[0,\frac\pi2]$ thành chính nó. (3) $\int_0^{\pi/2}\sin^2x\cos^4x\,dx$: cả hai số mũ chẵn, Trường hợp 3. Thay $\sin^2x=\frac{1-\cos2x}2$ và $\cos^4x=\left(\frac{1+\cos2x}2\right)^2$; nhân ra,
-$$\sin^2x\cos^4x=\tfrac18(1-\cos2x)(1+\cos2x)^2=\tfrac18\left(1+\cos2x-\cos^22x-\cos^32x\right).$$""", 3,
+$$\begin{aligned}\sin^2x\cos^4x&=\tfrac18(1-\cos2x)(1+\cos2x)^2\\&=\tfrac18\left(1+\cos2x-\cos^22x-\cos^32x\right).\end{aligned}$$""", 3,
   ex=[E(r"""Check the slide's value $\frac8{105}$ of $\int_0^{\pi/2}\sin^2x\cos^5x\,dx$ with $u=\sin x$, and explain why $\int_0^{\pi/2}\sin^5x\cos^2x\,dx$ has the same value.""", r"""Kiểm tra giá trị $\frac8{105}$ của $\int_0^{\pi/2}\sin^2x\cos^5x\,dx$ bằng $u=\sin x$, và giải thích vì sao $\int_0^{\pi/2}\sin^5x\cos^2x\,dx$ có cùng giá trị.""",
         r"""$\dfrac8{105}$""",
         r"""$\cos^5x\,dx=(1-\sin^2x)^2\cos x\,dx=(1-u^2)^2du$, limits $0\to1$: $\int_0^1u^2(1-u^2)^2du=\frac13-\frac25+\frac17=\frac{35-42+15}{105}=\frac8{105}$. For the other one substitute $x=\frac\pi2-s$: it turns into the first integral.""",
@@ -115,10 +115,10 @@ Phần đầu: $u=\tan x$, $\int_0^1u\,du=\frac12$. Phần sau: $\int_0^{\pi/4}\
 
 S(10, ("Products of sines and cosines: product-to-sum identities", "Tích sin và cos: công thức biến tích thành tổng"),
   r"""For $\int\sin mx\cos nx\,dx$, $\int\sin mx\sin nx\,dx$, $\int\cos mx\cos nx\,dx$ with different frequencies use the **products-to-sums** identities, which turn a product into a sum of single sines or cosines:
-$$\sin x\cos y=\frac{\sin(x+y)+\sin(x-y)}2,\quad\cos x\cos y=\frac{\cos(x+y)+\cos(x-y)}2,\quad\sin x\sin y=\frac{\cos(x-y)-\cos(x+y)}2.$$
+$$\begin{aligned}\sin x\cos y&=\frac{\sin(x+y)+\sin(x-y)}2,\\ \cos x\cos y&=\frac{\cos(x+y)+\cos(x-y)}2,\\ \sin x\sin y&=\frac{\cos(x-y)-\cos(x+y)}2.\end{aligned}$$
 They come from adding and subtracting the addition formulas for $\sin(x\pm y)$ and $\cos(x\pm y)$, so you can re-derive them if you forget.""",
   r"""Với $\int\sin mx\cos nx\,dx$, $\int\sin mx\sin nx\,dx$, $\int\cos mx\cos nx\,dx$ có tần số khác nhau, dùng các công thức **biến tích thành tổng**, biến một tích thành tổng của các sin hoặc cos đơn:
-$$\sin x\cos y=\frac{\sin(x+y)+\sin(x-y)}2,\quad\cos x\cos y=\frac{\cos(x+y)+\cos(x-y)}2,\quad\sin x\sin y=\frac{\cos(x-y)-\cos(x+y)}2.$$
+$$\begin{aligned}\sin x\cos y&=\frac{\sin(x+y)+\sin(x-y)}2,\\ \cos x\cos y&=\frac{\cos(x+y)+\cos(x-y)}2,\\ \sin x\sin y&=\frac{\cos(x-y)-\cos(x+y)}2.\end{aligned}$$
 Chúng suy ra từ việc cộng và trừ các công thức cộng của $\sin(x\pm y)$ và $\cos(x\pm y)$, nên có thể tự dựng lại nếu quên.""", 3,
   ex=[E(r"""Evaluate $\displaystyle\int_0^\pi\sin2x\cos3x\,dx$, $\displaystyle\int_{-\pi}^{\pi}\cos2x\cos3x\,dx$ and $\displaystyle\int_0^{\pi/4}\sin x\sin3x\,dx$.""", r"""Tính $\displaystyle\int_0^\pi\sin2x\cos3x\,dx$, $\displaystyle\int_{-\pi}^{\pi}\cos2x\cos3x\,dx$ và $\displaystyle\int_0^{\pi/4}\sin x\sin3x\,dx$.""",
         r"""$-\dfrac45$, $0$ and $\dfrac14$""",
