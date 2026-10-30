@@ -44,10 +44,16 @@ def vis(d, sel):
 def load(d, url):
     d.get(url); time.sleep(1.2)
     d.execute_script("document.querySelectorAll('img[loading=lazy]').forEach(function(i){i.loading='eager'})")
-    for _ in range(40):                                   # wait for every slide image
-        if d.execute_script("return [].every.call(document.querySelectorAll('.lpic img'),function(i){return i.complete})"):
+    for attempt in range(4):                              # wait for every slide image; re-request the ones a flaky network dropped (a missing file still fails)
+        for _ in range(60):
+            if d.execute_script("return [].every.call(document.querySelectorAll('.lpic img'),function(i){return i.complete})"):
+                break
+            time.sleep(0.5)
+        broken = d.execute_script("var n=arguments[0];var b=[].filter.call(document.querySelectorAll('.lpic img'),function(i){return !(i.complete&&i.naturalWidth>0)});"
+                                  "b.forEach(function(i){i.src=i.getAttribute('src').split('?')[0]+'?retry='+n});return b.length", attempt)
+        if not broken:
             break
-        time.sleep(0.5)
+        time.sleep(1.5)
 
 def check_page(d, course, lid, mobile):
     url = BASE + "%s/lectures/%s.html" % (course, lid); tag = "%s %s %s" % (course, lid, "phone" if mobile else "desktop")
