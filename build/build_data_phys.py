@@ -72,6 +72,9 @@ def main():
     if gen_ph2:
         B2 = gen_ph2.build(); r2 = B2.finalize()
         print("PH2", r2)
+        import gen_ph2_e                                                # gap-fill pool (thin concepts): own bank, own ids ('g'), tag 'gap'
+        print("PH2 gap pool", gen_ph2_e.merge(B2, gen_ph2_e.build()))
+        qlib.note("Electrostatics, magnetism and optics gap-fill pool (Concept finder)", "%d generated questions (ids ...-g..., tag gap) cover the topics the Concept finder showed to be thin: superposition, dipoles and rings, the Hall effect, forces on currents, crossed fields, Gauss' law for magnetism, Biot-Savart, solenoids, RL circuits, motional emf, induced fields, flux, reflection, Snell's law, refraction at a surface, X-ray diffraction and combined interference-diffraction. They are in the practice bank, in the random quizzes and in one Gap-fill set per chapter; the fixed quizzes and mock exams are unchanged." % sum(1 for i in B2.items if "gap" in i.get("tags", [])))
         q2 = {"c1": 3, "c2": 4, "c3": 3, "c4": 3, "c5": 4, "c6": 3}
         s2 = {"c1": 2, "c2": 3, "c3": 3, "c4": 3, "c5": 3, "c6": 3, "c7": 3, "c8": 3, "c9": 3, "c10": 2, "c11": 2}
         f2 = {"c1": 1, "c2": 2, "c3": 2, "c4": 2, "c5": 4, "c6": 5, "c7": 6, "c8": 3, "c9": 6, "c10": 5, "c11": 4}
@@ -79,6 +82,11 @@ def main():
         ft2 = "Fundamental Physics II Final (40 questions, 80 min)"
         sets2 = build_course("Physics-2", B2, PH2_CHAPTERS, q2, t2, 32, mid_min=40, sprint_quota=s2, final_quota=f2, final_title="Fundamental Physics II Final", final_min=80)
         meta2 = dict(midterm_quota=q2, midterm_minutes=40, midterm_title=t2, sprint_quota=s2, final_quota=f2, final_minutes=80, final_title=ft2, calc_note=CALC_NOTE)
+        for ch, title, _src in PH2_CHAPTERS:                            # one extra quiz per chapter made of the gap-fill questions
+            gids = [i["id"] for i in B2.items if i["ch"] == ch and "gap" in i.get("tags", [])]
+            _random.Random(4200 + int(ch[1:])).shuffle(gids)
+            if len(gids) >= 6:
+                sets2["chapter"][ch].append(dict(id=f"{ch}-G", title=f"{title} · Gap-fill set (new topics)", ids=gids[:12]))
         try:
             from ph2_papers import build_papers as ph2_papers
             pap2 = sanitize_papers(ph2_papers())
