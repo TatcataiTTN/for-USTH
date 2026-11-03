@@ -171,7 +171,10 @@ def main():
     BC = gen_cal.build(); rc = BC.finalize()
     rh = gen_cal_hard.merge(BC, gen_cal_hard.build())            # level-4 pool in the style of the Moodle mock: its own bank, so the ids and options above do not move
     BL = gen_la.build(); rl = BL.finalize()
-    print("CAL", rc); print("HARD", rh); print("LA ", rl)
+    import gen_la5                                               # gap-fill pool for the thin concepts (rank, adjugate, orthogonal matrices ...): own bank, own ids ('g'), tag 'gap'
+    rg = gen_la5.merge(BL, gen_la5.build())
+    print("CAL", rc); print("HARD", rh); print("LA ", rl); print("LA gap pool", rg)
+    qlib.note("Exercise gap-fill pool (Concept finder)", "%d generated questions (ids ...-g..., tag gap) cover the topics the Concept finder showed to be thin: linear equations, rank, the adjugate, invertibility, Gram-Schmidt and least squares, the matrix of a map relative to bases, similarity and orthogonal matrices. They are in the practice bank, in the random quizzes and in one Gap-fill set per chapter; the fixed quizzes and mock exams are unchanged." % sum(1 for i in BL.items if "gap" in i.get("tags", [])))
     qlib.note("Mock Test Midterm (Moodle)", "Question 5 (table of f, g, f' and g'): by the chain rule d/dx f(x+g(x)) at x=0 equals f'(0+g(0))·(1+g'(0)) = f'(1)·(1+g'(0)) = (1/2)(3/2) = 3/4, which is not among the options; the key printed by Moodle (2) does not match the table as shown. We keep the rule and use our own tables.")
     # Calculus: midterm = chapters 1-3 (20 questions / 50 min, forward only); sprint = 30 questions across 6 chapters; the level-4 pool makes both tougher and gives five Moodle-style replica mocks
     sc = build_course("Calculus-1", BC, CAL_CHAPTERS, {"c1": 7, "c2": 7, "c3": 6}, "Calculus I Midterm (Ch. 1–3, 20 questions, 50 min, no going back)", 11,
@@ -179,6 +182,12 @@ def main():
     # Linear Algebra: midterm assumed to cover chapters 1-4 (the course page does not state it)
     sl = build_course("Linear-Algebra", BL, LA_CHAPTERS, {"c1": 5, "c2": 5, "c3": 5, "c4": 5}, "Linear Algebra Midterm (Ch. 1–4, 20 questions, 50 min)", 12,
                       sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5})
+    import random as _random
+    for ch, title, _src in LA_CHAPTERS:                              # one extra quiz per chapter made of the gap-fill questions
+        gids = [i["id"] for i in BL.items if i["ch"] == ch and "gap" in i.get("tags", [])]
+        _random.Random(4300 + int(ch[1:])).shuffle(gids)
+        if len(gids) >= 6:
+            sl["chapter"][ch].append(dict(id=f"{ch}-G", title=f"{title} · Gap-fill set (new topics)", ids=gids[:12]))
     # Calculus notes (document errors found) and LA notes are shared in qlib.NOTES (filled while generating)
     notes_all = [dict(src=a, note=b) for a, b in qlib.NOTES]
     cal_extra = dict(midterm_quota={"c1": 7, "c2": 7, "c3": 6}, midterm_minutes=50, midterm_title="Calculus I Midterm (Ch. 1–3, 20 questions, 50 min, no going back)",
