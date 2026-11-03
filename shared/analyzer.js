@@ -7,6 +7,7 @@ function el(t, c, h){ var e = document.createElement(t); if(c) e.className = c; 
 function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
 function get(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(e){ return d; } }
 function put(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function pr(a){ return a[0] === a[1] ? a[0] : a[0] + '<br><span class="vi">' + a[1] + '</span>'; }
 function bi(en, vi){ return '<span class="l-en">' + en + '</span> <span class="l-sep">·</span> <span class="l-vi">' + vi + '</span>'; }
 function math(node){ if(window.renderMathInElement) renderMathInElement(node, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false}); }
 
@@ -48,7 +49,7 @@ function init(root, data, concepts){
       var s = A.stem(A.norm(w).trim()); return words[s] ? '<mark>' + esc(w) + '</mark>' : esc(w);
     }).join('');
   }
-  function list(items, ordered){ var tag = ordered ? 'ol' : 'ul'; return '<' + tag + '>' + items.map(function(s){ return '<li>' + s[0] + '<br><span class="vi">' + s[1] + '</span></li>'; }).join('') + '</' + tag + '>'; }
+  function list(items, ordered){ var tag = ordered ? 'ol' : 'ul'; return '<' + tag + '>' + items.map(function(s){ return '<li>' + pr(s) + '</li>'; }).join('') + '</' + tag + '>'; }
 
   function card(r, top, best, open){
     var c = r.c, pct = Math.max(4, Math.round(100 * r.score / best));
@@ -61,9 +62,9 @@ function init(root, data, concepts){
     d.innerHTML = '<summary><b>' + (c.hot ? '★ ' : '') + c.name[0] + '</b> <span class="vi">· ' + c.name[1] + '</span> <span class="tag">' + esc(c.label) + ' · ' + esc(c.ch.toUpperCase().replace('C', 'Ch. ')) + '</span>' +
       '<span class="bar"><i style="width:' + pct + '%"></i></span></summary>' +
       '<div class="az-body"><p class="muted">Matched · Khớp: ' + chips + '</p>' +
-      '<p>' + c.defn[0] + '<br><span class="vi">' + c.defn[1] + '</span></p>' +
+      '<p>' + pr(c.defn) + '</p>' +
       (c.out ? '' :
-        '<h4>Formulas · Công thức</h4><p>' + c.facts[0] + '<br><span class="vi">' + c.facts[1] + '</span></p>' +
+        '<h4>Formulas · Công thức</h4><p>' + pr(c.facts) + '</p>' +
         (c.steps.length ? '<h4>Steps · Các bước</h4>' + list(c.steps, true) : '') +
         (c.traps.length ? '<h4>Traps · Bẫy hay gặp</h4>' + list(c.traps, false) : '') +
         (c.angles.length ? '<h4>How it is asked · Cách ra đề</h4>' + list(c.angles, false) : '') +
@@ -116,7 +117,7 @@ function init(root, data, concepts){
     var kinds = A.kinds(text);
     var banner = el('div', 'callout ' + (res.status === 'ok' ? 'good' : 'bad'));
     if(res.status === 'ok') banner.innerHTML = '<b>' + bi('Matched the catalogue', 'Khớp với hệ khái niệm') + '</b> — best: <b>' + res.results[0].c.name[0] + '</b> (' + esc(res.results[0].c.label) + ')';
-    else if(res.status === 'out') banner.innerHTML = '<b>⚠ ' + bi('Probably outside the taught scope', 'Có thể nằm ngoài phạm vi môn học') + '</b> — it looks like <b>' + res.results.filter(function(r){ return r.c.out; })[0].c.name[0] + '</b>: ' + res.results.filter(function(r){ return r.c.out; })[0].c.defn[0] + ' <br><span class="vi">' + res.results.filter(function(r){ return r.c.out; })[0].c.defn[1] + '</span>';
+    else if(res.status === 'out') banner.innerHTML = '<b>⚠ ' + bi('Probably outside the taught scope', 'Có thể nằm ngoài phạm vi môn học') + '</b> — it looks like <b>' + res.results.filter(function(r){ return r.c.out; })[0].c.name[0] + '</b>: ' + pr(res.results.filter(function(r){ return r.c.out; })[0].c.defn);
     else banner.innerHTML = '<b>⚠ ' + bi('No concept matched: outside the catalogue', 'Không khớp khái niệm nào: ngoài hệ khái niệm') + '</b> — either the question is outside the course or the keyword system lacks its words. Use “Teach the system” below.';
     out.appendChild(banner);
     var qb = el('div', 'az-question'); qb.innerHTML = highlight(text, res.results.reduce(function(a, r){ return a.concat(r.hits); }, []));

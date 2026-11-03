@@ -7,7 +7,8 @@ function el(t, c, h){ var e = document.createElement(t); if(c) e.className = c; 
 function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 function norm(s){ return window.Analyzer.norm(s); }
 function math(node){ if(window.renderMathInElement) renderMathInElement(node, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false}); }
-function list(items, ordered){ var tag = ordered ? 'ol' : 'ul'; return '<' + tag + '>' + items.map(function(s){ return '<li>' + s[0] + ' <span class="vi">· ' + s[1] + '</span></li>'; }).join('') + '</' + tag + '>'; }
+function pr(a){ return a[0] === a[1] ? a[0] : a[0] + '<br><span class="vi">' + a[1] + '</span>'; }
+function list(items, ordered){ var tag = ordered ? 'ol' : 'ul'; return '<' + tag + '>' + items.map(function(s){ return '<li>' + (s[0] === s[1] ? s[0] : s[0] + ' <span class="vi">· ' + s[1] + '</span>') + '</li>'; }).join('') + '</' + tag + '>'; }
 
 /* ---------------------------------------------------------------- browse tab */
 function browse(pane){
@@ -35,8 +36,8 @@ function browse(pane){
     d.innerHTML = '<label style="float:right"><input type="checkbox" data-id="' + c.id + '"' + (sel[c.id] ? ' checked' : '') + '> add to brief</label>' +
       '<h3>' + (c.hot ? '★ ' : '') + c.name[0] + ' <span class="vi">· ' + c.name[1] + '</span></h3>' +
       '<div class="meta"><span class="tag">' + esc(c.label) + '</span><span class="tag">' + esc(c.chapter) + '</span><span class="tag">questions: <b class="cf-n ' + cls + '">' + c.n + '</b>' + (lv ? ' (' + lv + ')' : '') + '</span><span class="tag">keywords: ' + (c.kw.split(',').length + (c.kwv ? c.kwv.split(',').length : 0)) + '</span></div>' +
-      '<p>' + c.defn[0] + '<br><span class="vi">' + c.defn[1] + '</span></p>' +
-      '<p><b>Formulas · Công thức:</b> ' + c.facts[0] + '<br><span class="vi">' + c.facts[1] + '</span></p>' +
+      '<p>' + pr(c.defn) + '</p>' +
+      '<p><b>Formulas · Công thức:</b> ' + pr(c.facts) + '</p>' +
       (c.steps.length ? '<details><summary><b>Steps · Các bước</b></summary>' + list(c.steps, true) + '</details>' : '') +
       (c.traps.length ? '<details><summary><b>Traps · Bẫy</b></summary>' + list(c.traps, false) + '</details>' : '') +
       '<details><summary><b>How it is asked · Cách ra đề</b></summary>' + list(c.angles, false) + '</details>' +

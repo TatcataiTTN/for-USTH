@@ -67,7 +67,7 @@ def check_page(d, course, lid, mobile):
     ok(d.execute_script("return document.querySelectorAll('.katex').length") > 0, "%s: no formula rendered" % tag)
     ids = d.execute_script("return [].map.call(document.querySelectorAll('.tocgrid a'),function(a){return a.getAttribute('href').slice(1)})")
     ok(len(ids) == n and all(d.execute_script("return !!document.getElementById(arguments[0])", i) for i in ids), "%s: slide list does not match the cards" % tag)
-    ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), "%s: horizontal overflow" % tag)
+    ok(d.execute_script("return document.documentElement.scrollWidth<=document.documentElement.clientWidth+1"), "%s: horizontal overflow" % tag)
     errs = [m for m in d.get_log("browser") if m["level"] == "SEVERE"]
     ok(not errs, "%s: console errors %s" % (tag, [m["message"][:120] for m in errs[:2]]))
     # language switch: both languages by default, one at a time on request, remembered after a reload
@@ -108,7 +108,7 @@ for course in [c for c in ("Calculus-1", "Linear-Algebra") if not os.environ.get
             load(d, BASE + "%s/lectures/index.html" % course)
             links = d.execute_script("return [].map.call(document.querySelectorAll('.card[href]'),function(a){return a.getAttribute('href')})")
             ok(sorted(l[:-5] for l in links) == listed, "%s index lists %s but the pages are %s" % (course, links, listed))
-            ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), "%s index overflows" % course)
+            ok(d.execute_script("return document.documentElement.scrollWidth<=document.documentElement.clientWidth+1"), "%s index overflows" % course)
             ok(d.execute_script("return [].some.call(document.querySelectorAll('nav a'),function(a){return a.textContent==='Lectures'})"), "%s nav has no Lectures link" % course)
             for lid in pages:
                 n = check_page(d, course, lid, mobile)

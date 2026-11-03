@@ -43,7 +43,7 @@ for course, ids_ in SETS.items():
         d.get(BASE + C + "index.html"); time.sleep(1.2)
         ok(d.execute_script("return document.querySelectorAll('.card[href]').length") == len(ids_), tag + " index: %d set cards" % len(ids_))
         ok(d.execute_script("return document.querySelectorAll('.katex-error').length") == 0, tag + " index KaTeX errors")
-        ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), tag + " index overflow")
+        ok(d.execute_script("return document.documentElement.scrollWidth<=document.documentElement.clientWidth+1"), tag + " index overflow")
         ok(d.execute_script("return [].some.call(document.querySelectorAll('nav a'),function(a){return a.textContent==='Moodle review'})"), tag + " nav has Moodle review")
         for cid in ids_:
             url = BASE + C + cid + ".html"; d.get(url); time.sleep(1.8); t = "%s %s" % (tag, cid)
@@ -53,7 +53,7 @@ for course, ids_ in SETS.items():
             ok(d.execute_script("return document.querySelectorAll('.katex').length") > 20, t + ": formulas not rendered")
             ids = d.execute_script("return [].map.call(document.querySelectorAll('.tocgrid a'),function(a){return a.getAttribute('href').slice(1)})")
             ok(len(ids) == n and all(d.execute_script("return !!document.getElementById(arguments[0])", i) for i in ids), t + ": list does not match cards")
-            ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), t + ": page overflows")
+            ok(d.execute_script("return document.documentElement.scrollWidth<=document.documentElement.clientWidth+1"), t + ": page overflows")
             bad = d.execute_script("return [].filter.call(document.querySelectorAll('.mq .sc,.mqq,.mqkey'),function(e){return e.scrollWidth>e.clientWidth+2&&getComputedStyle(e).overflowX==='visible'}).length")
             ok(bad == 0, t + ": %d clipped boxes" % bad)
             errs = [m for m in d.get_log("browser") if m["level"] == "SEVERE"]
