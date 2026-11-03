@@ -358,7 +358,9 @@ def root_index():
 <p class="lead">Unofficial study systems built from the course documents: quizzes per chapter, mock midterms and finals, a 30-questions-in-20-minutes speed exam, a verified practice bank, slides and interactive tools.</p>
 <h2>Mathematics</h2>
 <div class="cards">%s</div>
-%s<p class="muted">The Vietnamese versions will be added as separate sites. Everything runs in your browser; progress stays on your device.</p></main></body></html>""" % (cards(MATHS), physblock)
+%s<h2>Tools</h2>
+<div class="cards"><a class="card" href="concepts/index.html"><b>🔎 Concept finder · Tra cứu khái niệm</b><span>Every concept of every course: definition, key facts, how exams ask it, and how many practice questions cover it.</span></a></div>
+<p class="muted">The Vietnamese versions will be added as separate sites. Everything runs in your browser; progress stays on your device.</p></main></body></html>""" % (cards(MATHS), physblock)
     write("index.html", html_)
 
 def available_courses():
@@ -406,6 +408,9 @@ def main():
         if "moodle" in h: print(course, "moodle review: %d questions solved, %d practice variants checked" % moodle_pages.build(course, h))
         if "written" in h: write(course + "/written/index.html", written_hub(course)); write(course + "/written/paper.html", written_paper(course))
     root_index()
+    import concepts_page
+    ncon, rep = concepts_page.build(set(courses))
+    print('concept finder: %d concepts' % ncon); [print('  note:', r) for r in rep]
     print("pages written for", ", ".join(courses), "| sections:", {c: sorted(HAVE_BY_COURSE[c]) for c in courses if c in PHYSICS})
 
 if __name__ == "__main__":

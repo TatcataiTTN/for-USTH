@@ -51,6 +51,7 @@ function init(bank, meta){
   fillTopics();
   var qp = new URLSearchParams(location.search);
   if(qp.get('ch')){ S.ch = qp.get('ch'); selCh.value = S.ch; fillTopics(); }
+  if(qp.get('topic')){ var tp = qp.get('topic'); if([].some.call(selTopic.options, function(o){ return o.value === tp; })){ S.topic = tp; selTopic.value = tp; } }
   if(qp.get('written') === '1'){ S.written = true; c2.checked = true; }
   function filtered(){
     qs = U.store.get(U.key(course, 'qstats'), {});
