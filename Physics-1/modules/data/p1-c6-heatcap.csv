@@ -1,0 +1,4 @@
+gas,degrees_of_freedom,Cv_over_R,Cp_over_R,gamma
+monatomic (He),3,1.5,2.5,1.66667
+diatomic (N2),5,2.5,3.5,1.4
+polyatomic (CH4),6,3,4,1.33333

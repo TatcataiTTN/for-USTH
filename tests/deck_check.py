@@ -32,7 +32,7 @@ slides.forEach(function(s,i){
 return out;
 """
 bad = 0; n = 0; sparse = []
-for course in ("Calculus-1", "Linear-Algebra"):
+for course in [c for c in ("Calculus-1", "Linear-Algebra", "Physics-1", "Physics-2") if not os.environ.get("ONLY") or c in os.environ["ONLY"].split(",")]:
     for f in sorted(glob.glob(os.path.join(ROOT, course, "modules", "m*.html"))):
         name = os.path.basename(f)
         d.get(BASE + course + "/modules/" + name); time.sleep(2.2)

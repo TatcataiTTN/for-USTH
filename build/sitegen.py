@@ -31,7 +31,7 @@ COURSES = {
 
 def nav_items(c):
     return [("Home", "index.html", "home"), ("Lectures", "lectures/index.html", "lectures"), ("Moodle review", "moodle/index.html", "moodle"), ("Modules", "modules/index.html", "modules"), ("Chapter quizzes", "quiz/index.html", "quiz"), ("Exams", "exam/index.html", "exam"),
-            ("Practice bank", "bank/index.html", "bank"), ("Written", "written/index.html", "written"), ("Labs", "lab/index.html", "lab"), ("Sources", "sources/index.html", "sources")]
+            ("Practice bank", "bank/index.html", "bank"), ("Analyser", "analyse/index.html", "analyse"), ("Written", "written/index.html", "written"), ("Labs", "lab/index.html", "lab"), ("Sources", "sources/index.html", "sources")]
 
 def head_scripts(r, scripts):
     base = ['vendor/katex/katex.min.js', 'vendor/katex/auto-render.min.js', 'core.js']

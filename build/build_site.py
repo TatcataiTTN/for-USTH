@@ -6,7 +6,7 @@ from sitegen import *
 
 MATHS = ("Calculus-1", "Linear-Algebra")
 PHYSICS = ("Physics-1", "Physics-2")
-HAVE = {"quiz", "exam", "bank", "sources", "lab", "modules", "written"}      # sections of the finished courses
+HAVE = {"quiz", "exam", "bank", "sources", "lab", "modules", "written", "analyse"}      # sections of the finished courses
 HAVE_BY_COURSE = {}                                                         # filled by main(): a new course lists only the sections that exist so far
 
 def hv(course):
@@ -134,6 +134,7 @@ def home(course, nmod):
     cards.append('<a class="card" href="quiz/index.html"><b>📘 Chapter quizzes</b><span>3 sets per chapter, 12 questions each, instant feedback and explanations.</span></a>')
     cards.append('<a class="card" href="exam/index.html"><b>⏱ Mock exams</b><span>%s</span></a>' % examdesc)
     if "written" in have: cards.append('<a class="card" href="written/index.html"><b>✍️ Written practice</b><span>%s</span></a>' % ui["wdesc"])
+    if "analyse" in have: cards.append('<a class="card" href="analyse/index.html"><b>🔎 Question analyser</b><span>Paste any question: the matching concepts with their formulas, solving steps and usual traps; a question that matches nothing is flagged as outside the scope.</span></a>')
     cards.append('<a class="card" href="bank/index.html"><b>🗂 Practice bank</b><span>All %d questions: filter by chapter, topic, level and source; written mode.</span></a>' % nq)
     if "lab" in have: cards.append('<a class="card" href="lab/index.html"><b>🧮 Lab</b><span>%s</span></a>' % ui["labdesc"])
     cards.append('<a class="card" href="sources/index.html"><b>📚 Sources and coverage</b><span>Every document used, textbook map, errors found in the course materials.</span></a>')
@@ -382,7 +383,7 @@ def main():
             mods[key] = []
     courses = available_courses()
     for course in courses:
-        h = {"quiz", "exam", "bank", "sources"}
+        h = {"quiz", "exam", "bank", "sources", "analyse"}
         if mods.get(course): h.add("modules")
         if lecture_pages.any_lectures(course): h.add("lectures")
         if moodle_pages.any_pages(course): h.add("moodle")
@@ -397,6 +398,13 @@ def main():
             if "moodle" in hv(course):
                 print(course, "moodle review: %d questions solved, %d practice variants checked" % moodle_pages.build(course, hv(course)))
         return
+    import phys_plots
+    for course, figmod in (("Physics-1", "phys_figs_p1"), ("Physics-2", "phys_figs_p2")):          # plots and CSV files of the Physics modules: computed and checked here, never typed
+        if course in courses and mods.get(course):
+            __import__(figmod)
+            recs = phys_plots.render(course)
+            write(course + "/modules/figures.json", json.dumps(recs, ensure_ascii=False, separators=(",", ":")))
+            print(course, "figures: %d plots, %d CSV files" % (len(recs), len(recs)))
     for course in courses:
         if mods.get(course):
             build_modules.build(course, mods[course], TEXTBOOKS[course], None, hv(course))
@@ -415,6 +423,7 @@ def main():
     import concepts_page
     ncon, rep = concepts_page.build(set(courses))
     print('concept finder: %d concepts' % ncon); [print('  note:', r) for r in rep]
+    concepts_page.build_course_pages(courses, hv)
     print("pages written for", ", ".join(courses), "| sections:", {c: sorted(HAVE_BY_COURSE[c]) for c in courses if c in PHYSICS})
 
 if __name__ == "__main__":

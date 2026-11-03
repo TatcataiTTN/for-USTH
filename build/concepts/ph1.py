@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Physics I (PHY1.001): kinematics, dynamics, work-energy-momentum, circular motion and rotation, thermodynamics, kinetic theory, entropy."""
-from . import K, O
+from . import K, O, add_traps
 CONCEPTS = [
 # ------------------------------------------------------------------ c1 kinematics
 K("c1","Distance, displacement, speed and velocity | Quãng đường, độ dịch chuyển, tốc độ và vận tốc",
@@ -376,3 +376,17 @@ O("c1","Fluid mechanics | Cơ học chất lưu", "Not in the Physics I syllabus
 O("c1","Universal gravitation and orbits | Hấp dẫn vũ trụ và quỹ đạo", "Not in the Physics I syllabus: only the weight $mg$ is used. | Không có trong chương trình: chỉ dùng trọng lượng $mg$.", "universal gravitation, orbit, satellite orbit, kepler, escape velocity, gravitational constant, planet", "hấp dẫn vũ trụ, quỹ đạo, vệ tinh, kepler, vận tốc vũ trụ, hằng số hấp dẫn, hành tinh"),
 O("c1","Special relativity | Thuyết tương đối hẹp", "Not in the Physics I syllabus. | Không có trong chương trình.", "relativity, lorentz factor, time dilation, length contraction, speed of light frame", "tương đối, giãn thời gian, co độ dài"),
 ]
+
+# exam tips from the Learning Support summaries of Physics I (midterm and final), added to the concepts they belong to
+LS = "Learning Support tip: "
+add_traps(CONCEPTS, {
+    "Weight, normal force and apparent weight": [LS + "in Physics I the only gravitational force you compute is the weight $mg$ ($g=9.81\\,\\mathrm{m/s^2}$); the normal force is the perpendicular contact force, so on an incline it equals the perpendicular component of the weight when nothing else pushes or pulls across the surface. | Mẹo của Learning Support: trong Lý 1 chỉ tính trọng lực $mg$ ($g=9{,}81\\,\\mathrm{m/s^2}$); phản lực là lực tiếp xúc vuông góc nên trên mặt nghiêng nó bằng thành phần vuông góc của trọng lực khi không còn lực nào khác kéo hay đẩy vuông góc mặt."],
+    "Friction": [LS + "unless the statement says frictionless, include kinetic friction $\\mu_kN$; static friction mostly appears in theory questions. | Mẹo của Learning Support: trừ khi đề ghi không ma sát, luôn tính ma sát trượt $\\mu_kN$; ma sát nghỉ chủ yếu xuất hiện ở câu lý thuyết."],
+    "Spring force (Hooke's law)": [LS + "if the question asks for the magnitude of the spring force, give the positive value $kx$ (absolute value), not the signed $-kx$. | Mẹo của Learning Support: nếu đề hỏi độ lớn của lực lò xo thì lấy giá trị dương $kx$ (trị tuyệt đối), không lấy $-kx$ có dấu."],
+    "Collisions and conservation of momentum": [LS + "total momentum is conserved in every collision; kinetic energy only when the collision is elastic. | Mẹo của Learning Support: động lượng toàn phần luôn bảo toàn trong mọi va chạm; động năng chỉ bảo toàn khi va chạm đàn hồi."],
+    "Temperature scales and the zeroth law": [LS + "convert to kelvin ($T_K=T_C+273.15$) whenever the temperature enters a gas-law formula; a temperature difference is the same in K and in $^\\circ$C. | Mẹo của Learning Support: đổi sang kelvin ($T_K=T_C+273{,}15$) mỗi khi nhiệt độ nằm trong công thức khí; hiệu nhiệt độ như nhau theo K và $^\\circ$C."],
+    "Thermal expansion": [LS + "$\\Delta T(\\mathrm K)=\\Delta T(^\\circ\\mathrm C)$, so $\\Delta L=\\alpha L\\,\\Delta T$ works with either; every material has its own $\\alpha$. | Mẹo của Learning Support: $\\Delta T(\\mathrm K)=\\Delta T(^\\circ\\mathrm C)$ nên $\\Delta L=\\alpha L\\,\\Delta T$ dùng được với cả hai; mỗi chất có $\\alpha$ riêng."],
+    "Heat capacity, specific heat and calorimetry": [LS + "specific heat appears in J/(kg K) or cal/(g K); convert calories to joules (1 cal = 4.186 J) before mixing data. | Mẹo của Learning Support: nhiệt dung riêng có thể cho theo J/(kg K) hoặc cal/(g K); đổi calo sang jun (1 cal = 4,186 J) trước khi trộn số liệu."],
+    "Latent heat and phase changes": [LS + "latent heat is only the heat of a change of phase; when a body merely warms up or cools down, use $Q=mc\\Delta T$, not $mL$. | Mẹo của Learning Support: nhiệt ẩn chỉ là nhiệt khi đổi trạng thái; khi vật chỉ nóng lên hay lạnh đi, dùng $Q=mc\\Delta T$, không dùng $mL$."],
+    "First law of thermodynamics": [LS + "read the words absorbed and released: $Q>0$ when the system absorbs heat, $Q<0$ when it releases heat; $W>0$ when the system does the work. | Mẹo của Learning Support: chú ý chữ absorbed và released: $Q>0$ khi hệ nhận nhiệt, $Q<0$ khi hệ tỏa nhiệt; $W>0$ khi hệ sinh công."],
+})

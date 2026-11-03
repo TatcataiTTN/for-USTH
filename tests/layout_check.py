@@ -34,7 +34,7 @@ for course in [c for c in ("Calculus-1", "Linear-Algebra", "Physics-1", "Physics
     if os.path.exists(os.path.join(ROOT, course, "lab", "index.html")): pages.append("lab/index.html")
     lecs = sorted(glob.glob(os.path.join(ROOT, course, "lectures", "L*.html")))
     if lecs: pages += ["lectures/index.html"] + ["lectures/%s" % os.path.basename(p) for p in (lecs[0], lecs[-1])]
-    pages.append("sources/index.html")
+    pages += ["analyse/index.html", "sources/index.html"]
     PAGES[course + "/"] = pages
 
 from jschecks import CONTRAST_JS, THEME_JS, loading_gone

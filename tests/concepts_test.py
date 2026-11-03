@@ -142,6 +142,33 @@ for mob in (False, True):
         ok(js(d, "return document.querySelectorAll('.cf-pane')[2].style.display==='block'"), t + ": #kw does not open the keyword index")
         errs = [m for m in d.get_log("browser") if m["level"] == "SEVERE"]
         ok(not errs, t + ": console errors %s" % [m["message"][:100] for m in errs[:2]])
+        # ---------------------------------------------------------------- the analyser page inside each course (locked to the course)
+        LABEL = {"Calculus-1": "Calculus I", "Linear-Algebra": "Linear Algebra", "Physics-1": "Physics I", "Physics-2": "Physics II"}
+        for course, label in LABEL.items():
+            d.get(BASE + course + "/analyse/index.html"); time.sleep(2)
+            n_in = sum(1 for c in IN_SCOPE if c["course"] == course)
+            ok(js(d, "return document.querySelectorAll('.cf-tabs button').length") == 3, "%s %s: tabs missing" % (t, course))
+            ok(js(d, "var s=document.getElementById('az-course');return !!s&&s.value===arguments[0]&&getComputedStyle(s).display==='none'", course), "%s %s: course selector should be locked and hidden" % (t, course))
+            n_ex = js(d, "return document.getElementById('az-ex').options.length") - 1
+            ok(n_ex >= 2, "%s %s: only %d examples" % (t, course, n_ex))
+            r = example(d, 0)
+            ok("good" in r["cls"] and ("(" + label + ")") in r["txt"], "%s %s: example 0 should match a %s concept, got %r" % (t, course, label, r["txt"][:100]))
+            r = analyse(d, UNMATCHED, course)
+            ok("bad" in r["cls"], "%s %s: an unrelated question should be flagged here too: %r" % (t, course, r["txt"][:80]))
+            tab(d, "br")
+            ok(js(d, "return document.querySelectorAll('.cf-card').length") == n_in, "%s %s: expected %d concept cards, got %d" % (t, course, n_in, js(d, "return document.querySelectorAll('.cf-card').length")))
+            ok(js(d, "return [].every.call(document.querySelectorAll('.cf-card .meta .tag:first-child'),function(x){return x.textContent==='%s'})" % label), "%s %s: a card of another course appeared" % (t, course))
+            ok(js(d, "return [].every.call(document.querySelectorAll('.cf-pane')[1].querySelectorAll('.cf-bar select'),function(sel){return [].every.call(sel.options,function(o){return !/^(Calculus-1|Linear-Algebra|Physics-1|Physics-2)$/.test(o.value)})})"), "%s %s: the browse filters should not offer other courses" % (t, course))
+            href = js(d, "var a=document.querySelector('.cf-card a.tag');return a&&a.getAttribute('href')")
+            ok(href and status(BASE + course + "/analyse/" + href.split("?")[0]) == 200, "%s %s: bank link broken %s" % (t, course, href))
+            tab(d, "kw")
+            rows = js(d, "return document.querySelectorAll('.kwrow').length")
+            ok(rows >= 100, "%s %s: keyword index has only %d rows" % (t, course, rows))
+            ok(js(d, "return [].every.call(document.querySelectorAll('.kwrow .tag'),function(x){return x.textContent.indexOf('%s · ')===0})" % label), "%s %s: keyword index shows another course" % (t, course))
+            ok(js(d, "return document.documentElement.scrollWidth<=document.documentElement.clientWidth+1"), "%s %s: analyser page overflows" % (t, course))
+            ok(js(d, "return document.querySelectorAll('.katex-error').length") == 0, "%s %s: KaTeX errors" % (t, course))
+            errs = [m for m in d.get_log("browser") if m["level"] == "SEVERE"]
+            ok(not errs, "%s %s: console errors %s" % (t, course, [m["message"][:100] for m in errs[:2]]))
         # bank deep link
         d.get(BASE + "Linear-Algebra/bank/index.html?ch=c3&topic=Adjugate"); time.sleep(1.5)
         ok(js(d, "return document.querySelectorAll('#bank .qcard, #bank .q').length>0 || document.body.innerText.indexOf('Adjugate')>=0"), t + ": bank deep link")

@@ -2,6 +2,7 @@
 (function(){
 'use strict';
 var root = document.getElementById('concepts'); if(!root) return;
+var FIXED = root.getAttribute('data-course') || '', BASE = root.getAttribute('data-base') || '';
 var S = {q: '', course: 'all', ch: 'all', sort: 'name', hot: false}, data = [], COURSES = {}, sel = {};
 function el(t, c, h){ var e = document.createElement(t); if(c) e.className = c; if(h != null) e.innerHTML = h; return e; }
 function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
@@ -17,7 +18,7 @@ function browse(pane){
   var search = el('input'); search.type = 'search'; search.placeholder = 'Search a concept, formula or word (EN / VI) · Tìm khái niệm…';
   var selC = el('select'), selCh = el('select'), selSort = el('select'), bHot = el('button', null, '★ Seen in exams'); bHot.type = 'button';
   selSort.innerHTML = '<option value="name">Sort: A–Z</option><option value="gap">Sort: fewest questions first</option><option value="most">Sort: most questions first</option>';
-  [search, selC, selCh, selSort, bHot].forEach(function(x){ bar.appendChild(x); });
+  (FIXED ? [search, selCh, selSort, bHot] : [search, selC, selCh, selSort, bHot]).forEach(function(x){ bar.appendChild(x); });
   [bar, cov, lst, tray].forEach(function(x){ pane.appendChild(x); });
   function matches(c){
     if(S.course !== 'all' && c.course !== S.course) return false;
@@ -28,7 +29,7 @@ function browse(pane){
   }
   function link(c){
     if(!c.live) return '<span class="muted">bank not published yet · chưa đăng ngân hàng câu hỏi</span>';
-    return c.topics.map(function(t){ return '<a class="tag" href="../' + c.course + '/bank/index.html?ch=' + c.ch + '&topic=' + encodeURIComponent(t) + '">' + esc(t) + '</a>'; }).join('');
+    return c.topics.map(function(t){ return '<a class="tag" href="' + (BASE || ('../' + c.course + '/')) + 'bank/index.html?ch=' + c.ch + '&topic=' + encodeURIComponent(t) + '">' + esc(t) + '</a>'; }).join('');
   }
   function card(c){
     var d = el('div', 'cf-card'), cls = c.n < 8 ? 'low' : (c.n < 20 ? 'mid' : 'ok');
@@ -95,7 +96,7 @@ function kwindex(pane){
   var search = el('input'); search.type = 'search'; search.placeholder = 'Filter keywords · Lọc từ khóa…';
   var selC = el('select'); selC.innerHTML = '<option value="all">All courses</option>';
   var seen = {}; data.forEach(function(c){ if(!seen[c.course]){ seen[c.course] = 1; var o = el('option', null, esc(c.label)); o.value = c.course; selC.appendChild(o); } });
-  bar.appendChild(search); bar.appendChild(selC); pane.appendChild(bar); pane.appendChild(el('p', 'muted', 'Every hand-written keyword of the system and the concepts it leads to. A question whose words are not here (nor mined from the banks) will not match. · Mọi từ khóa viết tay của hệ thống và các khái niệm chúng dẫn tới.')); pane.appendChild(lst);
+  bar.appendChild(search); if(!FIXED) bar.appendChild(selC); pane.appendChild(bar); pane.appendChild(el('p', 'muted', 'Every hand-written keyword of the system and the concepts it leads to. A question whose words are not here (nor mined from the banks) will not match. · Mọi từ khóa viết tay của hệ thống và các khái niệm chúng dẫn tới.')); pane.appendChild(lst);
   var idx = {};
   data.forEach(function(c){
     (c.kw + ',' + (c.kwv || '') + ',' + (c.units || '').replace(/\s*\|\s*/g, ',')).split(/[,;]/).forEach(function(k){
@@ -130,8 +131,8 @@ tabs.addEventListener('click', function(e){
   try{ history.replaceState(null, '', '#' + t); }catch(err){}
 });
 fetch(root.getAttribute('data-src')).then(function(r){ return r.json(); }).then(function(d){
-  COURSES = d.courses; data = d.concepts; root.innerHTML = ''; root.appendChild(shell);
-  window.CFAnalyze.init(panes.az, d, data); browse(panes.br); kwindex(panes.kw);
+  COURSES = d.courses; data = FIXED ? d.concepts.filter(function(c){ return c.course === FIXED; }) : d.concepts; root.innerHTML = ''; root.appendChild(shell);
+  window.CFAnalyze.init(panes.az, d, d.concepts, {course: FIXED, base: BASE}); browse(panes.br); kwindex(panes.kw);
   var h = (location.hash || '').slice(1); if(panes[h]){ tabs.querySelector('[data-tab=' + h + ']').click(); }
 }).catch(function(e){ root.innerHTML = '<p class="muted">Could not load the concepts (' + esc(e) + ').</p>'; });
 })();

@@ -76,3 +76,15 @@ def build(live):
 <script src="../shared/vendor/katex/katex.min.js"></script><script src="../shared/vendor/katex/auto-render.min.js"></script><script src="../shared/core.js"></script><script src="../shared/analyzer-core.js"></script><script src="../shared/analyzer.js"></script><script src="../shared/concepts.js"></script></body></html>""" % body
     write("concepts/index.html", html_)
     return len(out), report
+
+
+def build_course_pages(courses, hv):
+    """One Question analyser page per course, locked to that course (the global page /concepts/ still covers all courses)."""
+    for course in courses:
+        name = COURSES[course]["name"]
+        body = ('<h1>Question analyser · %s</h1>'
+                '<p class="lead">Paste a question from this course: the keyword system finds the concepts it needs and shows the formulas, the steps and the usual traps; a question that matches nothing is flagged as outside the catalogue so that keywords can be added. '
+                '<span class="muted">Dán một câu hỏi của môn này: hệ từ khóa tìm các khái niệm cần dùng, hiện công thức, các bước và bẫy hay gặp; câu không khớp khái niệm nào được đánh dấu là ngoài phạm vi.</span></p>'
+                '<div id="concepts" data-src="../../concepts/data.json" data-course="%s" data-base="../"><p class="muted">Loading…</p></div>') % (esc(name), course)
+        write(course + "/analyse/index.html", page(course, "Question analyser", body, 1, "analyse", scripts=["analyzer-core.js", "analyzer.js", "concepts.js"], css=["concepts.css"], have=hv(course),
+                                                    desc="Paste a %s question: matching concepts, formulas, steps and usual traps." % name))

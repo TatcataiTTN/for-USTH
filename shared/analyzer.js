@@ -23,8 +23,9 @@ var EXAMPLES = [
   ['Physics-2', 'A diffraction pattern is obtained with a straight edge; find the position of the first maximum.']
 ];
 
-function init(root, data, concepts){
-  var A = window.Analyzer;
+function init(root, data, concepts, opts){
+  opts = opts || {};
+  var A = window.Analyzer, EX = opts.course ? EXAMPLES.filter(function(e){ return e[0] === opts.course; }) : EXAMPLES;
   var custom = get(KW_KEY, {}), outs = get(OUT_KEY, []);
   var model = A.compile(concepts, custom);
   var byId = {}; concepts.forEach(function(c){ byId[c.id] = c; });
@@ -38,7 +39,8 @@ function init(root, data, concepts){
   var labels = {};
   concepts.forEach(function(c){ labels[c.course] = c.label; });
   Object.keys(labels).forEach(function(k){ var o = el('option', null, esc(labels[k])); o.value = k; box.querySelector('#az-course').appendChild(o); });
-  EXAMPLES.forEach(function(e, i){ var o = el('option', null, esc(labels[e[0]] + ': ' + e[1].slice(0, 60) + '…')); o.value = i; box.querySelector('#az-ex').appendChild(o); });
+  EX.forEach(function(e, i){ var o = el('option', null, esc((opts.course ? '' : labels[e[0]] + ': ') + e[1].slice(0, 60) + '…')); o.value = i; box.querySelector('#az-ex').appendChild(o); });
+  if(opts.course){ box.querySelector('#az-course').value = opts.course; box.querySelector('#az-course').style.display = 'none'; }
   var q = box.querySelector('#az-q'), courseSel = box.querySelector('#az-course'), out = box.querySelector('#az-out');
 
   function highlight(text, hits){
@@ -55,7 +57,7 @@ function init(root, data, concepts){
     var c = r.c, pct = Math.max(4, Math.round(100 * r.score / best));
     var chips = r.hits.filter(function(h){ return !h.auto; }).slice(0, 8).map(function(h){ return '<span class="tag">' + esc(h.raw.replace(/^~/, '')) + '</span>'; }).join('') +
                 r.hits.filter(function(h){ return h.auto; }).slice(0, 4).map(function(h){ return '<span class="tag auto" title="learned from the practice bank">' + esc(h.raw) + '</span>'; }).join('');
-    var link = c.live && c.topics.length ? c.topics.slice(0, 3).map(function(t){ return '<a class="tag" href="../' + c.course + '/bank/index.html?ch=' + c.ch + '&topic=' + encodeURIComponent(t) + '">' + esc(t) + '</a>'; }).join('') : (c.topics.length ? '<span class="muted">bank not published</span>' : '');
+    var link = c.live && c.topics.length ? c.topics.slice(0, 3).map(function(t){ return '<a class="tag" href="' + (opts.base || ('../' + c.course + '/')) + 'bank/index.html?ch=' + c.ch + '&topic=' + encodeURIComponent(t) + '">' + esc(t) + '</a>'; }).join('') : (c.topics.length ? '<span class="muted">bank not published</span>' : '');
     var rel = (c.related || []).map(function(id){ return byId[id] ? byId[id].name[0] : null; }).filter(Boolean).join(' · ');
     var d = el('details', 'az-card' + (c.out ? ' outc' : ''));
     if(open) d.open = true;
@@ -148,7 +150,7 @@ function init(root, data, concepts){
 
   box.querySelector('#az-go').onclick = function(){ run(); };
   box.querySelector('#az-clear').onclick = function(){ q.value = ''; run(); };
-  box.querySelector('#az-ex').onchange = function(){ var i = this.value; if(i === '') return; q.value = EXAMPLES[i][1]; courseSel.value = EXAMPLES[i][0]; run(); this.value = ''; };
+  box.querySelector('#az-ex').onchange = function(){ var i = this.value; if(i === '') return; q.value = EX[i][1]; courseSel.value = EX[i][0]; run(); this.value = ''; };
   q.addEventListener('keydown', function(e){ if((e.ctrlKey || e.metaKey) && e.key === 'Enter') run(); });
   courseSel.onchange = function(){ if(q.value.trim()) run(); };
   run();

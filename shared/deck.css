@@ -56,3 +56,6 @@
 .mdeck .mdeck-slide .callout .lbl{color:#273896!important}.mdeck .mdeck-slide .callout.warn .lbl{color:#ED1C24!important}
 .mdeck .mdeck-slide b,.mdeck .mdeck-slide strong{color:#ED1C24!important}
 .mdeck .mdeck-slide.divider b{color:#fff!important}
+
+.mdeck-slide .figslide{text-align:center}.mdeck-slide .figslide img{display:block;margin:0 auto;max-width:96%;max-height:392px;width:auto;height:auto;background:#fff}
+.mdeck-slide .figslide .figcap{font-size:21px;line-height:1.3;margin:6px 24px 2px;text-align:left}.mdeck-slide .figslide .formula{font-size:21px;margin:2px 0}

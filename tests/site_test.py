@@ -59,7 +59,7 @@ for course in TEST_COURSES:
     bank = json.load(open(os.path.join(ROOT, course, "data", "bank.json"), encoding="utf-8"))
     d.get(BASE + "index.html"); d.execute_script("localStorage.clear(); " + auth.SET_JS)
     # plain pages
-    pages = ["index.html", "quiz/index.html", "exam/index.html", "bank/index.html", "sources/index.html"]
+    pages = ["index.html", "quiz/index.html", "exam/index.html", "bank/index.html", "analyse/index.html", "sources/index.html"]
     for extra in ("modules/index.html", "written/index.html", "lab/index.html"):
         if os.path.exists(os.path.join(ROOT, course, extra)):
             pages.append(extra)

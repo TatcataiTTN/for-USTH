@@ -32,3 +32,12 @@ def augment(concepts, aug):
             else:
                 c[k] = v
     return concepts
+
+def add_traps(concepts, extra):
+    """Append extra "EN | VI" trap lines (for example exam tips taken from a source document) to existing concepts, found by their English name."""
+    byname = {c["name"][0]: c for c in concepts}
+    for name, items in extra.items():
+        if name not in byname:
+            raise SystemExit("add_traps: unknown concept %r" % name)
+        byname[name]["traps"] += [P(x) for x in items]
+    return concepts
