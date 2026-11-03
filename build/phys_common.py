@@ -150,3 +150,21 @@ def steps(*lines):
 def ex(*lines):
     """Explanation text: plain lines."""
     return "\n".join(lines)
+
+
+def lint_bank(B):
+    """Fail on text that would render wrongly: control characters (a LaTeX backslash written in a non-raw string, e.g. \\tfrac -> TAB),
+    unbalanced $ signs, empty options, or an answer index outside the options."""
+    problems = []
+    for q in B.items:
+        texts = [q["q"], q["explain"]] + list(q["opts"])
+        for t in texts:
+            if any(ord(ch) < 32 and ch != "\n" for ch in t):
+                problems.append((q["id"], "control character", t[:60]))
+            if t.count("$") % 2:
+                problems.append((q["id"], "unbalanced $", t[:60]))
+        if any(not o.strip() for o in q["opts"]) or not (0 <= q["correct"] < len(q["opts"])):
+            problems.append((q["id"], "bad options", ""))
+    if problems:
+        raise AssertionError("bank lint failed: %r" % (problems[:5],))
+    return len(B.items)

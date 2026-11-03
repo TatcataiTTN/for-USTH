@@ -12,6 +12,7 @@ def build():
 if __name__ == "__main__":
     import phys_common
     B = build()
+    phys_common.lint_bank(B)
     print(B.finalize())
     from collections import Counter
     print(sorted(Counter(i["ch"] for i in B.items).items()))

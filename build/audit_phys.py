@@ -6,7 +6,7 @@ import json, os, re, sys
 from decimal import Decimal, ROUND_HALF_UP
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-OPT = re.compile(r"^\$(-?\d+(?:\.\d+)?)(?:\\times10\^\{(-?\d+)\})?(?=\\|\s|\$|\^)")
+OPT = re.compile(r"^\$(-?\d+(?:\.\d+)?)(?:\\times10\^\{(-?\d+)\})?(?:\\,\\mathrm\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\^\\circ|\\%)?\$$")
 TOKEN = re.compile(r"(-?\d+(?:\.\d+)?)(?:\s*\\times\s*10\^\{?(-?\d+)\}?)?")
 
 def sig_digits(mant):
@@ -48,7 +48,7 @@ def audit(course):
             T, nT = value(t.group(1), t.group(2)), sig_digits(t.group(1))
             if nT == 1 and nA > 1 and T != A:
                 continue                               # a lone digit is too weak a match
-            if consistent(A, nA, T, nT):
+            if consistent(abs(A), nA, abs(T), nT):
                 found = True
                 break
         if not found:

@@ -63,10 +63,10 @@ def main():
     if gen_ph2:
         B2 = gen_ph2.build(); r2 = B2.finalize()
         print("PH2", r2)
-        q2 = {"c1": 4, "c2": 5, "c3": 4, "c4": 4, "c5": 3}
+        q2 = {"c1": 3, "c2": 4, "c3": 3, "c4": 3, "c5": 4, "c6": 3}
         s2 = {"c1": 2, "c2": 3, "c3": 3, "c4": 3, "c5": 3, "c6": 3, "c7": 3, "c8": 3, "c9": 3, "c10": 2, "c11": 2}
-        f2 = {"c1": 2, "c2": 3, "c3": 3, "c4": 3, "c5": 4, "c6": 5, "c7": 5, "c8": 3, "c9": 5, "c10": 4, "c11": 3}
-        t2 = "Fundamental Physics II Midterm (Electricity and Magnetism, 20 questions, 40 min)"
+        f2 = {"c1": 1, "c2": 2, "c3": 2, "c4": 2, "c5": 4, "c6": 5, "c7": 6, "c8": 3, "c9": 6, "c10": 5, "c11": 4}
+        t2 = "Fundamental Physics II Midterm (Ch. 1–6, 20 questions, 40 min)"
         ft2 = "Fundamental Physics II Final (40 questions, 80 min)"
         sets2 = build_course("Physics-2", B2, PH2_CHAPTERS, q2, t2, 32, mid_min=40, sprint_quota=s2, final_quota=f2, final_title="Fundamental Physics II Final", final_min=80)
         meta2 = dict(midterm_quota=q2, midterm_minutes=40, midterm_title=t2, sprint_quota=s2, final_quota=f2, final_minutes=80, final_title=ft2, calc_note=CALC_NOTE)
