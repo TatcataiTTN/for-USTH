@@ -41,6 +41,9 @@ def main():
     import gen_ph1
     B1 = gen_ph1.build(); r1 = B1.finalize()
     print("PH1", r1)
+    import gen_ph1_d                                                    # questions for the concepts the Concept finder reported as thin: own bank, own ids ('g'), tag 'gap'
+    print("PH1 gap pool", gen_ph1_d.merge(B1, gen_ph1_d.build()))
+    qlib.note("Mechanics gap-fill pool (Concept finder)", "%d generated questions (ids ...-g..., tag gap) cover the topics the Concept finder showed to be thin: vectors, Hooke's law, conservative forces, impulse, connected bodies, apparent weight, motion graphs, thermal expansion, Carnot engines, power and rotation. They are in the practice bank, in the random quizzes and in one Gap-fill set per chapter; the fixed quizzes and mock exams are unchanged." % sum(1 for i in B1.items if "gap" in i.get("tags", [])))
     q1 = {"c1": 5, "c2": 5, "c3": 6, "c4": 4}
     s1 = {"c1": 4, "c2": 4, "c3": 4, "c4": 4, "c5": 4, "c6": 5, "c7": 5}
     f1 = {"c1": 3, "c2": 4, "c3": 5, "c4": 3, "c5": 8, "c6": 10, "c7": 7}
@@ -48,6 +51,12 @@ def main():
     ft1 = "Fundamental Physics I Final (40 questions, 80 min)"
     sets1 = build_course("Physics-1", B1, PH1_CHAPTERS, q1, t1, 31, mid_min=40, sprint_quota=s1, final_quota=f1, final_title="Fundamental Physics I Final", final_min=80)
     meta1 = dict(midterm_quota=q1, midterm_minutes=40, midterm_title=t1, sprint_quota=s1, final_quota=f1, final_minutes=80, final_title=ft1, calc_note=CALC_NOTE)
+    import random as _random
+    for ch, title, _src in PH1_CHAPTERS:                                # one extra quiz per chapter made of the gap-fill questions
+        gids = [i["id"] for i in B1.items if i["ch"] == ch and "gap" in i.get("tags", [])]
+        _random.Random(4100 + int(ch[1:])).shuffle(gids)
+        if len(gids) >= 6:
+            sets1["chapter"][ch].append(dict(id=f"{ch}-G", title=f"{title} · Gap-fill set (new topics)", ids=gids[:12]))
     try:
         from ph1_papers import build_papers as ph1_papers
         pap1 = sanitize_papers(ph1_papers())

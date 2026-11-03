@@ -78,7 +78,7 @@ for course in TEST_COURSES:
             ok(len(d.find_elements(By.CSS_SELECTOR, ".qfig svg")) == want_figs, "%s should show %d figures" % (s["id"], want_figs))
             n = click_all_questions()
             ok(n == len(s["ids"]), "%s should show %d questions, shows %d" % (s["id"], len(s["ids"]), n))
-            ok(len(s["ids"]) == 12 or s["id"].endswith("-H"), "%s: only a Hard set may be shorter than 12 (has %d)" % (s["id"], len(s["ids"])))
+            ok(len(s["ids"]) == 12 or s["id"].endswith(("-H", "-G")), "%s: only a Hard or Gap-fill set may be shorter than 12 (has %d)" % (s["id"], len(s["ids"])))
             shown = len(d.find_elements(By.CSS_SELECTOR, ".explain.show"))
             ok(shown == len(s["ids"]), "%s explanations visible: %d of %d" % (s["id"], shown, len(s["ids"])))
             btn = [b for b in d.find_elements(By.CSS_SELECTOR, "button.btn") if "Finish" in b.text]

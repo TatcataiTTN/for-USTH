@@ -166,10 +166,14 @@ def quiz_hub(course):
     has_h = any(z["id"].endswith("-H") for sets in meta["sets"]["chapter"].values() for z in sets)
     hn = [len(z["ids"]) for sets in meta["sets"]["chapter"].values() for z in sets if z["id"].endswith("-H")]
     hard_note = ", plus a <b>Hard set</b> of Moodle-style level-4 questions where the chapter has enough of them (%d to %d questions)" % (min(hn), max(hn)) if has_h else ""
+    gn = [len(z["ids"]) for sets in meta["sets"]["chapter"].values() for z in sets if z["id"].endswith("-G")]
+    if gn:
+        hard_note += ", plus a <b>Gap-fill set</b> of new questions on topics that were thin in the bank (found with the Concept finder; %d to %d questions)" % (min(gn), max(gn))
     rows = ""
     for ch in meta["chapters"]:
         sets = meta["sets"]["chapter"][ch["id"]]
-        links = " ".join('<a class="btn %s" href="run.html?set=%s">%s</a>' % ("small alt" if s["id"].endswith("-H") else "small", s["id"], "Hard set" if s["id"].endswith("-H") else "Set %s" % s["id"][-1]) for s in sets)
+        special = lambda s: s["id"].endswith("-H") or s["id"].endswith("-G")
+        links = " ".join('<a class="btn %s" href="run.html?set=%s">%s</a>' % ("small alt" if special(s) else "small", s["id"], "Hard set" if s["id"].endswith("-H") else ("Gap-fill set" if s["id"].endswith("-G") else "Set %s" % s["id"][-1])) for s in sets)
         rows += "<tr><td><b>%s</b></td><td>%s<div class='muted'>%s</div></td><td>%d</td><td>%s <a class='btn small alt' href='../bank/index.html?ch=%s'>All questions</a></td></tr>" % (
             ch["id"].upper().replace("C", "Ch. "), esc(ch["title"]), esc(ch["src"]), meta["counts"][ch["id"]], links, ch["id"])
     body = """<h1>Chapter quizzes</h1>

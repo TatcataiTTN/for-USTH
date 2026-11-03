@@ -115,7 +115,7 @@ def slot_sets(items, n_sets, slots, rng):
 def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None, hard=None):
     """hard (Calculus only) = dict(mid_share, sprint_share, n_mid, replica_slots, replica_title): the level-4 pool makes the midterm and speed mocks tougher and adds replica mocks."""
     rng = random.Random(seed)
-    items = [i for i in B.items if "extension" not in i.get("tags", [])]
+    items = [i for i in B.items if not ({"extension", "gap"} & set(i.get("tags", [])))]          # gap-fill questions only enter the bank, the random quizzes and their own chapter set
     by_ch = defaultdict(list)
     for it in items:
         by_ch[it["ch"]].append(it)
