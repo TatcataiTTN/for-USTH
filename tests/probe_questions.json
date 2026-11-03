@@ -1,0 +1,848 @@
+[
+{
+"id": "1.1",
+"course": "Linear-Algebra",
+"en": "For which $\\mu,\\lambda$ does $\\begin{cases}x+y+z=6\\\\ x+2y+3z=10\\\\ x+2y+\\mu z=\\lambda\\end{cases}$ have <b>no solution</b>? (a) $\\mu=3;\\lambda\\ne10$ (b) $\\mu\\ne3;\\lambda=10$ (c) $\\mu=3;\\lambda=10$ (d) $\\mu\\ne3;\\lambda\\ne10$",
+"vi": "Với $\\mu,\\lambda$ nào thì hệ trên <b>vô nghiệm</b>? (a) $\\mu=3;\\lambda\\ne10$ (b) $\\mu\\ne3;\\lambda=10$ (c) $\\mu=3;\\lambda=10$ (d) $\\mu\\ne3;\\lambda\\ne10$"
+},
+{
+"id": "1.2",
+"course": "Linear-Algebra",
+"en": "One 8-oz glass of apple juice plus one of orange juice contain 227 mg of vitamin C. Two apple and three orange glasses contain 578 mg. How much vitamin C is in one glass of apple juice? (a) 103 mg (b) 126 mg (c) 156 mg (d) 162 mg",
+"vi": "Một ly táo và một ly cam chứa tổng 227 mg vitamin C. Hai ly táo và ba ly cam chứa 578 mg. Một ly nước táo chứa bao nhiêu mg? (a) 103 mg (b) 126 mg (c) 156 mg (d) 162 mg"
+},
+{
+"id": "1.3",
+"course": "Linear-Algebra",
+"en": "For which real $\\alpha$ does $\\begin{cases}2x+2y-3z=3\\\\2x-y+5z=2\\\\4x+y+(\\alpha^2+2)z=\\alpha+5\\end{cases}$ have <b>infinitely many</b> solutions? (a) $\\alpha\\ne0$ (b) $\\alpha=1$ (c) $\\alpha=0$ (d) Other solution",
+"vi": "Với $\\alpha$ thực nào hệ trên có <b>vô số nghiệm</b>? (a) $\\alpha\\ne0$ (b) $\\alpha=1$ (c) $\\alpha=0$ (d) Other solution"
+},
+{
+"id": "1.4",
+"course": "Linear-Algebra",
+"en": "The figure shows a network. If $x_3=150$ and $x_2=250$, which statement is <b>not</b> true? (a) none of the others is true, (b) $x_6-x_1=50$, (c) $x_5=100$, (d) $x_6-x_4=100$. (a) None of the other answers is true (b) $x_6-x_1=50$ (c) $x_5=100$ (d) $x_6-x_4=100$",
+"vi": "Hình vẽ một mạng dòng chảy. Nếu $x_3=150$, $x_2=250$ thì mệnh đề nào <b>không</b> đúng? (a) None of the other answers is true (b) $x_6-x_1=50$ (c) $x_5=100$ (d) $x_6-x_4=100$"
+},
+{
+"id": "1.5",
+"course": "Linear-Algebra",
+"en": "Which equation is linear? (Q5) (a) $\\frac{10}x+y=999$ (b) $\\frac12x+y+\\sqrt z=0$ (c) $e^x+y=2$ (d) $3x+2y=7$. &nbsp; (Q13) which is <b>not</b> linear: $a+2b+237c=192$; $x+y+z=3$; $x_1+x_2+x_3+x_4=0$; $\\sin x=0$. &nbsp; (Q16) (a) $x^2+y^2$ (b) $3x-4xy$ (c) $\\cos(3)x+\\sin(4)y$ (d) $\\frac3x+\\frac2y$. ",
+"vi": "Phương trình nào tuyến tính? (Q5), (Q13: cái nào <b>không</b> tuyến tính), (Q16) như trên. "
+},
+{
+"id": "1.6",
+"course": "Linear-Algebra",
+"en": "Using elementary row operations, the augmented matrix of $\\begin{cases}x-2y+3z=9\\\\-x+3y=-4\\\\2x-5y+5z=17\\end{cases}$ (row-echelon form) is: (a) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&-1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (b) $\\left[\\begin{smallmatrix}1&2&-3&9\\\\0&1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (c) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (d) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&1&3&5\\\\0&0&1&1\\end{smallmatrix}\\right]$",
+"vi": "Dùng phép biến đổi hàng sơ cấp, ma trận mở rộng (dạng bậc thang) của hệ trên là: (a) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&-1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (b) $\\left[\\begin{smallmatrix}1&2&-3&9\\\\0&1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (c) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&1&3&5\\\\0&0&1&2\\end{smallmatrix}\\right]$ (d) $\\left[\\begin{smallmatrix}1&-2&3&9\\\\0&1&3&5\\\\0&0&1&1\\end{smallmatrix}\\right]$"
+},
+{
+"id": "1.7",
+"course": "Linear-Algebra",
+"en": "How many $\\theta\\in(0,4\\pi)$ make $\\begin{cases}2(\\sin3\\theta)x-y+z=2\\\\3(\\cos2\\theta)x+4y+3z=3\\\\6x+7y+7z=9\\end{cases}$ have <b>no solution</b>? ",
+"vi": "Có bao nhiêu $\\theta\\in(0,4\\pi)$ để hệ trên <b>vô nghiệm</b>? "
+},
+{
+"id": "1.8",
+"course": "Linear-Algebra",
+"en": "For which real $m$ does $\\begin{cases}x+my+z=m\\\\2x+(m-1)y+3z=1\\\\mx+y+3z=2m-3\\end{cases}$ have <b>at least one</b> solution? (a) $m=2$ (b) $m\\ne-2$ (c) $m=-1$ (d) $m\\ne-1$",
+"vi": "Với $m$ thực nào hệ có <b>ít nhất một</b> nghiệm? (a) $m=2$ (b) $m\\ne-2$ (c) $m=-1$ (d) $m\\ne-1$"
+},
+{
+"id": "1.9",
+"course": "Linear-Algebra",
+"en": "(Q9) $x+y+kz=3,\\ x+ky+z=2,\\ kx+y+z=1$: all $k$ with a solution. &nbsp;(Q10) $x+2y-3z=4,\\ 3x-y+5z=2,\\ 4x+y+(\\alpha^2-14)z=\\alpha+2$: no solution for which $\\alpha$? &nbsp;(Q15) $x+2y-3z=6,\\ 3x-y+5z=1,\\ 4x+y+(\\alpha^2-23)z=\\alpha+2$: exactly one solution for which $\\alpha$? &nbsp;(Q11) $x-2y=1,\\ x-y+kz=-2,\\ ky+4z=6$. ",
+"vi": "(Q9) tìm mọi $k$ để hệ có nghiệm. (Q10) $\\alpha$ nào vô nghiệm? (Q15) $\\alpha$ nào có đúng một nghiệm? (Q11) xét số nghiệm theo $k$. "
+},
+{
+"id": "1.10",
+"course": "Linear-Algebra",
+"en": "(Q12) Solve $3x-2y=5,\\ 2x+y=8$. &nbsp;(Q17) Solve $x+y-2z=3,\\ -x+y+6z=13,\\ 2x+y-9z=-5$. ",
+"vi": "(Q12) Giải $3x-2y=5,\\ 2x+y=8$. (Q17) Giải hệ ba phương trình trên. "
+},
+{
+"id": "1.11",
+"course": "Linear-Algebra",
+"en": "A firm borrowed \\$500,000 at 3%, 4% and 5%. Annual interest was \\$20,500, and the amount at 4% was $2\\frac12$ times the amount at 3%. How much was borrowed at 4%? (a) \\$200,000 (b) \\$250,000 (c) \\$100,000 (d) \\$150,000",
+"vi": "Một công ty vay 500.000 USD với lãi 3%, 4%, 5%. Lãi hằng năm 20.500 USD và số tiền vay 4% bằng $2\\frac12$ lần số tiền vay 3%. Vay 4% là bao nhiêu? (a) \\$200,000 (b) \\$250,000 (c) \\$100,000 (d) \\$150,000"
+},
+{
+"id": "2.1",
+"course": "Linear-Algebra",
+"en": "The inverse of $A=\\begin{pmatrix}2&1&0\\\\1&3&1\\\\0&3&1\\end{pmatrix}$ is: (a) \\begin{pmatrix}0 & -1 & -3 \\\\ -1 & -2 & -6 \\\\ -1 & -2 & -5\\end{pmatrix} (b) \\begin{pmatrix}0 & -1 & -1 \\\\ -1 & -2 & -2 \\\\ -3 & -6 & -5\\end{pmatrix} (c) \\begin{pmatrix}0 & 1 & -1 \\\\ 1 & -2 & 2 \\\\ -3 & 6 & -5\\end{pmatrix} (d) \\begin{pmatrix}0 & 1 & -3 \\\\ 1 & -2 & 6 \\\\ -1 & 2 & 5\\end{pmatrix}",
+"vi": "Ma trận nghịch đảo của $A$ là: (a) \\begin{pmatrix}0 & -1 & -3 \\\\ -1 & -2 & -6 \\\\ -1 & -2 & -5\\end{pmatrix} (b) \\begin{pmatrix}0 & -1 & -1 \\\\ -1 & -2 & -2 \\\\ -3 & -6 & -5\\end{pmatrix} (c) \\begin{pmatrix}0 & 1 & -1 \\\\ 1 & -2 & 2 \\\\ -3 & 6 & -5\\end{pmatrix} (d) \\begin{pmatrix}0 & 1 & -3 \\\\ 1 & -2 & 6 \\\\ -1 & 2 & 5\\end{pmatrix}"
+},
+{
+"id": "2.2",
+"course": "Linear-Algebra",
+"en": "(Q2) $B$ is $3\\times4$, $E$ is $4\\times3$: size of $BE$? (Q7) $A=[a_{ij}]_{m\\times n}$, $B=[b_{ij}]_{p\\times q}$: when does $AB$ exist? (Q8) $A:4\\times6$, $B:6\\times3$: sizes of $AB$ and $BA^T$? (Q11) $A:2\\times3$, $B:3\\times5$: size of $AB$? ",
+"vi": "(Q2) $B$ cỡ $3\\times4$, $E$ cỡ $4\\times3$: cỡ của $BE$? (Q7) khi nào $AB$ tồn tại? (Q8) cỡ của $AB$ và $BA^T$? (Q11) cỡ của $AB$? "
+},
+{
+"id": "2.3",
+"course": "Linear-Algebra",
+"en": "Let $(3A)^{-1}=\\begin{bmatrix}4&-1\\\\2&3\\end{bmatrix}$. Find $A$. ",
+"vi": "Cho $(3A)^{-1}=\\begin{bmatrix}4&-1\\\\2&3\\end{bmatrix}$. Tìm $A$. "
+},
+{
+"id": "2.4",
+"course": "Linear-Algebra",
+"en": "$A=\\begin{bmatrix}1&-1\\\\2&2\\end{bmatrix}$, $B=\\begin{bmatrix}1&\\alpha\\\\\\beta&1\\end{bmatrix}$. If $(A+B)(A-B)=A^2-B^2$ then: ",
+"vi": "$A=\\begin{bmatrix}1&-1\\\\2&2\\end{bmatrix}$, $B=\\begin{bmatrix}1&\\alpha\\\\\\beta&1\\end{bmatrix}$. Nếu $(A+B)(A-B)=A^2-B^2$ thì: "
+},
+{
+"id": "2.5",
+"course": "Linear-Algebra",
+"en": "(Q5) What type is $A=\\begin{bmatrix}a_{11}&0&\\dots&0\\\\0&a_{22}&\\dots&0\\\\\\vdots&&\\ddots&\\vdots\\\\0&0&\\dots&a_{nn}\\end{bmatrix}$? &nbsp;(Q9) If $a_{ij}=\\frac12(3i-2j)$ and $A=[a_{ij}]_{2\\times2}$, then $A=$? ",
+"vi": "(Q5) Loại ma trận nào? (Q9) Nếu $a_{ij}=\\frac12(3i-2j)$, $A=[a_{ij}]_{2\\times2}$ thì $A=$? "
+},
+{
+"id": "2.6",
+"course": "Linear-Algebra",
+"en": "Two midterms and a final determine the grade. The matrices for six students under two grading systems are shown (the matrices did <b>not</b> load in the PDF). How many received an “A” ($\\ge85$) in each system? ",
+"vi": "Hai bài giữa kỳ và một bài cuối kỳ quyết định điểm. Các ma trận của sáu sinh viên theo hai cách chấm đã được cho (ma trận <b>không hiện</b> trong PDF). Mỗi cách có bao nhiêu sinh viên được “A” ($\\ge85$)? "
+},
+{
+"id": "2.7",
+"course": "Linear-Algebra",
+"en": "$u$ is an $n\\times1$ column with $u^Tu=1$ (so $|u|=1$). $H=I_n-2uu^T$. Which is true: (a) $H^2=I_n$, (b) $\\det H=0$, (c) $uu^T=I_n$, (d) $H$ not symmetric? ",
+"vi": "$u$ là cột $n\\times1$ với $u^Tu=1$. $H=I_n-2uu^T$. Mệnh đề nào đúng? "
+},
+{
+"id": "2.8",
+"course": "Linear-Algebra",
+"en": "$i=\\sqrt{-1}$, $A=\\begin{bmatrix}i&0\\\\0&i\\end{bmatrix}$. Find $A^4$. ",
+"vi": "$i=\\sqrt{-1}$, $A=\\begin{bmatrix}i&0\\\\0&i\\end{bmatrix}$. Tìm $A^4$. "
+},
+{
+"id": "2.9",
+"course": "Linear-Algebra",
+"en": "(Q13) For same-size $M,N$ and scalar $c$, which property does <b>not</b> always hold? (a) $(M+N)^T=M^T+N^T$ (b) $MN=NM$ (c) $(M^T)^T=M$ (d) $(cM)^T=cM^T$. &nbsp;(Q14) $A,D,P$ are $n\\times n$, $AP=PD$, $P$ nonsingular. Must $A=D$? ",
+"vi": "(Q13) Tính chất nào <b>không</b> luôn đúng? (Q14) $AP=PD$, $P$ không suy biến. $A=D$ có bắt buộc không? "
+},
+{
+"id": "2.10",
+"course": "Linear-Algebra",
+"en": "(Q15) Gauss elimination triangularises the system to: upper/lower triangular, diagonal, singular? &nbsp;(Q16) $A=\\begin{bmatrix}-1&2\\\\3&4\\end{bmatrix}$, $B=\\begin{bmatrix}3&-2\\\\1&5\\end{bmatrix}$, $2A+B+X=0$. Find $X$. ",
+"vi": "(Q15) Khử Gauss đưa hệ về dạng nào? (Q16) $2A+B+X=0$. Tìm $X$. "
+},
+{
+"id": "3.1",
+"course": "Linear-Algebra",
+"en": "(Q7) $\\det\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}$? (Q2) $A=\\begin{bmatrix}4&0\\\\1&3\\end{bmatrix}$, $B=\\begin{bmatrix}0&2\\\\5&1\\end{bmatrix}$: $\\det(AB)$? (Q8) $A=\\begin{bmatrix}2&3\\\\1&0\\end{bmatrix}$, $B=\\begin{bmatrix}1&4\\\\5&2\\end{bmatrix}$: $\\det(AB)$? (Q9) $A$ is $2\\times2$, $\\det A=-7$: $\\det3A$? ",
+"vi": "(Q7) $\\det$ của ma trận trên? (Q2) $\\det(AB)$? (Q8) $\\det(AB)$? (Q9) $A$ cỡ $2\\times2$, $\\det A=-7$: $\\det3A$? "
+},
+{
+"id": "3.2",
+"course": "Linear-Algebra",
+"en": "If $f(x)=\\begin{vmatrix}1&2\\\\x&a\\end{vmatrix}$, then $2f(x)-f(2x)$ equals: ",
+"vi": "Nếu $f(x)=\\begin{vmatrix}1&2\\\\x&a\\end{vmatrix}$ thì $2f(x)-f(2x)$ bằng: "
+},
+{
+"id": "3.3",
+"course": "Linear-Algebra",
+"en": "$A=\\begin{pmatrix}a-1&1\\\\2+a&1\\end{pmatrix}$ is invertible and $A^2-2A+I=0$. Which matrix is $A^{-1}$? ",
+"vi": "$A=\\begin{pmatrix}a-1&1\\\\2+a&1\\end{pmatrix}$ khả nghịch và $A^2-2A+I=0$. $A^{-1}$ là ma trận nào? "
+},
+{
+"id": "3.4",
+"course": "Linear-Algebra",
+"en": "$A=\\begin{bmatrix}x&2\\\\4&x\\end{bmatrix}$ and $\\det(A^2)=64$. Find $x$. (a) $\\pm2$ (b) $\\pm5$ (c) $\\pm4$ (d) $\\pm3$",
+"vi": "$A=\\begin{bmatrix}x&2\\\\4&x\\end{bmatrix}$ và $\\det(A^2)=64$. Tìm $x$. (a) $\\pm2$ (b) $\\pm5$ (c) $\\pm4$ (d) $\\pm3$"
+},
+{
+"id": "3.5",
+"course": "Linear-Algebra",
+"en": "(Q5) $\\det\\begin{pmatrix}x-a&y-b&z-c\\\\x&y&z\\\\a&b&c\\end{pmatrix}$? (Q14) $\\det\\begin{bmatrix}-3&6&9\\\\6&9&12\\\\9&12&15\\end{bmatrix}$? (Q13) $A=\\begin{pmatrix}a&1&2\\\\1&a&2\\\\2&2&4\\end{pmatrix}$ singular ⇒ $a=$? ",
+"vi": "(Q5) $\\det$ của ma trận trên? (Q14) $\\det$? (Q13) $A$ suy biến ⇒ $a=$? "
+},
+{
+"id": "3.6",
+"course": "Linear-Algebra",
+"en": "$\\det A$ for $A=\\begin{pmatrix}1&1&2&3\\\\1&2-x^2&2&3\\\\2&3&1&5\\\\3&3&1&9-x^2\\end{pmatrix}$. ",
+"vi": "$\\det A$ với $A$ như trên. "
+},
+{
+"id": "3.7",
+"course": "Linear-Algebra",
+"en": "(Q15) $A$ is $3\\times3$, $\\det A=-27$. $\\det\\left(\\frac13A\\right)$? (Q16) $A=\\begin{bmatrix}4&7&1\\\\-1&3&2\\\\-2&0&5\\end{bmatrix}$. $\\det(3A)$? ",
+"vi": "(Q15) $A$ cỡ $3\\times3$, $\\det A=-27$. $\\det\\left(\\frac13A\\right)$? (Q16) $\\det(3A)$? "
+},
+{
+"id": "3.8",
+"course": "Linear-Algebra",
+"en": "$A=\\begin{pmatrix}1&m&2\\\\-2&0&1\\\\1&1&-3\\end{pmatrix}$, $B=\\begin{pmatrix}1&2&3\\\\0&1&0\\\\m&1&1\\end{pmatrix}$. If $\\det A=0$, what is $\\det B$? ",
+"vi": "$A,B$ như trên. Nếu $\\det A=0$ thì $\\det B$ bằng? "
+},
+{
+"id": "3.9",
+"course": "Linear-Algebra",
+"en": "$\\det\\begin{pmatrix}a&a&a+b\\\\a&a+b&a\\\\a+b&a&a\\end{pmatrix}$. ",
+"vi": "Tính $\\det$ của ma trận trên. "
+},
+{
+"id": "3.10",
+"course": "Linear-Algebra",
+"en": "If $\\begin{vmatrix}\\cos(A+B)&-\\sin(A+B)&\\cos2B\\\\\\sin A&\\cos A&\\sin B\\\\-\\cos A&\\sin A&\\cos B\\end{vmatrix}=0$, then $B=$? ",
+"vi": "Nếu định thức trên bằng $0$ thì $B=$? "
+},
+{
+"id": "3.11",
+"course": "Linear-Algebra",
+"en": "If $A$ is symmetric, which has $\\det=0$? (a) $AA^T$ (b) $A-A^T$ (c) $A\\cdot A$ (d) $A^n$. ",
+"vi": "Nếu $A$ đối xứng, biểu thức nào có $\\det=0$? "
+},
+{
+"id": "4.1",
+"course": "Linear-Algebra",
+"en": "In $V_2(\\mathbb R)$: $S_1=\\{(x_1,x_2):x_1+x_2\\ge0\\}$, $S_2=\\{(x_1,x_2):x_1^2+x_2^2\\le1\\}$. Which are subspaces? (a) Neither $S_1$ nor $S_2$ is a subspace (b) Both are subspaces (c) $S_2$ is a subspace but not $S_1$ (d) $S_1$ is a subspace but not $S_2$",
+"vi": "Trong $V_2(\\mathbb R)$: $S_1=\\{x_1+x_2\\ge0\\}$, $S_2=\\{x_1^2+x_2^2\\le1\\}$. Tập nào là không gian con? (a) Neither $S_1$ nor $S_2$ is a subspace (b) Both are subspaces (c) $S_2$ is a subspace but not $S_1$ (d) $S_1$ is a subspace but not $S_2$"
+},
+{
+"id": "4.2",
+"course": "Linear-Algebra",
+"en": "(Q2) Rank of $A=\\begin{pmatrix}1&1&1&1&1\\\\2&1&2&1&1\\\\3&4&2&1&2\\\\4&4&3&1&2\\end{pmatrix}$. &nbsp;(Q12) Nullity of the solution space of $A\\mathbf x=\\mathbf0$ for $A=\\begin{pmatrix}1&0&1&0\\\\1&1&0&1\\\\0&0&1&1\\\\2&1&2&2\\end{pmatrix}$. ",
+"vi": "(Q2) Hạng của ma trận $4\\times5$ trên. (Q12) Số chiều của không gian nghiệm $A\\mathbf x=\\mathbf0$ với $A$ cỡ $4\\times4$ trên. "
+},
+{
+"id": "4.3",
+"course": "Linear-Algebra",
+"en": "(Q3) A basis of the zero space $\\{\\mathbf0\\}$? (Q8) $\\dim P_3$? (Q9) How many are true: 1. if $\\operatorname{rank}A=\\operatorname{null}A>1$ then $A$ is linearly independent; 2. $\\dim V=n$, $W$ subspace $\\Rightarrow\\dim W\\le n$; 3. the zero space has basis $\\emptyset$; 4. if $\\operatorname{null}A=0$ then $A$ is linearly dependent. ",
+"vi": "(Q3) Cơ sở của không gian $\\{\\mathbf0\\}$? (Q8) $\\dim P_3$? (Q9) Có bao nhiêu mệnh đề đúng? "
+},
+{
+"id": "4.4",
+"course": "Linear-Algebra",
+"en": "(Q4) Eigenvalues of $A=\\begin{pmatrix}1&0&2\\\\1&2&0\\\\0&0&3\\end{pmatrix}$. &nbsp;(Q13) Eigenvalues of $A=\\begin{bmatrix}4&1&-2\\\\1&6&0\\\\-2&0&5\\end{bmatrix}$. ",
+"vi": "(Q4) Trị riêng của $A$ cỡ $3\\times3$ trên. (Q13) Trị riêng của ma trận đối xứng trên. "
+},
+{
+"id": "4.5",
+"course": "Linear-Algebra",
+"en": "Find the dimension of the solution space of $\\begin{cases}x_1+3x_2+2x_3+22x_4+13x_5=0\\\\x_1+2x_3-2x_4+x_5=0\\\\3x_1+6x_2+5x_3+42x_4+27x_5=0\\end{cases}$. ",
+"vi": "Tìm số chiều của không gian nghiệm của hệ trên. "
+},
+{
+"id": "4.6",
+"course": "Linear-Algebra",
+"en": "(Q6) Which set is linearly dependent: $\\{(1,0),(1,2)\\}$, $\\{(1,2),(1,3)\\}$, $\\{(1,2),(2,4)\\}$, $\\{(2,0),(0,3)\\}$? &nbsp;(Q10) For which real $A$ are $(2,A,0),(0,A^2,2),(2,0,A)$ linearly dependent? ",
+"vi": "(Q6) Tập nào phụ thuộc tuyến tính? (Q10) Với $A$ thực nào ba vectơ trên phụ thuộc tuyến tính? "
+},
+{
+"id": "4.7",
+"course": "Linear-Algebra",
+"en": "$S=\\{v_1,v_2,v_3,v_4\\}$: $v_1=1-x+x^2+x^3$, $v_2=2+x-x^2+x^3$, $v_3=-1+2x+x^2$, $v_4=3+x+2x^2+3x^3$. A basis of $\\operatorname{span}S$ is: ",
+"vi": "Một cơ sở của $\\operatorname{span}S$ là: "
+},
+{
+"id": "4.8",
+"course": "Linear-Algebra",
+"en": "$B=\\{(1,0,0),(1,1,0),(1,1,1)\\}$, $B'=\\{(0,0,1),(0,1,1),(1,1,1)\\}$ and $[x]_B=(-1,2,-3)^T$. Find $[x]_{B'}$. (a) $(-1,2,-3)^T$ (b) $(-2,2,-2)^T$ (c) $(-1,1,-1)^T$ (d) $(-2,1,-2)^T$",
+"vi": "$B,B'$ như trên, $[x]_B=(-1,2,-3)^T$. Tìm $[x]_{B'}$. (a) $(-1,2,-3)^T$ (b) $(-2,2,-2)^T$ (c) $(-1,1,-1)^T$ (d) $(-2,1,-2)^T$"
+},
+{
+"id": "4.9",
+"course": "Linear-Algebra",
+"en": "Find a basis for the row space of $A=\\begin{pmatrix}1&1&2&1\\\\1&-1&0&2\\\\2&0&2&3\\\\2&4&6&1\\end{pmatrix}$. ",
+"vi": "Tìm cơ sở của không gian hàng của $A$. "
+},
+{
+"id": "M01",
+"course": "Physics-1",
+"en": "Two strips 120 m apart on a road with limit 85 km/h. A driver at 110 km/h slows down immediately at the first strip. What deceleration makes the average speed equal to the limit at the second strip? (a) $-2.73\\ \\mathrm{m/s^2}$ (b) $2.73\\ \\mathrm{m/s^2}$ (c) $5.46\\ \\mathrm{m/s^2}$ (d) $-5.46\\ \\mathrm{m/s^2}$",
+"vi": "Hai dải cảm biến cách nhau 120 m trên đường giới hạn 85 km/h. Tài xế đang chạy 110 km/h bắt đầu giảm tốc ngay tại dải đầu. Gia tốc nào làm vận tốc trung bình bằng giới hạn khi qua dải thứ hai? (a) $-2.73\\ \\mathrm{m/s^2}$ (b) $2.73\\ \\mathrm{m/s^2}$ (c) $5.46\\ \\mathrm{m/s^2}$ (d) $-5.46\\ \\mathrm{m/s^2}$"
+},
+{
+"id": "M02",
+"course": "Physics-1",
+"en": "A cannon on a 50 m cliff fires a ball at $v=200$ m/s, $30^\\circ$ above the horizontal, over the edge. How long is the ball in the air? (no air resistance) (a) $30.88$ s (b) $28$ s (c) $30.28$ s (d) $20.88$ s",
+"vi": "Một khẩu pháo trên vách đá cao 50 m bắn viên đạn với $v=200$ m/s, góc $30^\\circ$ so với phương ngang, qua mép vách. Viên đạn ở trên không bao lâu? (bỏ qua lực cản) (a) $30.88$ s (b) $28$ s (c) $30.28$ s (d) $20.88$ s"
+},
+{
+"id": "M03",
+"course": "Physics-1",
+"en": "The speed–time graph of an object thrown downward through air rises steeply at first then flattens. Which sentence describes it best? (a) Starts with an initial speed, constant acceleration, speed increases linearly (b) Starts from rest, constant acceleration, speed increases without limit (c) Starts with an initial speed, accelerates at first, acceleration decreases until speed is constant (d) Starts with zero speed, slows down, then stops",
+"vi": "Đồ thị tốc độ–thời gian của vật ném xuống trong không khí tăng nhanh lúc đầu rồi thoải dần. Câu nào mô tả đúng nhất? (a) Starts with an initial speed, constant acceleration, speed increases linearly (b) Starts from rest, constant acceleration, speed increases without limit (c) Starts with an initial speed, accelerates at first, acceleration decreases until speed is constant (d) Starts with zero speed, slows down, then stops"
+},
+{
+"id": "M04",
+"course": "Physics-1",
+"en": "Four paths over an equally spaced grid are taken in the same time interval. Rank them by average speed, greatest first. (a) $4>1>2>3$ (b) $4>2>1>3$ (c) $4>1=2>3$ (d) $4=2>1>3$",
+"vi": "Bốn đường đi trên lưới đều trong cùng một khoảng thời gian. Xếp hạng theo tốc độ trung bình, lớn nhất trước. (a) $4>1>2>3$ (b) $4>2>1>3$ (c) $4>1=2>3$ (d) $4=2>1>3$"
+},
+{
+"id": "M05",
+"course": "Physics-1",
+"en": "Blocks X (mass $m$) and Y (mass $3m$) touch on a smooth surface and are accelerated by a force $F$ applied to X. What is the magnitude of the force exerted by X on Y? (a) $F/3$ (b) $F/4$ (c) $4F/3$ (d) $3F/4$",
+"vi": "Hai khối X (khối lượng $m$) và Y ($3m$) tiếp xúc trên mặt nhẵn, lực $F$ tác dụng lên X. Độ lớn lực X tác dụng lên Y? (a) $F/3$ (b) $F/4$ (c) $4F/3$ (d) $3F/4$"
+},
+{
+"id": "M06",
+"course": "Physics-1",
+"en": "A 50 kg man stands on a scale in a lift that descends with acceleration 1.0 m/s$^2$ (downward). Scale reading? ($g=10$ N/kg) (a) $450$ N (b) $550$ N (c) $500$ N (d) $400$ N",
+"vi": "Người 50 kg đứng trên cân trong thang máy đi xuống với gia tốc 1,0 m/s$^2$ (hướng xuống). Số chỉ cân? ($g=10$ N/kg) (a) $450$ N (b) $550$ N (c) $500$ N (d) $400$ N"
+},
+{
+"id": "M07",
+"course": "Physics-1",
+"en": "Raindrops fall 1700 m. If there were no air resistance, how fast would they hit the ground? (a) $183$ m/s (b) $184$ m/s (c) $180$ m/s (d) $188$ m/s",
+"vi": "Giọt mưa rơi từ độ cao 1700 m. Nếu không có lực cản không khí thì chúng chạm đất với tốc độ bao nhiêu? (a) $183$ m/s (b) $184$ m/s (c) $180$ m/s (d) $188$ m/s"
+},
+{
+"id": "M08",
+"course": "Physics-1",
+"en": "A box is pushed across horizontal ground at constant speed. If the push stops, the box will: (a) continue at constant speed (b) stop immediately (c) start slowing down (d) move at constant speed for a while then slow down",
+"vi": "Một thùng được đẩy trên mặt đất nằm ngang với tốc độ không đổi. Nếu ngừng đẩy, thùng sẽ: (a) continue at constant speed (b) stop immediately (c) start slowing down (d) move at constant speed for a while then slow down"
+},
+{
+"id": "M09",
+"course": "Physics-1",
+"en": "A 40 kg mass at rest on a rough bench is pulled by a 10 kg mass attached to it (string over a pulley). Friction on the 40 kg mass is 20 N. Speed of the 10 kg mass 2 s after release? ($g=10$) (a) $2.4$ m/s (b) $3.2$ m/s (c) $2$ m/s (d) $4$ m/s",
+"vi": "Khối 40 kg nằm yên trên bàn nhám được kéo bởi vật 10 kg nối qua ròng rọc. Ma sát lên khối 40 kg là 20 N. Tốc độ của vật 10 kg sau 2 s? ($g=10$) (a) $2.4$ m/s (b) $3.2$ m/s (c) $2$ m/s (d) $4$ m/s"
+},
+{
+"id": "M10",
+"course": "Physics-1",
+"en": "A 500 kg rocket sled accelerates uniformly from rest to 1600 km/h in 1.8 s. Magnitude of the net force? (a) $1.32\\times10^5$ N (b) $1.23\\times10^5$ N (c) $1.25\\times10^5$ N (d) $1.35\\times10^5$ N",
+"vi": "Xe trượt tên lửa 500 kg tăng tốc đều từ nghỉ đến 1600 km/h trong 1,8 s. Độ lớn hợp lực? (a) $1.32\\times10^5$ N (b) $1.23\\times10^5$ N (c) $1.25\\times10^5$ N (d) $1.35\\times10^5$ N"
+},
+{
+"id": "M11",
+"course": "Physics-1",
+"en": "Two trains, each at 30 km/h, approach each other on the same track. A bird flying at 60 km/h shuttles between them when they are 60 km apart. Total distance flown by the bird before the trains collide? (a) $45$ km (b) $50$ km (c) $60$ km (d) $55$ km",
+"vi": "Hai đoàn tàu, mỗi tàu 30 km/h, chạy ngược chiều trên cùng đường ray. Con chim bay 60 km/h đi lại giữa hai tàu khi chúng cách nhau 60 km. Tổng quãng đường chim bay trước khi hai tàu gặp nhau? (a) $45$ km (b) $50$ km (c) $60$ km (d) $55$ km"
+},
+{
+"id": "M12",
+"course": "Physics-1",
+"en": "A flowerpot sails up then down past a window 2.00 m tall; it is in view for a total of 0.50 s. How high above the window top does it rise? (a) $2.34$ m (b) $2.42$ m (c) $2$ m (d) $2.14$ m",
+"vi": "Chậu hoa bay lên rồi rơi xuống qua cửa sổ cao 2,00 m; nó nằm trong tầm nhìn tổng cộng 0,50 s. Nó lên cao hơn mép trên cửa sổ bao nhiêu? (a) $2.34$ m (b) $2.42$ m (c) $2$ m (d) $2.14$ m"
+},
+{
+"id": "M13",
+"course": "Physics-1",
+"en": "The graph gives $a(t)$ of a dog chasing another along an axis. In which indicated period does it move at constant speed? (a) A (b) C (c) E (d) H",
+"vi": "Đồ thị cho $a(t)$ của một con chó. Trong khoảng thời gian nào nó chuyển động với tốc độ không đổi? (a) A (b) C (c) E (d) H"
+},
+{
+"id": "M14",
+"course": "Physics-1",
+"en": "The $v$–$t$ graph is a straight line from $v=5$ m/s at $t=0$ to $v=-3$ m/s at $t=4$ s. Find the average velocity and the acceleration. (a) $v=1.0$ m/s & $a=-2$ m/s$^2$ (b) $v=-1.0$ m/s & $a=-2$ m/s$^2$ (c) $v=-1.0$ m/s & $a=2$ m/s$^2$ (d) $v=1.0$ m/s & $a=2$ m/s$^2$",
+"vi": "Đồ thị $v$–$t$ là đường thẳng từ $v=5$ m/s lúc $t=0$ đến $v=-3$ m/s lúc $t=4$ s. Tìm vận tốc trung bình và gia tốc. (a) $v=1.0$ m/s & $a=-2$ m/s$^2$ (b) $v=-1.0$ m/s & $a=-2$ m/s$^2$ (c) $v=-1.0$ m/s & $a=2$ m/s$^2$ (d) $v=1.0$ m/s & $a=2$ m/s$^2$"
+},
+{
+"id": "M15",
+"course": "Physics-1",
+"en": "A ball projected from P follows a parabola; T is the highest point; air resistance is negligible. Which statement applies to the <i>vertical component of acceleration</i>? (a) It is zero at P (b) It is zero at T (c) It is the same at P as at T (d) It is greatest at T",
+"vi": "Quả bóng ném từ P theo parabol; T là điểm cao nhất; bỏ qua lực cản. Phát biểu nào đúng cho <i>thành phần gia tốc thẳng đứng</i>? (a) It is zero at P (b) It is zero at T (c) It is the same at P as at T (d) It is greatest at T"
+},
+{
+"id": "M16",
+"course": "Physics-1",
+"en": "A body falls freely under gravity. Its rate of change of momentum equals: (a) power (b) impulse (c) weight (d) kinetic",
+"vi": "Một vật rơi tự do. Tốc độ biến thiên động lượng của nó bằng: (a) power (b) impulse (c) weight (d) kinetic"
+},
+{
+"id": "M17",
+"course": "Physics-1",
+"en": "The figure gives the velocity of a particle along an axis. Point 1 is the highest point of the curve, point 4 the lowest; points 2 and 6 are at the same height. What is the direction of travel at $t=0$ and at point 4? (a) negative, positive (b) negative, negative (c) positive, positive (d) positive, negative",
+"vi": "Hình cho vận tốc của một hạt trên một trục. Điểm 1 là điểm cao nhất, điểm 4 là điểm thấp nhất; điểm 2 và 6 cùng độ cao. Chiều chuyển động tại $t=0$ và tại điểm 4? (a) negative, positive (b) negative, negative (c) positive, positive (d) positive, negative"
+},
+{
+"id": "M18",
+"course": "Physics-1",
+"en": "A 40 kg girl and an 8.4 kg sled are on frictionless ice, 15 m apart, joined by a light rope. The girl pulls with a horizontal 5.2 N. How far from the girl's initial position do they meet? (a) $2.6$ m (b) $2.4$ m (c) $2.8$ m (d) $2.2$ m",
+"vi": "Cô gái 40 kg và xe trượt 8,4 kg ở trên băng không ma sát, cách nhau 15 m, nối bằng dây nhẹ. Cô kéo bằng lực ngang 5,2 N. Họ gặp nhau cách vị trí đầu của cô gái bao xa? (a) $2.6$ m (b) $2.4$ m (c) $2.8$ m (d) $2.2$ m"
+},
+{
+"id": "M19",
+"course": "Physics-1",
+"en": "A rock is thrown vertically upward from the ground at $t=0$. At $t=1.5$ s it passes the top of a tall tower and 1.0 s later it reaches its maximum height. Height of the tower? (a) $25.4$ m (b) $25.7$ m (c) $24.5$ m (d) $27.5$ m",
+"vi": "Hòn đá ném thẳng đứng lên từ mặt đất lúc $t=0$. Lúc $t=1{,}5$ s nó qua đỉnh tháp và 1,0 s sau đạt độ cao cực đại. Chiều cao tháp? (a) $25.4$ m (b) $25.7$ m (c) $24.5$ m (d) $27.5$ m"
+},
+{
+"id": "M20",
+"course": "Physics-1",
+"en": "A unicycle is being pedalled in the direction shown. Which force represents the frictional force on the wheel? (A: forward along the ground, B: up, C: backward, D: down) (a) B (b) C (c) A (d) D",
+"vi": "Xe một bánh đang được đạp theo chiều chuyển động. Lực nào là lực ma sát lên bánh xe? (A: hướng về phía trước dọc mặt đất, B: lên, C: ngược lại, D: xuống) (a) B (b) C (c) A (d) D"
+},
+{
+"id": "E01",
+"course": "Physics-1",
+"en": "The most probable speed of gas molecules at temperature $T_2$ equals the rms speed at temperature $T_1$. Find $T_2/T_1$. (a) $3/2$ (b) $2/3$ (c) $1/2$ (d) $1/3$",
+"vi": "Tốc độ xác suất nhất của phân tử khí ở nhiệt độ $T_2$ bằng tốc độ rms ở nhiệt độ $T_1$. Tìm $T_2/T_1$. (a) $3/2$ (b) $2/3$ (c) $1/2$ (d) $1/3$"
+},
+{
+"id": "E02",
+"course": "Physics-1",
+"en": "Two projectiles with the same initial speed leave ground level. Maximum height $h_1=2h_2$. Which relation holds between the launch angles? (a) $\\sin\\theta_1=\\sqrt2\\sin\\theta_2$ (b) $\\cos\\theta_1=2\\cos\\theta_2$ (c) $\\cos\\theta_1=\\sqrt2\\cos\\theta_2$ (d) $\\tan\\theta_1=\\sqrt2\\tan\\theta_2$",
+"vi": "Hai vật ném cùng tốc độ đầu từ mặt đất. Độ cao cực đại $h_1=2h_2$. Hệ thức nào giữa các góc ném? (a) $\\sin\\theta_1=\\sqrt2\\sin\\theta_2$ (b) $\\cos\\theta_1=2\\cos\\theta_2$ (c) $\\cos\\theta_1=\\sqrt2\\cos\\theta_2$ (d) $\\tan\\theta_1=\\sqrt2\\tan\\theta_2$"
+},
+{
+"id": "E03",
+"course": "Physics-1",
+"en": "An ideal gas (1.0 mol) runs an engine cycle in which BC and DA are reversible adiabatic processes. Engine efficiency? ($\\eta=1-T_C/T_H$) (a) $75\\%$ (b) $25\\%$ (c) $50\\%$ (d) $12.5\\%$",
+"vi": "Một mol khí lý tưởng chạy chu trình động cơ trong đó BC và DA là đoạn nhiệt thuận nghịch. Hiệu suất? ($\\eta=1-T_C/T_H$) (a) $75\\%$ (b) $25\\%$ (c) $50\\%$ (d) $12.5\\%$"
+},
+{
+"id": "E04",
+"course": "Physics-1",
+"en": "Gas in a champagne bottle is at $p_i=5.00$ atm; after the cork is pulled it expands adiabatically to 1.00 atm. $\\gamma=4/3$, $T_i=5.00^\\circ$C. Final temperature? (a) $-87$ K (b) $186^\\circ$C (c) $87^\\circ$C (d) $186$ K",
+"vi": "Khí trong chai sâm panh ở $p_i=5{,}00$ atm; khi mở nút nó giãn đoạn nhiệt đến 1,00 atm. $\\gamma=4/3$, $T_i=5{,}00^\\circ$C. Nhiệt độ cuối? (a) $-87$ K (b) $186^\\circ$C (c) $87^\\circ$C (d) $186$ K"
+},
+{
+"id": "E05",
+"course": "Physics-1",
+"en": "How much heat must be transferred in a reversible isothermal expansion of an ideal gas at $132^\\circ$C if its entropy increases by $46.0$ J/K? (a) $1.84\\times10^4$ J (b) $1.84\\times10^{-4}$ J (c) $-1.84\\times10^4$ J (d) $1.84\\times10^3$ J",
+"vi": "Cần truyền bao nhiêu nhiệt trong giãn nở đẳng nhiệt thuận nghịch của khí lý tưởng ở $132^\\circ$C nếu entropy tăng $46{,}0$ J/K? (a) $1.84\\times10^4$ J (b) $1.84\\times10^{-4}$ J (c) $-1.84\\times10^4$ J (d) $1.84\\times10^3$ J"
+},
+{
+"id": "E06",
+"course": "Physics-1",
+"en": "70 cal raise the temperature of 2 mol of an ideal diatomic gas from 30°C to 35°C at constant pressure. Heat needed for the same range at constant volume? (a) $30$ cal (b) $50$ cal (c) $70$ cal (d) $90$ cal",
+"vi": "Cần 70 cal để nâng 2 mol khí lưỡng nguyên tử từ 30°C đến 35°C ở áp suất không đổi. Nhiệt cần cho cùng khoảng nhiệt độ ở thể tích không đổi? (a) $30$ cal (b) $50$ cal (c) $70$ cal (d) $90$ cal"
+},
+{
+"id": "E07",
+"course": "Physics-1",
+"en": "For an ideal diatomic gas the molar specific heat at constant volume is: (a) $C_V=20.8$ J·mol/K (b) $C_V=28.5$ J·mol/K (c) $C_V=20.8$ J/K (d) $C_V=25.5$ J/K",
+"vi": "Với khí lưỡng nguyên tử lý tưởng, nhiệt dung mol đẳng tích là: (a) $C_V=20.8$ J·mol/K (b) $C_V=28.5$ J·mol/K (c) $C_V=20.8$ J/K (d) $C_V=25.5$ J/K"
+},
+{
+"id": "E08",
+"course": "Physics-1",
+"en": "What is the change of energy while operating a light bulb? (a) Chemical → heat (b) Electrical energy → heat and light (c) Heat and light → electrical energy (d) Electrical energy → kinetic energy",
+"vi": "Sự chuyển hóa năng lượng khi bóng đèn hoạt động là gì? (a) Chemical → heat (b) Electrical energy → heat and light (c) Heat and light → electrical energy (d) Electrical energy → kinetic energy"
+},
+{
+"id": "E09",
+"course": "Physics-1",
+"en": "A body starts from rest and moves in a line with constant acceleration. Which graph shows speed $v$ against distance $s$? ",
+"vi": "Vật bắt đầu từ nghỉ chuyển động thẳng với gia tốc không đổi. Đồ thị nào biểu diễn tốc độ $v$ theo quãng đường $s$? "
+},
+{
+"id": "E10",
+"course": "Physics-1",
+"en": "A 364 g block touches a thermal reservoir and is heated reversibly from $T_a=280$ K to $T_b=380$ K. $\\Delta S=mc\\ln(T_b/T_a)$. The graph gives $\\Delta S$ at equilibrium. What is $c$? (a) $4.5\\times10^3$ (b) $4.5\\times10^2$ (c) $-4.5\\times10^2$ (d) $4.5\\times10^{-2}$",
+"vi": "Khối 364 g tiếp xúc với nguồn nhiệt và được nung thuận nghịch từ $T_a=280$ K đến $T_b=380$ K. $\\Delta S=mc\\ln(T_b/T_a)$. Đồ thị cho $\\Delta S$ lúc cân bằng. Tính $c$. (a) $4.5\\times10^3$ (b) $4.5\\times10^2$ (c) $-4.5\\times10^2$ (d) $4.5\\times10^{-2}$"
+},
+{
+"id": "E11",
+"course": "Physics-1",
+"en": "A car engine delivers 24 kW of useful power while the car moves at constant speed. The driving force is 600 N. Speed? (a) $2.5$ m/s (b) $4.0$ m/s (c) $25$ m/s (d) $40$ m/s",
+"vi": "Động cơ ô tô cho công suất có ích 24 kW khi xe chạy đều. Lực phát động 600 N. Tốc độ? (a) $2.5$ m/s (b) $4.0$ m/s (c) $25$ m/s (d) $40$ m/s"
+},
+{
+"id": "E12",
+"course": "Physics-1",
+"en": "An ideal diatomic gas (rotation, no vibration) is compressed adiabatically from 1.20 atm and 0.200 m$^3$ to 2.40 atm. Work done by the gas? (a) $1.33\\times10^4$ J (b) $1.33\\times10^{-4}$ J (c) $-1.33\\times10^4$ J (d) $-1.33\\times10^{-4}$ J",
+"vi": "Khí lưỡng nguyên tử lý tưởng (quay, không dao động) bị nén đoạn nhiệt từ 1,20 atm và 0,200 m$^3$ đến 2,40 atm. Công do khí thực hiện? (a) $1.33\\times10^4$ J (b) $1.33\\times10^{-4}$ J (c) $-1.33\\times10^4$ J (d) $-1.33\\times10^{-4}$ J"
+},
+{
+"id": "E13",
+"course": "Physics-1",
+"en": "One mole of a monatomic ideal gas is mixed with one mole of a diatomic ideal gas. Molar specific heat of the mixture at constant volume? (a) $R$ (b) $0.5R$ (c) $2R$ (d) $4R$",
+"vi": "Trộn một mol khí đơn nguyên tử với một mol khí lưỡng nguyên tử. Nhiệt dung mol đẳng tích của hỗn hợp? (a) $R$ (b) $0.5R$ (c) $2R$ (d) $4R$"
+},
+{
+"id": "E14",
+"course": "Physics-1",
+"en": "An ideal gas undergoes the process shown. The work done by the gas is: (a) $-2P_0V_0$ (b) $+2P_0V_0$ (c) $-4P_0V_0$ (d) $+4P_0V_0$",
+"vi": "Khí lý tưởng thực hiện quá trình trong hình. Công do khí thực hiện là: (a) $-2P_0V_0$ (b) $+2P_0V_0$ (c) $-4P_0V_0$ (d) $+4P_0V_0$"
+},
+{
+"id": "E15",
+"course": "Physics-1",
+"en": "A projectile follows the path OPQRS (air resistance neglected). At the highest point Q which statement is true? (a) The momentum is zero (b) The kinetic energy is zero (c) The horizontal velocity is zero (d) The horizontal acceleration is zero",
+"vi": "Vật ném theo đường OPQRS (bỏ qua lực cản). Tại điểm cao nhất Q phát biểu nào đúng? (a) The momentum is zero (b) The kinetic energy is zero (c) The horizontal velocity is zero (d) The horizontal acceleration is zero"
+},
+{
+"id": "E16",
+"course": "Physics-1",
+"en": "In a cycle, $Q_{AB}=20.0$ J at constant volume, $Q_{BC}=0$ (adiabatic), net work per cycle $15.0$ J. Find $Q_{CA}$ (constant pressure). (a) $5.0$ J (b) $-5.0$ J (c) $0.0$ J (d) $10.0$ J",
+"vi": "Trong một chu trình, $Q_{AB}=20{,}0$ J đẳng tích, $Q_{BC}=0$ (đoạn nhiệt), công ròng mỗi chu trình $15{,}0$ J. Tìm $Q_{CA}$ (đẳng áp). (a) $5.0$ J (b) $-5.0$ J (c) $0.0$ J (d) $10.0$ J"
+},
+{
+"id": "E17",
+"course": "Physics-1",
+"en": "A particle of mass $m$ and velocity $u$ collides head-on, elastically, with a stationary particle of mass $M$. Velocity of $M$ afterwards? (a) $u$ (b) $mu/M$ (c) $\\dfrac{2mu}{M+m}$ (d) $\\dfrac{(M-m)u}{M+m}$",
+"vi": "Hạt khối lượng $m$, vận tốc $u$ va chạm đàn hồi trực diện với hạt $M$ đứng yên. Vận tốc của $M$ sau va chạm? (a) $u$ (b) $mu/M$ (c) $\\dfrac{2mu}{M+m}$ (d) $\\dfrac{(M-m)u}{M+m}$"
+},
+{
+"id": "E18",
+"course": "Physics-1",
+"en": "Three identical blocks P, Q, R rest on a surface; a force of 30 N pulls at one end. Tensions $T_1$ (between P and Q) and $T_2$ (between Q and R)? (a) $30$, $30$ (b) $10$, $20$ (c) $15$, $25$ (d) $20$, $10$",
+"vi": "Ba khối giống hệt P, Q, R nằm trên mặt phẳng; lực 30 N kéo ở một đầu. Lực căng $T_1$ (giữa P và Q) và $T_2$ (giữa Q và R)? (a) $30$, $30$ (b) $10$, $20$ (c) $15$, $25$ (d) $20$, $10$"
+},
+{
+"id": "E19",
+"course": "Physics-1",
+"en": "A stone is released from rest at the top of a 40 m tower. Time to fall the last 10 m? ($g=10$ m/s$^2$) (a) $0.38$ s (b) $1.4$ s (c) $2.8$ s (d) $2.5$ s",
+"vi": "Hòn đá thả từ nghỉ ở đỉnh tháp cao 40 m. Thời gian rơi 10 m cuối? ($g=10$ m/s$^2$) (a) $0.38$ s (b) $1.4$ s (c) $2.8$ s (d) $2.5$ s"
+},
+{
+"id": "E20",
+"course": "Physics-1",
+"en": "A body is released from height $h$ along an incline into a vertical circular loop of radius $R$. Minimum $h$ to complete the loop (frictionless, sliding)? (a) $6.0R$ (b) $4.0R$ (c) $2.5R$ (d) $2.0R$",
+"vi": "Vật thả từ độ cao $h$ trên mặt nghiêng vào vòng tròn thẳng đứng bán kính $R$. $h$ nhỏ nhất để đi hết vòng (không ma sát, trượt)? (a) $6.0R$ (b) $4.0R$ (c) $2.5R$ (d) $2.0R$"
+},
+{
+"id": "E21",
+"course": "Physics-1",
+"en": "At what frequency is the wavelength of sound in air equal to the mean free path of oxygen molecules at 1.0 atm and 0°C? Molecular diameter $3.0\\times10^{-8}$ cm. (a) $3.5\\times10^8$ Hz (b) $3.0\\times10^8$ Hz (c) $3.5\\times10^9$ Hz (d) $3.6\\times10^9$ Hz",
+"vi": "Ở tần số nào bước sóng âm trong không khí bằng quãng đường tự do trung bình của phân tử oxy ở 1,0 atm và 0°C? Đường kính phân tử $3{,}0\\times10^{-8}$ cm. (a) $3.5\\times10^8$ Hz (b) $3.0\\times10^8$ Hz (c) $3.5\\times10^9$ Hz (d) $3.6\\times10^9$ Hz"
+},
+{
+"id": "E22",
+"course": "Physics-1",
+"en": "Work done on a system is ..., and heat flow into the system is ... (a) Positive, negative (b) Positive, positive (c) Negative, negative (d) Negative, positive",
+"vi": "Công thực hiện lên hệ là ..., và nhiệt truyền vào hệ là ... (a) Positive, negative (b) Positive, positive (c) Negative, negative (d) Negative, positive"
+},
+{
+"id": "E23",
+"course": "Physics-1",
+"en": "Path 1 from i to f: isothermal expansion (work 50 J), adiabatic expansion (40 J), isothermal compression (30 J), adiabatic compression (25 J). Change of internal energy along path 2? (a) $-40$ J (b) $25$ J (c) $-15$ J (d) $15$ J",
+"vi": "Đường 1 từ i đến f: giãn đẳng nhiệt (công 50 J), giãn đoạn nhiệt (40 J), nén đẳng nhiệt (30 J), nén đoạn nhiệt (25 J). Biến thiên nội năng theo đường 2? (a) $-40$ J (b) $25$ J (c) $-15$ J (d) $15$ J"
+},
+{
+"id": "E24",
+"course": "Physics-1",
+"en": "What mass of steam at 100°C must be mixed with 150 g of ice at 0°C in an insulated container to give liquid water at 50°C? (a) $34$ g (b) $33$ g (c) $32$ g (d) $35$ g",
+"vi": "Cần bao nhiêu khối lượng hơi nước 100°C trộn với 150 g nước đá 0°C trong bình cách nhiệt để được nước lỏng 50°C? (a) $34$ g (b) $33$ g (c) $32$ g (d) $35$ g"
+},
+{
+"id": "E25",
+"course": "Physics-1",
+"en": "A gas goes round the cycle in the $p$–$V$ diagram (horizontal scale set by $V_s=4.0$ m$^3$). Net energy added as heat during one cycle? (a) $30$ J (b) $-30$ J (c) $60$ J (d) $-90$ J",
+"vi": "Khí thực hiện chu trình trên giản đồ $p$–$V$ (thang ngang $V_s=4{,}0$ m$^3$). Nhiệt ròng truyền vào trong một chu trình? (a) $30$ J (b) $-30$ J (c) $60$ J (d) $-90$ J"
+},
+{
+"id": "E26",
+"course": "Physics-1",
+"en": "A 50 kg man stands on a scale in a lift descending at 1.0 m/s$^2$. Reading? ($g=10$) (a) $450$ N (b) $60$ N (c) $550$ N (d) $500$ N",
+"vi": "Người 50 kg đứng trên cân trong thang máy đi xuống với gia tốc 1,0 m/s$^2$. Số chỉ? ($g=10$) (a) $450$ N (b) $60$ N (c) $550$ N (d) $500$ N"
+},
+{
+"id": "E27",
+"course": "Physics-1",
+"en": "A 40 kg mass and a 10 kg mass rest on a smooth surface as shown. Speed of the 10 kg mass 2 s after release? ($g=10$) (a) $1$ m/s (b) $4$ m/s (c) $2$ m/s (d) $10$ m/s",
+"vi": "Vật 40 kg và 10 kg đặt trên mặt nhẵn như hình. Tốc độ của vật 10 kg sau 2 s kể từ lúc thả? ($g=10$) (a) $1$ m/s (b) $4$ m/s (c) $2$ m/s (d) $10$ m/s"
+},
+{
+"id": "E28",
+"course": "Physics-1",
+"en": "An air conditioner supplies 1 kg/s of air at 15°C cooled from outside air at 35°C. Estimate the power needed. $P=\\dot m\\,C_p\\Delta T$ ($C_p=1.005$ kJ/kg·K). (a) $1.09$ kW (b) $1.19$ kW (c) $1.29$ kW (d) $1.39$ kW",
+"vi": "Máy điều hòa cấp 1 kg/s không khí 15°C, làm lạnh từ không khí ngoài trời 35°C. Ước tính công suất cần thiết. $P=\\dot m\\,C_p\\Delta T$ ($C_p=1.005$ kJ/kg·K). (a) $1.09$ kW (b) $1.19$ kW (c) $1.29$ kW (d) $1.39$ kW"
+},
+{
+"id": "E29",
+"course": "Physics-1",
+"en": "Which of the following is NOT one of Newton's laws of motion? (a) Rate of change of momentum ∝ external force (b) Total momentum of a system is constant if no external force (c) If A exerts a force on B, B exerts an equal opposite force on A (d) A body stays at rest or in uniform motion unless acted on by a force",
+"vi": "Phát biểu nào sau đây KHÔNG phải một định luật Newton? (a) Rate of change of momentum ∝ external force (b) Total momentum of a system is constant if no external force (c) If A exerts a force on B, B exerts an equal opposite force on A (d) A body stays at rest or in uniform motion unless acted on by a force"
+},
+{
+"id": "E30",
+"course": "Physics-1",
+"en": "The mean free path of a gas molecule is $\\lambda_1$ at temperature $T$. Pressure and temperature are both doubled. New mean free path $\\lambda_2$? (a) $2\\lambda_1$ (b) $\\lambda_1$ (c) $\\lambda_1/2$ (d) $4\\lambda_1$",
+"vi": "Quãng đường tự do trung bình là $\\lambda_1$ ở nhiệt độ $T$. Áp suất và nhiệt độ cùng gấp đôi. $\\lambda_2$ mới? (a) $2\\lambda_1$ (b) $\\lambda_1$ (c) $\\lambda_1/2$ (d) $4\\lambda_1$"
+},
+{
+"id": "E31",
+"course": "Physics-1",
+"en": "The figure is a velocity–time graph. Displacement equals: (a) $y(x_1+x_2+x_3)$ (b) $y(x_3-x_1)$ (c) $\\dfrac y2(x_3+x_2-x_1)$ (d) $y(x_3-x_2-x_1)$",
+"vi": "Hình là đồ thị vận tốc–thời gian. Độ dịch chuyển bằng: (a) $y(x_1+x_2+x_3)$ (b) $y(x_3-x_1)$ (c) $\\dfrac y2(x_3+x_2-x_1)$ (d) $y(x_3-x_2-x_1)$"
+},
+{
+"id": "E32",
+"course": "Physics-1",
+"en": "The quantity $pV/(kT)$ ($k$ = Boltzmann constant) represents: (a) Number of moles (b) Total mass (c) Number of molecules (d) Density",
+"vi": "Đại lượng $pV/(kT)$ ($k$ là hằng số Boltzmann) biểu diễn: (a) Number of moles (b) Total mass (c) Number of molecules (d) Density"
+},
+{
+"id": "E33",
+"course": "Physics-1",
+"en": "Container A holds gas at $5.0\\times10^5$ Pa, 300 K; container B has four times the volume with the same gas at $1.0\\times10^5$ Pa, 400 K. The valve opens, temperatures of each container are maintained. Final pressure? (a) $1.0\\times10^5$ Pa (b) $2.0\\times10^4$ Pa (c) $2.0\\times10^5$ Pa (d) $1.0\\times10^4$ Pa",
+"vi": "Bình A chứa khí $5{,}0\\times10^5$ Pa, 300 K; bình B có thể tích gấp bốn lần chứa cùng khí $1{,}0\\times10^5$ Pa, 400 K. Mở van, giữ nhiệt độ mỗi bình. Áp suất cuối? (a) $1.0\\times10^5$ Pa (b) $2.0\\times10^4$ Pa (c) $2.0\\times10^5$ Pa (d) $1.0\\times10^4$ Pa"
+},
+{
+"id": "E34",
+"course": "Physics-1",
+"en": "A Carnot engine whose cold reservoir is at 17°C has efficiency 40%. By how much must the hot-reservoir temperature increase to reach 50%? (a) $483$ K (b) $580$ K (c) $97$ K (d) $290$ K",
+"vi": "Động cơ Carnot có nguồn lạnh 17°C, hiệu suất 40%. Phải tăng nhiệt độ nguồn nóng thêm bao nhiêu để đạt 50%? (a) $483$ K (b) $580$ K (c) $97$ K (d) $290$ K"
+},
+{
+"id": "E35",
+"course": "Physics-1",
+"en": "A particle moves from $\\vec r_1=3\\hat i+2\\hat j-6\\hat k$ to $\\vec r_2=14\\hat i+13\\hat j+9\\hat k$ under a force $5\\hat i$ N. Work done? (a) $55$ J (b) $65$ J (c) $45$ J (d) $75$ J",
+"vi": "Hạt dịch chuyển từ $\\vec r_1=3\\hat i+2\\hat j-6\\hat k$ đến $\\vec r_2=14\\hat i+13\\hat j+9\\hat k$ dưới lực $5\\hat i$ N. Công thực hiện? (a) $55$ J (b) $65$ J (c) $45$ J (d) $75$ J"
+},
+{
+"id": "E36",
+"course": "Physics-1",
+"en": "A body falls freely. Its rate of change of momentum equals: (a) Impulse (b) Kinetic energy (c) Power (d) Weight",
+"vi": "Vật rơi tự do. Tốc độ biến thiên động lượng của nó bằng: (a) Impulse (b) Kinetic energy (c) Power (d) Weight"
+},
+{
+"id": "E37",
+"course": "Physics-1",
+"en": "A pendulum bob of mass 1.27 kg hangs from a string 0.600 m long. When the string is vertical the bob moves at 0.575 m/s horizontally. Tension at that instant? (a) $11.8$ N (b) $12.5$ N (c) $13.2$ N (d) $13.7$ N",
+"vi": "Quả nặng 1,27 kg treo bằng dây dài 0,600 m. Khi dây thẳng đứng, quả nặng chuyển động ngang với 0,575 m/s. Lực căng lúc đó? (a) $11.8$ N (b) $12.5$ N (c) $13.2$ N (d) $13.7$ N"
+},
+{
+"id": "E38",
+"course": "Physics-1",
+"en": "The velocity–time graph shows the motion of an object. Calculate the distance travelled $S$ and the displacement $x$. (a) $S=25$, $x=7$ (b) $S=49$, $x=9$ (c) $S=49$, $x=7$ (d) $S=16$, $x=9$",
+"vi": "Đồ thị vận tốc–thời gian cho chuyển động của một vật. Tính quãng đường $S$ và độ dịch chuyển $x$. (a) $S=25$, $x=7$ (b) $S=49$, $x=9$ (c) $S=49$, $x=7$ (d) $S=16$, $x=9$"
+},
+{
+"id": "E39",
+"course": "Physics-1",
+"en": "A speed–time graph of an object is shown. Which description fits? (a) The object drops through vacuum (b) The object drops through air (c) The object is thrown downwards through vacuum (d) The object is thrown downwards through air",
+"vi": "Đồ thị tốc độ–thời gian của một vật được cho. Mô tả nào phù hợp? (a) The object drops through vacuum (b) The object drops through air (c) The object is thrown downwards through vacuum (d) The object is thrown downwards through air"
+},
+{
+"id": "E40",
+"course": "Physics-1",
+"en": "For a diatomic gas $\\gamma=C_p/C_V$ is: (a) $9/7$ (b) $7/5$ (c) $5/3$ (d) $3/5$",
+"vi": "Với khí lưỡng nguyên tử $\\gamma=C_p/C_V$ bằng: (a) $9/7$ (b) $7/5$ (c) $5/3$ (d) $3/5$"
+},
+{
+"id": "F01",
+"course": "Physics-2",
+"en": "An ideal solenoid 0.50 m long has 1000 turns and carries 2.0 A. Magnetic field inside? ($\\mu_0=4\\pi\\times10^{-7}$ T·m/A) (a) $2.5\\times10^{-3}$ T (b) $5.0\\times10^{-3}$ T (c) $1.3\\times10^{-3}$ T (d) $7.5\\times10^{-3}$ T",
+"vi": "Ống dây lý tưởng dài 0,50 m có 1000 vòng, dòng 2,0 A. Từ trường bên trong? ($\\mu_0=4\\pi\\times10^{-7}$ T·m/A) (a) $2.5\\times10^{-3}$ T (b) $5.0\\times10^{-3}$ T (c) $1.3\\times10^{-3}$ T (d) $7.5\\times10^{-3}$ T"
+},
+{
+"id": "F02",
+"course": "Physics-2",
+"en": "Electric field of an infinite uniformly charged sheet, versus distance $r$: (a) $\\propto r$ (b) constant (c) $1/r$ (d) zero",
+"vi": "Điện trường của tấm vô hạn tích điện đều, phụ thuộc khoảng cách $r$: (a) $\\propto r$ (b) constant (c) $1/r$ (d) zero"
+},
+{
+"id": "F03",
+"course": "Physics-2",
+"en": "A metal sheet moves through a localized uniform magnetic field. To reduce the drag caused by eddy currents, one can: (a) Increase the speed (b) Increase the field strength (c) Cut slots perpendicular to the motion (d) Cool the sheet to decrease its resistance",
+"vi": "Tấm kim loại chuyển động qua vùng từ trường đều cục bộ. Để giảm lực cản do dòng xoáy ta có thể: (a) Increase the speed (b) Increase the field strength (c) Cut slots perpendicular to the motion (d) Cool the sheet to decrease its resistance"
+},
+{
+"id": "F04",
+"course": "Physics-2",
+"en": "For a coil of $N$ closely packed turns the induced emf is: (a) $-\\frac1N\\frac{d\\Phi_B}{dt}$ (b) $-N\\frac{d\\Phi_B}{dt}$ (c) $-N^2\\frac{d\\Phi_B}{dt}$ (d) $-\\frac{d(N+\\Phi_B)}{dt}$",
+"vi": "Với cuộn dây $N$ vòng quấn sát nhau, suất điện động cảm ứng là: (a) $-\\frac1N\\frac{d\\Phi_B}{dt}$ (b) $-N\\frac{d\\Phi_B}{dt}$ (c) $-N^2\\frac{d\\Phi_B}{dt}$ (d) $-\\frac{d(N+\\Phi_B)}{dt}$"
+},
+{
+"id": "F05",
+"course": "Physics-2",
+"en": "A 120 MHz station has two identical in-phase antennas, B 9.00 m to the right of A. For which $x$ (distance from A, between them) is there constructive interference? (a) 2.7 m (b) 1.8 m (c) 3.6 m (d) 4.5 m",
+"vi": "Đài 120 MHz có hai ăng-ten giống hệt cùng pha, B ở bên phải A 9,00 m. Với $x$ nào (khoảng cách từ A, ở giữa hai ăng-ten) có giao thoa tăng cường? (a) 2.7 m (b) 1.8 m (c) 3.6 m (d) 4.5 m"
+},
+{
+"id": "F06",
+"course": "Physics-2",
+"en": "Work done moving a charge along an equipotential: (a) Positive (b) Negative (c) Zero (d) Infinite",
+"vi": "Công khi dịch chuyển điện tích dọc theo mặt đẳng thế: (a) Positive (b) Negative (c) Zero (d) Infinite"
+},
+{
+"id": "F07",
+"course": "Physics-2",
+"en": "If the net electric field at a point is zero, the potential there: (a) Must be zero (b) Must be constant locally (c) Infinite (d) Negative",
+"vi": "Nếu điện trường tổng hợp tại một điểm bằng 0 thì điện thế tại đó: (a) Must be zero (b) Must be constant locally (c) Infinite (d) Negative"
+},
+{
+"id": "F08",
+"course": "Physics-2",
+"en": "Two opposite charges form a dipole. The electric field at the midpoint is: (a) Zero (b) Maximum (c) Infinite (d) Constant",
+"vi": "Hai điện tích trái dấu tạo thành lưỡng cực. Điện trường tại trung điểm là: (a) Zero (b) Maximum (c) Infinite (d) Constant"
+},
+{
+"id": "F09",
+"course": "Physics-2",
+"en": "The magnetic dipole moment of a current loop points in the direction given by: (a) The current direction (b) The left-hand rule (c) The right-hand rule applied to the current (d) The external field",
+"vi": "Mômen lưỡng cực từ của khung dây mang dòng điện hướng theo: (a) The current direction (b) The left-hand rule (c) The right-hand rule applied to the current (d) The external field"
+},
+{
+"id": "F10",
+"course": "Physics-2",
+"en": "Two parallel wires 10 cm apart carry 4.0 A and 6.0 A in opposite directions. At what distance from the 4.0 A wire, on the side opposite to the 6.0 A wire, is the net field zero? (a) 10 cm (b) 20 cm (c) 5.0 cm (d) 15 cm",
+"vi": "Hai dây song song cách nhau 10 cm mang 4,0 A và 6,0 A ngược chiều. Ở khoảng cách nào từ dây 4,0 A, phía đối diện dây 6,0 A, từ trường tổng bằng 0? (a) 10 cm (b) 20 cm (c) 5.0 cm (d) 15 cm"
+},
+{
+"id": "F11",
+"course": "Physics-2",
+"en": "Solid nonconducting sphere of radius $a=2.00$ cm, uniform net charge $q_1=+5.00$ fC, concentric with a conducting spherical shell (inner radius $b$, outer radius $c$, net charge $q_2=-q_1$; in the source problem $b=2.00a$, $c=2.40a$). Field at $r=0,\\ a/2,\\ a,\\ 1.5a,\\ 2.30a,\\ 3.50a$, and the charges on the inner and outer shell surfaces? (a) (a)0 (b)0.0562 (c)0.112 (d)0.0500 (e)0 (f)0 (g)−5.00 fC (h)0 (b) (a)0 (b)0 (c)0.112 (d)0.0500 (e)0 (f)0 (g)0 (h)−5.00 fC (c) (a)0.112 (b)0.0562 (c)0.112 (d)0.0750 (e)>0 (f)0 … (d) (a)0 (b)0.224 (c)0.112 (d)0.0500 (e)>0 (f)0 (g)+5.00 fC …",
+"vi": "Quả cầu không dẫn bán kính $a=2{,}00$ cm, điện tích đều $q_1=+5{,}00$ fC, đồng tâm với vỏ cầu dẫn (bán kính trong $b$, ngoài $c$, điện tích tổng $q_2=-q_1$; ở bài gốc $b=2{,}00a$, $c=2{,}40a$). Trường tại $r=0,\\ a/2,\\ a,\\ 1{,}5a,\\ 2{,}30a,\\ 3{,}50a$ và điện tích mặt trong, mặt ngoài của vỏ? (a) (a)0 (b)0.0562 (c)0.112 (d)0.0500 (e)0 (f)0 (g)−5.00 fC (h)0 (b) (a)0 (b)0 (c)0.112 (d)0.0500 (e)0 (f)0 (g)0 (h)−5.00 fC (c) (a)0.112 (b)0.0562 (c)0.112 (d)0.0750 (e)>0 (f)0 … (d) (a)0 (b)0.224 (c)0.112 (d)0.0500 (e)>0 (f)0 (g)+5.00 fC …"
+},
+{
+"id": "F12",
+"course": "Physics-2",
+"en": "Magnitude of the magnetic field at distance $r$ from a long straight wire carrying current $i$: (a) $\\mu_0i/4\\pi r$ (b) $\\mu_0i/2\\pi r$ (c) $\\mu_0i/2r$ (d) $\\mu_0i/r^2$",
+"vi": "Độ lớn từ trường tại khoảng cách $r$ từ dây thẳng dài mang dòng $i$: (a) $\\mu_0i/4\\pi r$ (b) $\\mu_0i/2\\pi r$ (c) $\\mu_0i/2r$ (d) $\\mu_0i/r^2$"
+},
+{
+"id": "F13",
+"course": "Physics-2",
+"en": "Coherent light of wavelength 450 nm falls on two slits. On a screen 1.80 m away the distance between dark fringes is 3.90 mm. Slit separation? (a) 0.215 mm (b) 0.201 mm (c) 0.194 mm (d) 0.208 mm",
+"vi": "Ánh sáng kết hợp bước sóng 450 nm chiếu vào hai khe. Trên màn cách 1,80 m khoảng cách giữa các vân tối là 3,90 mm. Khoảng cách hai khe? (a) 0.215 mm (b) 0.201 mm (c) 0.194 mm (d) 0.208 mm"
+},
+{
+"id": "F14",
+"course": "Physics-2",
+"en": "A stationary interference pattern from two close sources requires that the waves: (a) be in phase (b) be transverse (c) have the same amplitude (d) have the same frequency",
+"vi": "Hình ảnh giao thoa ổn định từ hai nguồn gần nhau đòi hỏi các sóng phải: (a) be in phase (b) be transverse (c) have the same amplitude (d) have the same frequency"
+},
+{
+"id": "F15",
+"course": "Physics-2",
+"en": "A diffraction pattern is obtained with a straight edge using light of wavelength 5500 Å. The source–edge distance is 15 cm and the edge–eyepiece distance 3 m. Position of the first maximum? (a) 1.01 cm (b) 2.03 cm (c) 0.46 cm (d) 1.56 cm",
+"vi": "Hình nhiễu xạ qua mép thẳng với ánh sáng bước sóng 5500 Å. Khoảng cách nguồn–mép 15 cm, mép–thị kính 3 m. Vị trí cực đại đầu tiên? (a) 1.01 cm (b) 2.03 cm (c) 0.46 cm (d) 1.56 cm"
+},
+{
+"id": "F16",
+"course": "Physics-2",
+"en": "Two very long parallel lines of charge, separated by $L=8.0$ cm, have linear densities $+6.0\\ \\mu$C/m (line 1) and $-2.0\\ \\mu$C/m (line 2). Where on the $x$ axis (origin midway) is the net field zero? (a) $x=8.0$ cm (b) $x=12.0$ cm (c) $x=4.0$ cm (d) $x=-8.0$ cm",
+"vi": "Hai sợi tích điện dài song song cách nhau $L=8{,}0$ cm có mật độ dài $+6{,}0\\ \\mu$C/m (sợi 1) và $-2{,}0\\ \\mu$C/m (sợi 2). Trên trục $x$ (gốc ở giữa) trường tổng bằng 0 ở đâu? (a) $x=8.0$ cm (b) $x=12.0$ cm (c) $x=4.0$ cm (d) $x=-8.0$ cm"
+},
+{
+"id": "F17",
+"course": "Physics-2",
+"en": "An electron moves in the $+x$ direction through a uniform magnetic field in the $+y$ direction. The magnetic force on it is in the: (a) $+z$ (b) $-z$ (c) $+x$ (d) $-y$",
+"vi": "Electron chuyển động theo $+x$ trong từ trường đều theo $+y$. Lực từ lên nó theo chiều: (a) $+z$ (b) $-z$ (c) $+x$ (d) $-y$"
+},
+{
+"id": "F18",
+"course": "Physics-2",
+"en": "The magnetic field inside an ideal toroid is: (a) Uniform across the cross-section (b) Zero (c) Inversely proportional to the distance from the centre (d) Directly proportional to the distance",
+"vi": "Từ trường bên trong xuyến lý tưởng: (a) Uniform across the cross-section (b) Zero (c) Inversely proportional to the distance from the centre (d) Directly proportional to the distance"
+},
+{
+"id": "F19",
+"course": "Physics-2",
+"en": "Red He–Ne laser light has wavelength 633 nm in air and 474 nm in the aqueous humor of the eye. Refractive index of the aqueous humor (3 decimals)? (a) 1.323 (b) 1.335 (c) 1.400 (d) 1.428",
+"vi": "Ánh sáng đỏ laser He–Ne có bước sóng 633 nm trong không khí và 474 nm trong thủy dịch của mắt. Chiết suất thủy dịch (3 chữ số thập phân)? (a) 1.323 (b) 1.335 (c) 1.400 (d) 1.428"
+},
+{
+"id": "F20",
+"course": "Physics-2",
+"en": "The magnetic field outside an ideal infinitely long solenoid is: (a) $\\mu_0in$ (b) Uniform but non-zero (c) Zero (d) Radially outward",
+"vi": "Từ trường bên ngoài ống dây vô hạn lý tưởng: (a) $\\mu_0in$ (b) Uniform but non-zero (c) Zero (d) Radially outward"
+},
+{
+"id": "F21",
+"course": "Physics-2",
+"en": "A magnetic dipole in stable equilibrium in a uniform magnetic field has potential energy: (a) Maximum (b) Zero (c) Minimum (d) Independent of the field",
+"vi": "Lưỡng cực từ ở trạng thái cân bằng bền trong từ trường đều có thế năng: (a) Maximum (b) Zero (c) Minimum (d) Independent of the field"
+},
+{
+"id": "F22",
+"course": "Physics-2",
+"en": "Inside a conductor in electrostatic equilibrium: (a) $E\\neq0$ (b) $E=0$ (c) Depends on the charge (d) Infinite",
+"vi": "Bên trong vật dẫn ở cân bằng tĩnh điện: (a) $E\\neq0$ (b) $E=0$ (c) Depends on the charge (d) Infinite"
+},
+{
+"id": "F23",
+"course": "Physics-2",
+"en": "A ray in glass ($n=1.522$) hits the top surface at $57.2^\\circ$ to the normal. A layer of oil placed on the glass makes the ray totally reflected. Maximum possible refractive index of the oil? (a) 1.211 (b) 1.279 (c) 1.350 (d) 1.111",
+"vi": "Tia sáng trong thủy tinh ($n=1{,}522$) tới mặt trên với góc $57{,}2^\\circ$ so với pháp tuyến. Đặt lớp dầu lên thủy tinh thì tia bị phản xạ toàn phần. Chiết suất lớn nhất có thể của dầu? (a) 1.211 (b) 1.279 (c) 1.350 (d) 1.111"
+},
+{
+"id": "F24",
+"course": "Physics-2",
+"en": "A convex spherical mirror has $f=-12.0$ cm. At what distance from the vertex must an object be for the image to be half the object's height? (a) 8 cm (b) 11 cm (c) 24 cm (d) 22 cm",
+"vi": "Gương cầu lồi có $f=-12{,}0$ cm. Vật phải đặt cách đỉnh gương bao nhiêu để ảnh cao bằng nửa vật? (a) 8 cm (b) 11 cm (c) 24 cm (d) 22 cm"
+},
+{
+"id": "F25",
+"course": "Physics-2",
+"en": "Ultrasound travels at 1480 m/s in muscle and 344 m/s in air (and lungs). Define $n$ for sound as (speed in air)/(speed in the material); Snell's law applies. At what angle from the normal does a beam enter the heart if it leaves the lungs at $9.73^\\circ$? (a) 2.25° (b) 15.47° (c) 23.33° (d) 30.46°",
+"vi": "Siêu âm có tốc độ 1480 m/s trong cơ và 344 m/s trong không khí (và phổi). Định nghĩa $n$ cho âm là (tốc độ trong không khí)/(tốc độ trong vật liệu); định luật Snell vẫn đúng. Chùm tia vào tim với góc bao nhiêu nếu rời phổi ở $9{,}73^\\circ$? (a) 2.25° (b) 15.47° (c) 23.33° (d) 30.46°"
+},
+{
+"id": "F26",
+"course": "Physics-2",
+"en": "$B(t)=(0.2t^2+0.5t)$ T is perpendicular to a circular loop of radius 0.1 m. Induced emf at $t=2.0$ s? (a) 0.082 V (b) 0.041 V (c) 0.025 V (d) 0.124 V",
+"vi": "$B(t)=(0{,}2t^2+0{,}5t)$ T vuông góc với vòng tròn bán kính 0,1 m. Suất điện động cảm ứng tại $t=2{,}0$ s? (a) 0.082 V (b) 0.041 V (c) 0.025 V (d) 0.124 V"
+},
+{
+"id": "F27",
+"course": "Physics-2",
+"en": "Image position and magnification for an object at 50 cm from a converging lens with $f=20$ cm. (a) 100/3 cm; −2/3 (b) −100/3 cm; −2/3 (c) 100/3 cm; 2/3 (d) −100/3 cm; 2/3",
+"vi": "Vị trí ảnh và độ phóng đại của vật cách thấu kính hội tụ $f=20$ cm một khoảng 50 cm. (a) 100/3 cm; −2/3 (b) −100/3 cm; −2/3 (c) 100/3 cm; 2/3 (d) −100/3 cm; 2/3"
+},
+{
+"id": "F28",
+"course": "Physics-2",
+"en": "Each plate (charges $+Q$ and $-Q$) initially produces a field $E$. If both charges are doubled, what is the field in region B (between the plates)? (a) $E$ (b) $2E$ (c) $4E$ (d) $0$",
+"vi": "Mỗi bản (điện tích $+Q$ và $-Q$) ban đầu tạo trường $E$. Nếu gấp đôi cả hai điện tích thì trường trong vùng B (giữa hai bản) bằng bao nhiêu? (a) $E$ (b) $2E$ (c) $4E$ (d) $0$"
+},
+{
+"id": "F29",
+"course": "Physics-2",
+"en": "Which expression gives the Lorentz force on a charge $q$ moving with velocity $\\vec v$ in fields $\\vec E$ and $\\vec B$? (a) $q\\vec E+q(\\vec B\\times\\vec v)$ (b) $q\\vec B+q(\\vec v\\times\\vec E)$ (c) $q\\vec E+q(\\vec v\\times\\vec B)$ (d) $q\\vec E\\times\\vec B+q\\vec v$",
+"vi": "Biểu thức nào cho lực Lorentz lên điện tích $q$ chuyển động với vận tốc $\\vec v$ trong các trường $\\vec E$, $\\vec B$? (a) $q\\vec E+q(\\vec B\\times\\vec v)$ (b) $q\\vec B+q(\\vec v\\times\\vec E)$ (c) $q\\vec E+q(\\vec v\\times\\vec B)$ (d) $q\\vec E\\times\\vec B+q\\vec v$"
+},
+{
+"id": "F30",
+"course": "Physics-2",
+"en": "An emf can be induced in a conducting loop by: (a) Changing the magnitude of $B$ (b) Changing the area of the loop (c) Changing the angle between $\\vec A$ and $\\vec B$ (d) All of the above",
+"vi": "Có thể cảm ứng suất điện động trong vòng dây bằng cách: (a) Changing the magnitude of $B$ (b) Changing the area of the loop (c) Changing the angle between $\\vec A$ and $\\vec B$ (d) All of the above"
+},
+{
+"id": "F31",
+"course": "Physics-2",
+"en": "Inside a long straight hollow cylindrical conductor carrying a steady current, the magnetic field (in the hollow) is: (a) Constant and non-zero (b) Proportional to the distance from the axis (c) Inversely proportional to the distance (d) Zero",
+"vi": "Bên trong ống dẫn trụ rỗng thẳng dài mang dòng không đổi, từ trường (trong phần rỗng) là: (a) Constant and non-zero (b) Proportional to the distance from the axis (c) Inversely proportional to the distance (d) Zero"
+},
+{
+"id": "F32",
+"course": "Physics-2",
+"en": "When a magnet is thrust into a coil of wire, the induced current is greater if: (a) The magnet moves slower (b) The coil has fewer turns (c) The magnet moves faster (d) The magnet is held stationary inside the coil",
+"vi": "Khi cắm nam châm vào cuộn dây, dòng cảm ứng lớn hơn nếu: (a) The magnet moves slower (b) The coil has fewer turns (c) The magnet moves faster (d) The magnet is held stationary inside the coil"
+},
+{
+"id": "F33",
+"course": "Physics-2",
+"en": "Light of wavelength 500 nm passes through a single slit; the screen is 2.50 m away and the central maximum is 6.00 mm wide. Slit width $a$? (a) 0.21 mm (b) 0.63 mm (c) 0.42 mm (d) 0.84 mm",
+"vi": "Ánh sáng 500 nm qua khe đơn; màn cách 2,50 m và cực đại trung tâm rộng 6,00 mm. Bề rộng khe $a$? (a) 0.21 mm (b) 0.63 mm (c) 0.42 mm (d) 0.84 mm"
+},
+{
+"id": "F34",
+"course": "Physics-2",
+"en": "Magnetic field 0.05 m from a long straight wire carrying 10 A? (a) $2.0\\times10^{-5}$ T (b) $4.0\\times10^{-5}$ T (c) $1.0\\times10^{-5}$ T (d) $8.0\\times10^{-5}$ T",
+"vi": "Từ trường cách dây thẳng dài mang 10 A một khoảng 0,05 m? (a) $2.0\\times10^{-5}$ T (b) $4.0\\times10^{-5}$ T (c) $1.0\\times10^{-5}$ T (d) $8.0\\times10^{-5}$ T"
+},
+{
+"id": "F35",
+"course": "Physics-2",
+"en": "$n=2.46$ for violet (400 nm) and $2.41$ for red (700 nm) in diamond. A ray in air strikes the diamond at $53.5^\\circ$. Angular separation of the two colours in the refracted ray? (a) 0.39° (b) 0.41° (c) 0.47° (d) 0.53°",
+"vi": "$n=2{,}46$ cho tím (400 nm) và $2{,}41$ cho đỏ (700 nm) trong kim cương. Tia từ không khí tới kim cương ở góc $53{,}5^\\circ$. Góc tách giữa hai màu trong tia khúc xạ? (a) 0.39° (b) 0.41° (c) 0.47° (d) 0.53°"
+},
+{
+"id": "F36",
+"course": "Physics-2",
+"en": "Unpolarised light $I_0$ passes through two ideal polarisers: the first axis is vertical, the second makes angle $\\varphi$ with the vertical. For what $\\varphi$ is the intensity at P equal to $I_0/10$? (a) 43.43° (b) 53.43° (c) 63.43° (d) 73.43°",
+"vi": "Ánh sáng không phân cực $I_0$ qua hai kính phân cực lý tưởng: trục thứ nhất thẳng đứng, trục thứ hai hợp góc $\\varphi$ với phương đứng. $\\varphi$ bằng bao nhiêu để cường độ tại P là $I_0/10$? (a) 43.43° (b) 53.43° (c) 63.43° (d) 73.43°"
+},
+{
+"id": "F37",
+"course": "Physics-2",
+"en": "The work done by a constant magnetic field on a moving charged particle is always: (a) Positive (b) Negative (c) Zero (d) Dependent on the charge",
+"vi": "Công do từ trường không đổi thực hiện lên hạt mang điện chuyển động luôn: (a) Positive (b) Negative (c) Zero (d) Dependent on the charge"
+},
+{
+"id": "F38",
+"course": "Physics-2",
+"en": "Two satellites at altitude 1200 km are 28 km apart. With 3.6 cm microwaves, what minimum dish diameter resolves them (Rayleigh's criterion)? (a) 0.88 m (b) 1.88 m (c) 3.88 m (d) 2.88 m",
+"vi": "Hai vệ tinh ở độ cao 1200 km cách nhau 28 km. Với vi sóng 3,6 cm, đường kính chảo nhỏ nhất để phân giải (tiêu chuẩn Rayleigh)? (a) 0.88 m (b) 1.88 m (c) 3.88 m (d) 2.88 m"
+},
+{
+"id": "F39",
+"course": "Physics-2",
+"en": "The magnetic field well inside a long ideal solenoid carrying current $i$ with $n$ turns per unit length is: (a) $\\tfrac12\\mu_0in$ (b) $\\mu_0in$ (c) $\\mu_0i/n$ (d) $2\\mu_0in$",
+"vi": "Từ trường sâu bên trong ống dây lý tưởng dài mang dòng $i$ với $n$ vòng trên đơn vị dài là: (a) $\\tfrac12\\mu_0in$ (b) $\\mu_0in$ (c) $\\mu_0i/n$ (d) $2\\mu_0in$"
+},
+{
+"id": "F40",
+"course": "Physics-2",
+"en": "A circular loop of radius 0.20 m carries 4.0 A. Magnetic field at its centre? (a) $1.26\\times10^{-5}$ T (b) $2.51\\times10^{-5}$ T (c) $6.28\\times10^{-6}$ T (d) $5.02\\times10^{-5}$ T",
+"vi": "Vòng dây tròn bán kính 0,20 m mang dòng 4,0 A. Từ trường tại tâm? (a) $1.26\\times10^{-5}$ T (b) $2.51\\times10^{-5}$ T (c) $6.28\\times10^{-6}$ T (d) $5.02\\times10^{-5}$ T"
+}
+]
