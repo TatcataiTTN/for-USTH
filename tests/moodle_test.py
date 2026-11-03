@@ -1,6 +1,6 @@
-"""Linear Algebra Moodle review pages: every page renders without KaTeX errors, nothing overflows (desktop and phone), the language switch and
+"""Moodle review pages (Linear Algebra, Physics I, Physics II): every page renders without KaTeX errors, nothing overflows (desktop and phone), the language switch and
 the answer buttons work, the question list matches the cards, the PDFs are served.
-Usage: python3 tests/moodle_test.py [BASE_URL] [--shots]"""
+Usage: [ONLY=Physics-1] python3 tests/moodle_test.py [BASE_URL] [--shots]"""
 import os, sys, time, urllib.request
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -33,17 +33,20 @@ def driver(w, h, mobile):
     return d
 def vis(d, sel):
     return d.execute_script("var e=document.querySelector(arguments[0]);return !!e && getComputedStyle(e).display!=='none'", sel)
-C = "Linear-Algebra/moodle/"
-for mobile in (False, True):
-    d = driver(390 if mobile else 1280, 800 if mobile else 900, mobile); tag = "phone" if mobile else "desktop"
+SETS = {"Linear-Algebra": ["ch1", "ch2", "ch3", "ch4"], "Physics-1": ["mock", "final"], "Physics-2": ["final"]}
+for course, ids_ in SETS.items():
+  if os.environ.get("ONLY") and course not in os.environ["ONLY"].split(","): continue
+  C = course + "/moodle/"
+  for mobile in (False, True):
+    d = driver(390 if mobile else 1280, 800 if mobile else 900, mobile); tag = course + (" phone" if mobile else " desktop")
     try:
         d.get(BASE + C + "index.html"); time.sleep(1.2)
-        ok(d.execute_script("return document.querySelectorAll('.card[href]').length") == 4, "index: 4 chapter cards")
-        ok(d.execute_script("return document.querySelectorAll('.katex-error').length") == 0, "index KaTeX errors")
-        ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), "index %s overflow" % tag)
-        ok(d.execute_script("return [].some.call(document.querySelectorAll('nav a'),function(a){return a.textContent==='Moodle review'})"), "nav has Moodle review")
-        for cid in ("ch1", "ch2", "ch3", "ch4"):
-            url = BASE + C + cid + ".html"; d.get(url); time.sleep(1.5); t = "%s %s" % (cid, tag)
+        ok(d.execute_script("return document.querySelectorAll('.card[href]').length") == len(ids_), tag + " index: %d set cards" % len(ids_))
+        ok(d.execute_script("return document.querySelectorAll('.katex-error').length") == 0, tag + " index KaTeX errors")
+        ok(d.execute_script("return document.documentElement.scrollWidth<=window.innerWidth+1"), tag + " index overflow")
+        ok(d.execute_script("return [].some.call(document.querySelectorAll('nav a'),function(a){return a.textContent==='Moodle review'})"), tag + " nav has Moodle review")
+        for cid in ids_:
+            url = BASE + C + cid + ".html"; d.get(url); time.sleep(1.8); t = "%s %s" % (tag, cid)
             n = d.execute_script("return document.querySelectorAll('section.mq').length")
             ok(n > 0, t + ": no question cards")
             ok(d.execute_script("return document.querySelectorAll('.katex-error').length") == 0, t + ": KaTeX errors")
@@ -66,10 +69,10 @@ for mobile in (False, True):
             ok(v > 0 and d.execute_script("return document.querySelectorAll('.ex details.sol[open]').length") == 0, t + ": practice answers should start closed")
             d.execute_script("document.getElementById('solall').click()")
             ok(d.execute_script("return document.querySelectorAll('details.sol[open]').length==document.querySelectorAll('details.sol').length"), t + ": open-all")
-            ok(status(BASE + C + "pdf/Linear-Algebra_Moodle-%s.pdf" % cid) == 200, t + ": PDF missing")
+            ok(status(BASE + C + "pdf/%s_Moodle-%s.pdf" % (course, cid)) == 200, t + ": PDF missing")
             if SHOTS:
-                d.execute_script("document.getElementById('q%s-3').scrollIntoView()" % cid[2]); time.sleep(.6)
-                d.save_screenshot(os.path.join(OUT, "%s-%s.png" % (cid, tag)))
+                d.execute_script("var s=document.querySelectorAll('section.mq')[2];if(s)s.scrollIntoView()"); time.sleep(.6)
+                d.save_screenshot(os.path.join(OUT, "%s-%s-%s.png" % (course, cid, "phone" if mobile else "desktop")))
     finally:
         d.quit()
 print("\n%d checks, %d failures" % (checks, len(fails)))
