@@ -8,6 +8,19 @@ function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').r
 function get(k, d){ try{ var v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; }catch(e){ return d; } }
 function put(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 function pr(a){ return a[0] === a[1] ? a[0] : a[0] + '<br><span class="vi">' + a[1] + '</span>'; }
+/* textbook exercises of a concept: [book, chapter, number, dots, cue, score]; strongest first, the rest folded away */
+function tbHtml(list){
+  function li(e){
+    if(typeof e[1] === 'string') return '<li><b>' + esc(e[0]) + ' ' + esc(e[1]) + '</b>' + (e[2] ? ' exercises ' + esc(e[2]) : ' exercises') + ' <span class="muted">· ' + esc(e[4]) + '</span></li>';
+    return '<li><b>' + esc(e[0]) + ' ' + e[1] + '.' + e[2] + '</b> <span class="dots">' + new Array(e[3] + 1).join('●') + '</span> <span class="muted">' + esc(e[4]) + '</span></li>'; }
+  var top = list.slice(0, 12), rest = list.slice(12);
+  return '<ul class="tbl">' + top.map(li).join('') + '</ul>' + (rest.length ? '<details><summary>Show the other ' + rest.length + ' (weaker matches) · Xem thêm</summary><ul class="tbl">' + rest.map(li).join('') + '</ul></details>' : '') +
+    '<p class="muted">References only: problems as chapter.number with a short cue (● = difficulty dots of the book), mathematics books as section and exercise range. The full statements are in the textbook. · Chỉ ghi số bài/mục và gợi ý ngắn; đề đầy đủ ở trong sách.</p>';
+}
+function tbSection(c, tb){
+  var l = (tb || {})[c.course + '|' + c.name[0]] || [];
+  return l.length ? '<details><summary><b>' + bi('Textbook exercises (' + l.length + ')', 'Bài tập sách giáo khoa (' + l.length + ')') + '</b></summary>' + tbHtml(l) + '</details>' : '';
+}
 function bi(en, vi){ return '<span class="l-en">' + en + '</span> <span class="l-sep">·</span> <span class="l-vi">' + vi + '</span>'; }
 function math(node){ if(window.renderMathInElement) renderMathInElement(node, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false}); }
 
@@ -70,7 +83,7 @@ function init(root, data, concepts, opts){
         (c.steps.length ? '<h4>Steps · Các bước</h4>' + list(c.steps, true) : '') +
         (c.traps.length ? '<h4>Traps · Bẫy hay gặp</h4>' + list(c.traps, false) : '') +
         (c.angles.length ? '<h4>How it is asked · Cách ra đề</h4>' + list(c.angles, false) : '') +
-        '<p class="muted">Practice · Luyện tập (' + c.n + '): ' + link + (rel ? ' &nbsp; Related · Liên quan: ' + esc(rel) : '') + '</p>') + '</div>';
+        '<p class="muted">Practice · Luyện tập (' + c.n + '): ' + link + (rel ? ' &nbsp; Related · Liên quan: ' + esc(rel) : '') + '</p>' + tbSection(c, opts.tb)) + '</div>';
     return d;
   }
 
@@ -155,5 +168,5 @@ function init(root, data, concepts, opts){
   courseSel.onchange = function(){ if(q.value.trim()) run(); };
   run();
 }
-window.CFAnalyze = {init: init};
+window.CFAnalyze = {init: init, tbHtml: tbHtml, tbSection: tbSection};
 })();

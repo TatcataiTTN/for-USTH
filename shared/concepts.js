@@ -3,7 +3,7 @@
 'use strict';
 var root = document.getElementById('concepts'); if(!root) return;
 var FIXED = root.getAttribute('data-course') || '', BASE = root.getAttribute('data-base') || '';
-var S = {q: '', course: 'all', ch: 'all', sort: 'name', hot: false}, data = [], COURSES = {}, sel = {};
+var S = {q: '', course: 'all', ch: 'all', sort: 'name', hot: false}, data = [], COURSES = {}, sel = {}, TB = {};
 function el(t, c, h){ var e = document.createElement(t); if(c) e.className = c; if(h != null) e.innerHTML = h; return e; }
 function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 function norm(s){ return window.Analyzer.norm(s); }
@@ -42,7 +42,7 @@ function browse(pane){
       (c.steps.length ? '<details><summary><b>Steps · Các bước</b></summary>' + list(c.steps, true) + '</details>' : '') +
       (c.traps.length ? '<details><summary><b>Traps · Bẫy</b></summary>' + list(c.traps, false) + '</details>' : '') +
       '<details><summary><b>How it is asked · Cách ra đề</b></summary>' + list(c.angles, false) + '</details>' +
-      '<p>' + link(c) + '</p>';
+      '<p>' + link(c) + '</p>' + window.CFAnalyze.tbSection(c, TB);
     return d;
   }
   function brief(){
@@ -62,9 +62,9 @@ function browse(pane){
     concepts.forEach(function(c){ if(courses.indexOf(c.course) < 0) courses.push(c.course); });
     courses.forEach(function(k){
       var cs = concepts.filter(function(c){ return c.course === k; }), thin = cs.filter(function(c){ return c.n < 8; }).length, outn = data.filter(function(c){ return c.out && c.course === k; }).length;
-      rows += '<tr><td style="text-align:left">' + esc(cs[0].label) + '</td><td>' + cs.length + '</td><td>' + COURSES[k].mapped + ' of ' + COURSES[k].bank + '</td><td>' + thin + '</td><td>' + outn + '</td></tr>';
+      rows += '<tr><td style="text-align:left">' + esc(cs[0].label) + '</td><td>' + cs.length + '</td><td>' + COURSES[k].mapped + ' of ' + COURSES[k].bank + '</td><td>' + thin + '</td><td>' + outn + '</td><td>' + Object.keys(TB).reduce(function(n, k){ return n + (k.indexOf(cs[0].course + '|') === 0 ? TB[k].length : 0); }, 0) + '</td></tr>';
     });
-    cov.innerHTML = '<table class="cf-cov"><thead><tr><th>Course</th><th>Concepts</th><th>Bank questions covered</th><th>Concepts with &lt; 8 questions</th><th>Out-of-scope topics known</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    cov.innerHTML = '<table class="cf-cov"><thead><tr><th>Course</th><th>Concepts</th><th>Bank questions covered</th><th>Concepts with &lt; 8 questions</th><th>Out-of-scope topics known</th><th>Textbook exercises linked</th></tr></thead><tbody>' + rows + '</tbody></table>';
   }
   function render(){
     var cs = concepts.filter(matches);
@@ -130,9 +130,9 @@ tabs.addEventListener('click', function(e){
   Object.keys(panes).forEach(function(k){ panes[k].style.display = k === t ? 'block' : 'none'; });
   try{ history.replaceState(null, '', '#' + t); }catch(err){}
 });
-fetch(root.getAttribute('data-src')).then(function(r){ return r.json(); }).then(function(d){
+fetch(root.getAttribute('data-src').replace('data.json', 'textbook.json')).then(function(r){ return r.json(); }).catch(function(){ return {}; }).then(function(tb){ TB = tb; return fetch(root.getAttribute('data-src')); }).then(function(r){ return r.json(); }).then(function(d){
   COURSES = d.courses; data = FIXED ? d.concepts.filter(function(c){ return c.course === FIXED; }) : d.concepts; root.innerHTML = ''; root.appendChild(shell);
-  window.CFAnalyze.init(panes.az, d, d.concepts, {course: FIXED, base: BASE}); browse(panes.br); kwindex(panes.kw);
+  window.CFAnalyze.init(panes.az, d, d.concepts, {course: FIXED, base: BASE, tb: TB}); browse(panes.br); kwindex(panes.kw);
   var h = (location.hash || '').slice(1); if(panes[h]){ tabs.querySelector('[data-tab=' + h + ']').click(); }
 }).catch(function(e){ root.innerHTML = '<p class="muted">Could not load the concepts (' + esc(e) + ').</p>'; });
 })();

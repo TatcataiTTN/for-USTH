@@ -29,3 +29,4 @@
 @media(max-width:560px){.az-bar select,.cf-bar select,.cf-bar input[type=search]{flex:1 1 100%;width:100%}.az-body{overflow-wrap:anywhere}}
 .cf-cov{display:block;max-width:100%;overflow-x:auto}
 .cf-card{overflow-wrap:anywhere;min-width:0}.cf-card .meta{min-width:0}
+.tbl{margin:.3em 0 .3em 1.1em;padding:0}.tbl li{margin:.2em 0}.tbl .dots{color:var(--red);font-size:.7em;letter-spacing:1px}

@@ -13,6 +13,7 @@ OUT = os.path.join(ROOT, "tests", "screens", "concepts"); os.makedirs(OUT, exist
 DATA = json.load(open(os.path.join(ROOT, "concepts", "data.json"), encoding="utf-8"))
 IN_SCOPE = [c for c in DATA["concepts"] if not c.get("out")]
 LA_N = sum(1 for c in IN_SCOPE if c["course"] == "Linear-Algebra")
+TB = json.load(open(os.path.join(ROOT, "concepts", "textbook.json"), encoding="utf-8"))          # textbook exercises per concept: {course|name: [[book, chapter, number, dots, cue, score], ...]}
 fails = []; checks = 0
 def ok(c, m):
     global checks
@@ -156,6 +157,9 @@ for mob in (False, True):
             r = analyse(d, UNMATCHED, course)
             ok("bad" in r["cls"], "%s %s: an unrelated question should be flagged here too: %r" % (t, course, r["txt"][:80]))
             tab(d, "br")
+            n_tb = sum(1 for c in IN_SCOPE if c["course"] == course and (course + "|" + c["name"][0]) in TB)
+            ok(js(d, "return [].filter.call(document.querySelectorAll('.cf-card'),function(c){return /Textbook exercises/.test(c.innerHTML)}).length") == n_tb, "%s %s: %d concept cards should list textbook exercises" % (t, course, n_tb))
+            if n_tb: ok(js(d, "var l=document.querySelector('.cf-card .tbl li');return !!l&&/^(Halliday \\d+\\.\\d+|(Thomas|Stewart|Strang|Larson) §\\d+\\.\\d+)/.test(l.textContent)&&l.textContent.length>20"), "%s %s: textbook list items malformed" % (t, course))
             ok(js(d, "return document.querySelectorAll('.cf-card').length") == n_in, "%s %s: expected %d concept cards, got %d" % (t, course, n_in, js(d, "return document.querySelectorAll('.cf-card').length")))
             ok(js(d, "return [].every.call(document.querySelectorAll('.cf-card .meta .tag:first-child'),function(x){return x.textContent==='%s'})" % label), "%s %s: a card of another course appeared" % (t, course))
             ok(js(d, "return [].every.call(document.querySelectorAll('.cf-pane')[1].querySelectorAll('.cf-bar select'),function(sel){return [].every.call(sel.options,function(o){return !/^(Calculus-1|Linear-Algebra|Physics-1|Physics-2)$/.test(o.value)})})"), "%s %s: the browse filters should not offer other courses" % (t, course))

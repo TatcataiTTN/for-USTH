@@ -83,4 +83,4 @@ def build(course, mods, textbooks, tools, have):
         write(course + "/modules/%s.html" % m["id"], page(course, m["title"], body, 1, "modules", scripts=["deck.js"], css=["deck.css"], have=have))
         if figs:
             with zipfile.ZipFile(os.path.join(ROOT, course, "modules", "data", "%s-data.zip" % m["id"]), "w", zipfile.ZIP_DEFLATED) as z:
-                for f in figs: z.write(os.path.join(ROOT, course, "modules", "data", f["id"] + ".csv"), f["id"] + ".csv")
+                for f in figs: z.writestr(zipfile.ZipInfo(f["id"] + ".csv", date_time=(2026, 11, 3, 0, 0, 0)), open(os.path.join(ROOT, course, "modules", "data", f["id"] + ".csv"), "rb").read(), zipfile.ZIP_DEFLATED)

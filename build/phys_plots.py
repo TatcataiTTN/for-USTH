@@ -71,7 +71,7 @@ def render(course, only=None):
     if not only:
         with zipfile.ZipFile(os.path.join(datd, "all-data.zip"), "w", zipfile.ZIP_DEFLATED) as z:
             for r in recs:
-                z.write(os.path.join(datd, r["id"] + ".csv"), r["id"] + ".csv")
+                z.writestr(zipfile.ZipInfo(r["id"] + ".csv", date_time=(2026, 11, 3, 0, 0, 0)), open(os.path.join(datd, r["id"] + ".csv"), "rb").read(), zipfile.ZIP_DEFLATED)
     return recs
 
 def figures_of(course):
