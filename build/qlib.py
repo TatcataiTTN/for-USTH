@@ -195,3 +195,32 @@ class Bank:
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
         return len(self.items), len(self.essays)
+
+DEP = re.compile(r"(?:\b(?:for the same|the same (?:data|figure|graph|situation|system|setup|set-up|problem|circuit|arrangement|car|object|escalator|body|particle|charges?|wire|lens|mirror|loop|coil|gas|engine|block|spheres?|plates|wires|slits?|rectangle|population|tube|[A-Z]\b)|previous (?:problem|question|part|exercise|example)|preceding|problem above|as above|above problem|of the previous|from the previous|earlier problem)"
+                r"|^\W*(?:in |using |with |for |on |at |if )?(?:the )?same\b"                                  # 'Same base, ...', 'The same shell ...', 'With the same force ...'
+                r"|^\W*(?:for |with |using |in |at )?(?:that|those)\b"                                         # 'That freezer ...', 'For that gas ...'
+                r"|\b(?:the|this|these) (?:[A-Za-z\-]+ ){0,3}[A-Za-z\-]+ above\b(?!\s+(?:the|a|an|its|his|her|their|it|them|him|\d|\$)))", re.I)
+
+def mark_dependent(B):
+    """Tag 'dep' the questions whose stem relies on the previous problem ('For the same data ...'): they stay in the practice bank but are never drawn into quizzes or mock exams."""
+    n = 0
+    for it in B.items:
+        if DEP.search(it["q"]) and "dep" not in it.get("tags", []):
+            it["tags"] = list(it.get("tags", [])) + ["dep"]; n += 1
+    return n
+
+EMPH = re.compile(r"\*\*(.+?)\*\*")
+
+def tidy_emphasis(B):
+    """Markdown bold (**word**) is not rendered by the quiz pages or the printed papers: write the emphasised word in capitals instead, as the Physics banks do."""
+    def up(m):
+        t = m.group(1)
+        return t if ("$" in t or "\\" in t) else t.upper()
+    n = 0
+    for it in B.items:
+        for fld in ("q", "explain"):
+            new = EMPH.sub(up, it[fld])
+            if new != it[fld]: it[fld] = new; n += 1
+        it["opts"] = [EMPH.sub(up, o) for o in it["opts"]]
+    return n
+

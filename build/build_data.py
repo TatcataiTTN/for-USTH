@@ -79,6 +79,12 @@ def stratified_sets(items, n_sets, size, rng, avoid=()):
             break
         s = min(cand, key=lambda z: (len(z), sum(1 for q in z if q["level"] == it["level"])))
         s.append(it)
+    if len(order) >= size:                                               # a chapter that lost questions (the 'dep' ones) still gets full-size quizzes: a short set borrows from the others
+        for s in sets:
+            have = {q["id"] for q in s}
+            for it in order:
+                if len(s) >= size: break
+                if it["id"] not in have: s.append(it); have.add(it["id"])
     return [[q["id"] for q in s] for s in sets]
 
 def pick_balanced(by_ch, quotas, rng, used, size, share=None):
@@ -112,10 +118,10 @@ def slot_sets(items, n_sets, slots, rng):
         rng.shuffle(lst)
     return [[by_slot[sl][k]["id"] for sl in slots] for k in range(n_sets)]
 
-def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None, hard=None):
+def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=50, sprint_quota=None, final_quota=None, final_title=None, final_min=None, hard=None, extra_mid=0):
     """hard (Calculus only) = dict(mid_share, sprint_share, n_mid, replica_slots, replica_title): the level-4 pool makes the midterm and speed mocks tougher and adds replica mocks."""
     rng = random.Random(seed)
-    items = [i for i in B.items if not ({"extension", "gap"} & set(i.get("tags", [])))]          # gap-fill questions only enter the bank, the random quizzes and their own chapter set
+    items = [i for i in B.items if not ({"extension", "gap", "dep"} & set(i.get("tags", [])))]          # gap-fill questions only enter the bank, the random quizzes and their own chapter set
     by_ch = defaultdict(list)
     for it in items:
         by_ch[it["ch"]].append(it)
@@ -151,6 +157,18 @@ def build_course(slug, B, chapters, midterm_quota, midterm_title, seed, mid_min=
             ids = pick_balanced(by_ch, final_quota, rng, used, sum(final_quota.values()))
             used.update(ids)
             sets["final"].append(dict(id=f"final-{'ABC'[i]}", title=f"{final_title} · Mock {'ABC'[i]}", ids=ids, minutes=final_min, forward_only=False))
+    if extra_mid:                           # more midterm mocks (the sets above stay as they were): own random stream, all questions of the midterm chapters (gap-fill ones included)
+        rx = random.Random(seed * 31 + 7); by_all = defaultdict(list); n0 = len(sets["midterm"]); cnt = Counter()
+        for it in B.items:
+            if not ({"extension", "dep"} & set(it.get("tags", []))): by_all[it["ch"]].append(it)
+        for k in range(extra_mid):
+            usedx, forced, q2 = set(), [], {}                           # least-used questions first: the mocks overlap as little as the size of the bank allows
+            for ch, q in midterm_quota.items():
+                pool = by_all[ch]; t = sorted(cnt[i["id"]] for i in pool)[min(q, len(pool)) - 1]
+                low = [i["id"] for i in pool if cnt[i["id"]] < t]; forced += low; q2[ch] = q - len(low)
+                usedx.update(i["id"] for i in pool if cnt[i["id"]] != t)
+            ids = forced + pick_balanced(by_all, q2, rx, usedx, sum(q2.values()), hard["mid_share"] if hard else None); rx.shuffle(ids); cnt.update(ids)
+            sets["midterm"].append(dict(id="midterm-" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[n0 + k], title=f"{midterm_title} · Mock {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n0 + k]}", ids=ids, minutes=mid_min, forward_only=True))
     return sets
 
 def write_course(slug, B, extra, chapters, sets, meta_extra):
@@ -174,17 +192,19 @@ def main():
     import gen_la5                                               # gap-fill pool for the thin concepts (rank, adjugate, orthogonal matrices ...): own bank, own ids ('g'), tag 'gap'
     rg = gen_la5.merge(BL, gen_la5.build())
     print("CAL", rc); print("HARD", rh); print("LA ", rl); print("LA gap pool", rg)
+    print("dependent stems tagged:", {"Calculus-1": qlib.mark_dependent(BC), "Linear-Algebra": qlib.mark_dependent(BL)})
+    print("bold markup replaced:", {"Calculus-1": qlib.tidy_emphasis(BC), "Linear-Algebra": qlib.tidy_emphasis(BL)})
     qlib.note("Exercise gap-fill pool (Concept finder)", "%d generated questions (ids ...-g..., tag gap) cover the topics the Concept finder showed to be thin: linear equations, rank, the adjugate, invertibility, Gram-Schmidt and least squares, the matrix of a map relative to bases, similarity and orthogonal matrices. They are in the practice bank, in the random quizzes and in one Gap-fill set per chapter; the fixed quizzes and mock exams are unchanged." % sum(1 for i in BL.items if "gap" in i.get("tags", [])))
     qlib.note("Mock Test Midterm (Moodle)", "Question 5 (table of f, g, f' and g'): by the chain rule d/dx f(x+g(x)) at x=0 equals f'(0+g(0))·(1+g'(0)) = f'(1)·(1+g'(0)) = (1/2)(3/2) = 3/4, which is not among the options; the key printed by Moodle (2) does not match the table as shown. We keep the rule and use our own tables.")
     # Calculus: midterm = chapters 1-3 (20 questions / 50 min, forward only); sprint = 30 questions across 6 chapters; the level-4 pool makes both tougher and gives five Moodle-style replica mocks
     sc = build_course("Calculus-1", BC, CAL_CHAPTERS, {"c1": 7, "c2": 7, "c3": 6}, "Calculus I Midterm (Ch. 1–3, 20 questions, 50 min, no going back)", 11,
-                      sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5}, hard=CAL_HARD)
+                      sprint_quota={"c1": 5, "c2": 5, "c3": 5, "c4": 5, "c5": 5, "c6": 5}, hard=CAL_HARD, extra_mid=7)
     # Linear Algebra: midterm assumed to cover chapters 1-4 (the course page does not state it)
     sl = build_course("Linear-Algebra", BL, LA_CHAPTERS, {"c1": 5, "c2": 5, "c3": 5, "c4": 5}, "Linear Algebra Midterm (Ch. 1–4, 20 questions, 50 min)", 12,
-                      sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5})
+                      sprint_quota={"c1": 4, "c2": 4, "c3": 4, "c4": 5, "c5": 4, "c6": 4, "c7": 5}, extra_mid=9)
     import random as _random
     for ch, title, _src in LA_CHAPTERS:                              # one extra quiz per chapter made of the gap-fill questions
-        gids = [i["id"] for i in BL.items if i["ch"] == ch and "gap" in i.get("tags", [])]
+        gids = [i["id"] for i in BL.items if i["ch"] == ch and "gap" in i.get("tags", []) and "dep" not in i.get("tags", [])]
         _random.Random(4300 + int(ch[1:])).shuffle(gids)
         if len(gids) >= 6:
             sl["chapter"][ch].append(dict(id=f"{ch}-G", title=f"{title} · Gap-fill set (new topics)", ids=gids[:12]))

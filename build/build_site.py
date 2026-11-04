@@ -198,10 +198,15 @@ FINAL_NOTES = {
     "Physics-2": "The final is an <b>MCQ test on Moodle</b> (40 questions and 80 minutes are our assumption). The final tutoring slides concentrate on induction and optics, so the mix below is weighted towards chapters 5–11 with a small share of electricity. You may move freely between questions.",
 }
 
+def exam_print(course):
+    body = '<p class="muted noprint">Printable exam paper. Use your browser\'s Print command (A4). <a href="index.html">Back to the mock exams</a></p><div id="paper" data-base="../data/"><p class="muted">Loading…</p></div>'
+    return page(course, "Printable exam", body, 1, "exam", scripts=["print.js"], css=["print.css"], have=hv(course))
+
 def exam_hub(course):
     meta = load_json(course + "/data/meta.json")
     mid = meta["sets"]["midterm"]; sp = meta["sets"]["sprint"]; fin = meta["sets"].get("final")
     mlinks = " ".join('<a class="btn" href="run.html?exam=%s">Mock %s</a>' % (s["id"], s["id"][-1]) for s in mid) + ' <a class="btn alt" href="run.html?exam=midterm-random">🎲 New random midterm</a>'
+    mlinks += '</p><p class="muted">🖨 Printable papers (A4): ' + " · ".join('Mock %s <a href="print.html?exam=%s">paper</a> / <a href="print.html?exam=%s&key=1">solutions</a>' % (s["id"][-1], s["id"], s["id"]) for s in mid)
     slinks = " ".join('<a class="btn" href="run.html?exam=%s">Speed %s</a>' % (s["id"], s["id"][-1]) for s in sp) + ' <a class="btn alt" href="run.html?exam=sprint-random">🎲 New random speed exam</a>'
     chk = "".join('<label><input type="checkbox" value="%s" checked> %s</label><br>' % (c["id"], esc(c["id"].upper().replace("C", "Ch. ") + " " + c["title"])) for c in meta["chapters"])
     qc = meta["midterm_quota"]
@@ -412,7 +417,7 @@ def main():
         h = hv(course)
         write(course + "/index.html", home(course, len(mods.get(course) or [])))
         write(course + "/quiz/index.html", quiz_hub(course)); write(course + "/quiz/run.html", quiz_run(course))
-        write(course + "/exam/index.html", exam_hub(course)); write(course + "/exam/run.html", exam_run(course))
+        write(course + "/exam/index.html", exam_hub(course)); write(course + "/exam/run.html", exam_run(course)); write(course + "/exam/print.html", exam_print(course))
         write(course + "/bank/index.html", bank_page(course))
         write(course + "/sources/index.html", sources_page(course))
         if "lab" in h: write(course + "/lab/index.html", lab_page(course))

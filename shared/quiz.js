@@ -30,7 +30,7 @@ function drawQuota(bank, quota, rnd, share){
   /* share = [[level, fraction], ...]: that fraction of each chapter's quota is drawn from that level first (tougher random exams) */
   var out = [];
   Object.keys(quota).forEach(function(ch){
-    var pool = U.shuffle(bank.items.filter(function(q){ return q.ch === ch && (q.tags || []).indexOf('extension') < 0; }), rnd);
+    var pool = U.shuffle(bank.items.filter(function(q){ return q.ch === ch && (q.tags || []).indexOf('extension') < 0 && (q.tags || []).indexOf('dep') < 0; }), rnd);
     var take = [];
     (share || []).forEach(function(s){
       pool.filter(function(q){ return q.level === s[0] && take.indexOf(q) < 0; }).slice(0, Math.round(quota[ch] * s[1])).forEach(function(q){ take.push(q); });
@@ -63,7 +63,7 @@ function resolve(p, meta, bank, byId){
     return {mode: 'exam', title: meta.midterm_title + ' · random', key: ex, items: drawQuota(bank, meta.midterm_quota, rnd, meta.mid_share), minutes: meta.midterm_minutes, forward: true};
   if(ex === 'custom'){
     var chs = (p.get('ch') || '').split(',').filter(Boolean), n = Math.max(1, Math.min(60, parseInt(p.get('n') || '15', 10)));
-    var pool = U.shuffle(bank.items.filter(function(q){ return (!chs.length || chs.indexOf(q.ch) >= 0) && (q.tags || []).indexOf('extension') < 0; }), rnd).slice(0, n);
+    var pool = U.shuffle(bank.items.filter(function(q){ return (!chs.length || chs.indexOf(q.ch) >= 0) && (q.tags || []).indexOf('extension') < 0 && (q.tags || []).indexOf('dep') < 0; }), rnd).slice(0, n);
     if(!pool.length) throw new Error('No question matches this selection.');
     return {mode: 'exam', title: 'Custom exam (' + pool.length + ' questions)', key: 'custom', items: pool, minutes: Math.max(1, parseInt(p.get('min') || String(Math.ceil(pool.length * 0.67)), 10)), forward: p.get('fwd') === '1'};
   }
