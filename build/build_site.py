@@ -250,7 +250,7 @@ def bank_page(course):
 def load_inventory():
     inv = []
     for fn in ("_inventory.json", "_inventory_phys.json"):
-        p = os.path.join(ROOT, "..", "text_raw", fn)
+        p = os.path.join(ROOT, "..", "Work", "text", fn)
         if os.path.exists(p):
             inv += json.load(open(p, encoding="utf-8"))
     return inv
