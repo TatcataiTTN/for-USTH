@@ -4,6 +4,8 @@ Usage: python3 tests/lectures_test.py [BASE_URL] [--shots]   (ONLY=Calculus-1 li
 import glob, os, re, sys, time, urllib.request
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 import auth
 
@@ -55,6 +57,46 @@ def load(d, url):
             break
         time.sleep(1.5)
 
+def check_viewer(d, tag):
+    """Slide viewer: a click on a slide picture opens it full screen; arrow keys, Home / End, the buttons and a swipe move between the slides; Esc closes it and the page lands on the slide you stopped at."""
+    N = d.execute_script("return document.querySelectorAll('a.lpic').length")
+    if N < 2: return
+    hrefs = d.execute_script("return [].map.call(document.querySelectorAll('a.lpic'),function(a){return a.getAttribute('href')})")
+    def state(): return d.execute_script("var b=document.querySelector('.lbx');if(!b)return null;var i=b.querySelector('.lbx-img'),r=i.getBoundingClientRect();"
+        "return {open:!b.hidden&&getComputedStyle(b).display!=='none',src:i.getAttribute('src'),cnt:b.querySelector('.lbx-cnt').textContent,prev:b.querySelector('.lbx-prev').disabled,next:b.querySelector('.lbx-next').disabled,"
+        "ok:i.complete&&i.naturalWidth>0,l:r.left,t:r.top,r:r.right,b:r.bottom,w:r.width,h:r.height,iw:innerWidth,ih:innerHeight,ov:document.body.style.overflow,sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth,focus:b.contains(document.activeElement)}")
+    def key(k): ActionChains(d).send_keys(k).perform(); time.sleep(0.25)
+    def settle():
+        for _ in range(40):
+            s = state()
+            if s and s["ok"]: return s
+            time.sleep(0.25)
+        return state()
+    ok(state() is None, "%s viewer: should not exist before the first click" % tag)
+    d.execute_script("document.querySelectorAll('a.lpic')[0].click()"); s = settle()
+    ok(s and s["open"] and s["src"] == hrefs[0] and s["cnt"] == "1 / %d" % N, "%s viewer: first click did not open slide 1 (%s)" % (tag, s and (s["src"], s["cnt"])))
+    ok(s and s["prev"] and not s["next"] and s["ov"] == "hidden" and s["focus"], "%s viewer: buttons / scroll lock / focus wrong %s" % (tag, s and (s["prev"], s["next"], s["ov"], s["focus"])))
+    ok(s and s["ok"] and s["l"] >= -1 and s["r"] <= s["iw"] + 1 and s["t"] >= -1 and s["b"] <= s["ih"] + 1 and (s["w"] > 0.55 * s["iw"] or s["h"] > 0.55 * s["ih"]),
+       "%s viewer: picture not shown big and inside the screen %s" % (tag, s and (round(s["l"]), round(s["r"]), round(s["t"]), round(s["b"]), s["iw"], s["ih"])))
+    ok(s and s["sw"] <= s["cw"] + 1, "%s viewer: horizontal overflow while open" % tag)
+    key(Keys.ARROW_RIGHT); s = settle(); ok(s["src"] == hrefs[1] and s["cnt"] == "2 / %d" % N and not s["prev"], "%s viewer: ArrowRight did not go to slide 2 (%s)" % (tag, (s["src"], s["cnt"])))
+    key(Keys.ARROW_LEFT); s = settle(); ok(s["src"] == hrefs[0] and s["cnt"] == "1 / %d" % N, "%s viewer: ArrowLeft did not return to slide 1" % tag)
+    key(Keys.ARROW_LEFT); s = state(); ok(s["cnt"] == "1 / %d" % N, "%s viewer: moved before the first slide" % tag)
+    d.execute_script("document.querySelector('.lbx-next').click()"); s = settle(); ok(s["src"] == hrefs[1], "%s viewer: next button failed" % tag)
+    d.execute_script("document.querySelector('.lbx-prev').click()"); s = settle(); ok(s["src"] == hrefs[0], "%s viewer: previous button failed" % tag)
+    d.execute_script("document.querySelector('.lbx-stage').dispatchEvent(new TouchEvent('touchstart',{bubbles:true,changedTouches:[new Touch({identifier:1,target:document.querySelector('.lbx-stage'),clientX:300,clientY:200})]}));"
+                     "document.querySelector('.lbx-stage').dispatchEvent(new TouchEvent('touchend',{bubbles:true,changedTouches:[new Touch({identifier:1,target:document.querySelector('.lbx-stage'),clientX:150,clientY:205})]}))")
+    time.sleep(0.25); s = settle(); ok(s["src"] == hrefs[1], "%s viewer: swipe left did not show the next slide" % tag)
+    key(Keys.END); s = settle(); ok(s["src"] == hrefs[-1] and s["cnt"] == "%d / %d" % (N, N) and s["next"] and not s["prev"], "%s viewer: End did not reach the last slide (%s)" % (tag, (s["src"], s["cnt"])))
+    key(Keys.ARROW_RIGHT); ok(state()["cnt"] == "%d / %d" % (N, N), "%s viewer: moved past the last slide" % tag)
+    key(Keys.HOME); s = settle(); ok(s["src"] == hrefs[0], "%s viewer: Home did not return to slide 1" % tag)
+    key(Keys.END); settle(); key(Keys.ESCAPE); s = state()
+    ok(not s["open"] and s["ov"] == "", "%s viewer: Esc did not close it / scroll still locked" % tag)
+    ok(d.execute_script("var r=document.querySelectorAll('.lslide')[arguments[0]].getBoundingClientRect();return r.bottom>0&&r.top<innerHeight", N - 1), "%s viewer: page did not scroll to the last slide after closing" % tag)
+    d.execute_script("window.scrollTo(0,0)"); time.sleep(0.2)
+    d.execute_script("document.querySelectorAll('a.lpic')[0].click()"); settle(); d.execute_script("document.querySelector('.lbx-x').click()"); ok(not state()["open"], "%s viewer: close button failed" % tag)
+    d.execute_script("window.scrollTo(0,0)")
+
 def check_page(d, course, lid, mobile):
     url = BASE + "%s/lectures/%s.html" % (course, lid); tag = "%s %s %s" % (course, lid, "phone" if mobile else "desktop")
     d.execute_script("localStorage.removeItem('ustm:lang')")
@@ -88,6 +130,7 @@ def check_page(d, course, lid, mobile):
         d.execute_script("document.getElementById('solall').click()")
         ok(d.execute_script("return document.querySelectorAll('details.sol[open]').length") == 0, "%s: second click did not close them" % tag)
     ok(status(BASE + "%s/lectures/pdf/%s" % (course, d.execute_script("return document.querySelector('a[href^=\"pdf/\"]').getAttribute('href').slice(4)"))) == 200, "%s: original PDF not served" % tag)
+    check_viewer(d, tag)
     if SHOTS:
         d.execute_script("document.getElementById('solall').click();document.getElementById('s%d').scrollIntoView()" % (8 if n >= 8 else 1)); time.sleep(0.8)
         d.save_screenshot(os.path.join(OUT, "%s-%s-%s.png" % (course, lid, "phone" if mobile else "desktop")))
